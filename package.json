@@ -1,0 +1,15 @@
+{
+  "name": "educational_game_element_api",
+  "version": "1.0.0",
+  "description": "API that stores, prepares and delivers educational web game elements",
+  "main": "index.js",
+  "repository": "https://github.com/WarHatch/EducationGameElementAPI",
+  "author": "Karolis Staskevičius",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "typescript": "^3.7.2"
+  }
+}
