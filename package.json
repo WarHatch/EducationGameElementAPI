@@ -2,14 +2,19 @@
   "name": "educational_game_element_api",
   "version": "1.0.0",
   "description": "API that stores, prepares and delivers educational web game elements",
-  "main": "index.js",
+  "main": "server.ts",
   "repository": "https://github.com/WarHatch/EducationGameElementAPI",
   "author": "Karolis Staskevičius",
   "license": "MIT",
+  "scripts": {
+    "dev": "tsnd src/server.ts"
+  },
   "dependencies": {
+    "body-parser": "^1.19.0",
     "express": "^4.17.1"
   },
   "devDependencies": {
+    "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "^3.7.2"
   }
 }
