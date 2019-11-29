@@ -4,10 +4,10 @@ interface IGameElement {
 }
 
 interface IClickableGameElement extends IGameElement {
-  onClick: VoidFunction
+  onClick: string,
 }
 
-interface IGameUnitDataSet {
-  gameElements: Array<IGameElement>,
+interface IGameUnitDataSet<T extends IGameElement> {
+  gameElements: Array<T>,
   css: any, //{ [className: string]: string },
 } 
