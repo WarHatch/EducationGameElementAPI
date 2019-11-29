@@ -3,7 +3,7 @@ import { Router } from "express";
 const router = Router();
 
 router.get('/dataSet', (req, res) => {
-  const html = "<div><span classname='edugame-white s-4'>OwO sum text</span></div>"
+  const html = '<div><button onclick="console.log(\'I have been sent here to recognize CLICKS!\');" classname="edugame-white s-4">OwO sum text</button></div>'
   const onClickFunc = () => {
     console.log("I have been sent here to recognize CLICKS!");
   };
