@@ -6,22 +6,18 @@ router.get('/dataSet', (req, res) => {
   const html = "<div>" + 
       "<button id=\"slug\" " +
         "onclick=" +
-          "\"console.log(\'I have been sent here to recognize CLICKS!\');" +
+          "\"console.log(\'I have been sent here to explode on clicks!\');" +
           "document.getElementById('slug').remove();\" " +
         "class=\"edugame-white s-4\">" +
             "OwO sum text" +
         "</button>" +
     "</div>"
-  const onClickFunc = () => {
-    console.log("I have been sent here to recognize CLICKS!");
-  };
-  const gameElementsDataSet: IGameUnitDataSet<IClickableGameElement> = {
+  const gameElementsDataSet: IGameUnitDataSet<IGameElement> = {
     css: null,
     gameElements: [
       {
         slug: 'exampleText',
-        html: html,
-        onClick: onClickFunc.toString(),
+        html: html
       },
     ]
   }
