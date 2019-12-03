@@ -1,8 +1,10 @@
 import { Router } from "express";
 
+import CMSController from "../../CMScontroller/gameElementController";
+
 const router = Router();
 
-router.get('/dataSet', (req, res) => {
+router.get('/dataSet', async (req, res) => {
   const html = "<div>" + 
       "<button id=\"slug\" " +
         "onclick=" +
@@ -23,6 +25,12 @@ router.get('/dataSet', (req, res) => {
   }
 
   res.json(gameElementsDataSet);
+});
+
+router.get('/cms', async (req, res) => {
+  const data = await CMSController.fetchALLCMSData();
+
+  res.json(data);
 });
 
 export default router;
