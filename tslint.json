@@ -5,7 +5,8 @@
     "jsRules": {},
     "rules": {
         "only-arrow-functions": true,
-        "no-require-imports": true
+        "no-require-imports": true,
+        "quotemark": [true, "double", "avoid-template"]
     },
     "rulesDirectory": []
 }
