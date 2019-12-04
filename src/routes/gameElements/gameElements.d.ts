@@ -5,5 +5,5 @@ interface IGameElement {
 
 interface IGameUnitDataSet<T extends IGameElement> {
   gameElements: Array<T>,
-  css: any, //{ [className: string]: string },
+  css: any,
 } 

@@ -4,21 +4,39 @@ import CMSController from "../../CMScontroller/gameElementController";
 
 const router = Router();
 
+type IButtonData = {
+  _key: string,
+  _type: "button",
+  title: string,
+  backgroundColor: string,
+  dissapears: boolean,
+  trackable: boolean,
+}
 router.get('/dataSet', async (req, res) => {
+  const data = await CMSController.fetchALLCMSData();
+
+  const buttonData: IButtonData = data[0].correctAnswers[0];
+  console.log(data);
+  
   const html = "<div>" + 
-      "<button id=\"slug\" " +
-        "onclick=" +
-          "\"console.log(\'I have been sent here to explode on clicks!\');" +
-          "document.getElementById('slug').remove();\" " +
-        "class=\"edugame-white s-4\">" +
-            "OwO sum text" +
-        "</button>" +
+      `<button id="${buttonData._key}" ` +
+        "onclick=\""+
+          `${buttonData.trackable ? "console.log(\'I should send back a report after being clicked\');" : ""}` +
+          `${buttonData.dissapears ? "document.getElementById('slug').remove();" : ""}` +
+        "\"" +
+        "class=\""+
+          `edugame-${buttonData.backgroundColor} s-4` +
+        "\"" +
+      ">" +
+        buttonData.title +
+      "</button>" +
     "</div>"
+
   const gameElementsDataSet: IGameUnitDataSet<IGameElement> = {
     css: null,
     gameElements: [
       {
-        slug: 'exampleText',
+        slug: data[0]._id,
         html: html
       },
     ]
