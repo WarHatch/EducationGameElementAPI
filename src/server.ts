@@ -15,7 +15,7 @@ app.use(cors());
 // });
 
 // Serve static files
-app.use(express.static("./src/data"));
+app.use(express.static("./src/dataFiles"));
 
 app.use(mainRouter);
 
