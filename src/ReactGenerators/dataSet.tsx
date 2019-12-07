@@ -1,11 +1,21 @@
-import { resetUniqueIds } from "react-html-id";
+import React from "react"
+// import uniqueId, { resetUniqueIds } from "react-html-id";
 
-// class DataSetWithUniqueIds extends React.Component {
-//     componentWillMount() {
-//         resetUniqueIds()
-//     }
+// TODO: remove if unused
+class DataSetWithUniqueIds<P, S> extends React.Component {
+  constructor() {
+    super(null);
 
-//     render() {
-//         return this.props.children;
-//     }
-// }
+    // uniqueId.enableUniqueIds(this)
+  }
+
+  // componentWillMount() {
+  //     resetUniqueIds()
+  // }
+
+  render() {
+      return this.props.children;
+  }
+}
+
+export default DataSetWithUniqueIds;

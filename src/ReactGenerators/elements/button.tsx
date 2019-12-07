@@ -13,12 +13,11 @@ export type IButtonData = {
 type Props = IButtonData
 
 const Button = (props: Props) => {
-  const buttonData = props;
   return (
     <>
       <button
-        id={buttonData._key}
-        className={`edugame-${buttonData.backgroundColor} s-4`}
+        react-type={props._type}
+        className={`edugame-${props.backgroundColor} s-4`}
         // onClick={() => {
         //   if (buttonData.trackable)
         //     console.log("I should send back a report after being clicked");
@@ -26,7 +25,7 @@ const Button = (props: Props) => {
         //     document.getElementById(buttonData._key).remove();
         // }}
       >
-        {buttonData.title}
+        {props.title}
       </button>
     </>
   )
