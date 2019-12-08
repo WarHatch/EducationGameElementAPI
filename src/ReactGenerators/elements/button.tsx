@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOMServer from "react-dom/server";
 
+import functions from "../functions"
+
 export type IButtonData = {
   _key: string,
   _type: "button",
@@ -18,12 +20,7 @@ const Button = (props: Props) => {
       <button
         react-type={props._type}
         className={`edugame-${props.backgroundColor} s-4`}
-        // onClick={() => {
-        //   if (buttonData.trackable)
-        //     console.log("I should send back a report after being clicked");
-        //   if (buttonData.disappears)
-        //     document.getElementById(buttonData._key).remove();
-        // }}
+        //onClick mounted after ReactDOMServer render
       >
         {props.title}
       </button>
@@ -31,24 +28,31 @@ const Button = (props: Props) => {
   )
 }
 
+type IHtmlFunctionCallBuilder<T extends (...args: any) => void> = (func: T, funcArgs: Parameters<T>) => string
+const htmlFunctionCallBuilder: IHtmlFunctionCallBuilder<(...args: any) => void> = (func, funcArgs) => {
+  console.log(func.name);
+  let parsedArgs = JSON.stringify(funcArgs);
+  console.log(parsedArgs);
+  
+  return `${func.name}(${parsedArgs});`
+}
+
 const renderToHTMLWithFunctions = (props: IButtonData) => {
-  console.log(props);
   const html = ReactDOMServer.renderToString(Button(props));
   // Assuming HTML is correct the string will be <elemType ...
   const elemStart = html.split(/\b/)[0] + html.split(/\b/)[1];
   // We will separate HTML text right after elemType
   const elemEnd = html.substring(elemStart.length);
   // And will put in the functions in between
-  const functionCodeStart = " onClick=\""
-  const functionCodeEnd = "\" "
-  const trackableFunc = "console.log('I should send back a report after being clicked');"
+  const functionCodeStart = " onClick=\'"
+  const functionCodeEnd = "\' "
   const dissapearsFunc = `document.getElementById('${props._key}').remove();`
   let htmlWithFunc = functionCodeStart;
-  if (props.trackable) htmlWithFunc += trackableFunc;
-  if (props.disappears) htmlWithFunc += dissapearsFunc;
+  if (props.trackable) htmlWithFunc += htmlFunctionCallBuilder(functions.exampleButtonCallback, { data: "test" });
+  // if (props.disappears) htmlWithFunc += dissapearsFunc;
   htmlWithFunc += functionCodeEnd;
   
   return elemStart + htmlWithFunc + elemEnd;
 }
 
-export default (buttonData: IButtonData) => renderToHTMLWithFunctions(buttonData);;
+export default (buttonData: IButtonData) => renderToHTMLWithFunctions(buttonData);
