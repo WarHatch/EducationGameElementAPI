@@ -17,7 +17,6 @@ router.get("/dataSet", async (req, res) => {
   const data = await CMSController.fetchALLCMSData();
 
   const buttonData: IButtonData = data[0].correctAnswers[0];
-  // console.log(data);
   
   const html = Button(buttonData);
 

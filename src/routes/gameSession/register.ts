@@ -11,7 +11,7 @@ export type IButtonData = {
   trackable: boolean,
 }
 router.post("/register/buttonClick", async (req, res) => {
-  console.log(req.body);
+  console.log("Received body:\n" + JSON.stringify(req.body));
   const buttonData: IButtonData = req.body.data;
 
   // code that saves data in DB...

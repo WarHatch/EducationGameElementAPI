@@ -30,9 +30,7 @@ const Button = (props: Props) => {
 
 type IHtmlFunctionCallBuilder<T extends (...args: any) => void> = (func: T, funcArgs: Parameters<T>) => string
 const htmlFunctionCallBuilder: IHtmlFunctionCallBuilder<(...args: any) => void> = (func, funcArgs) => {
-  console.log(func.name);
   let parsedArgs = JSON.stringify(funcArgs);
-  console.log(parsedArgs);
   
   return `${func.name}(${parsedArgs});`
 }
