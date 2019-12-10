@@ -31,6 +31,7 @@ router.get("/dataSet", async (req, res) => {
   }
 
   res.json(gameElementsDataSet);
+  console.log("Game elements sent");
 });
 
 router.get("/cms", async (req, res) => {

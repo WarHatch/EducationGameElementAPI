@@ -15,7 +15,7 @@ app.use(cors());
 // });
 
 // Serve static files
-app.use(express.static("./src/dataFiles"));
+app.use(express.static("./src/ReactGenerators/dist"));
 
 app.use(mainRouter);
 

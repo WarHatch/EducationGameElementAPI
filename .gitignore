@@ -13,9 +13,6 @@ logs
 results
 tmp
 
-# Build
-public/css/main.css
-
 # Coverage reports
 coverage
 
@@ -36,4 +33,4 @@ bower_components
 Thumbs.db
 
 # Ignore built ts files
-dist/**/*
+src/ReactGenerators/dist
