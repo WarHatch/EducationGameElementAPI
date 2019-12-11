@@ -3,17 +3,19 @@ console.log("server script received");
 // CSS needs to be imported to be bundled
 import "./gameElementsStylesheet.css"
 
-import elementsFunctions from "../functions";
+import * as functionMount from "../functionMounters/buttonFunctions";
+
+import timeTracker from "../trackerHelpers/timeTracker";
 
 let observer = new MutationObserver((mutations) => {
   for (const mutation of mutations) {
     console.log("Mutation Detected: ");
     // Overwriting mutations Node type
-    mutation.addedNodes.forEach((newNode:HTMLElement) => {
+    mutation.addedNodes.forEach((newNode) => {
       console.log(newNode)
-      // const SSRButtons = document.querySelectorAll("button.SSRElement[react-type='button']");
-      if (newNode.classList.contains("SSRElement") && newNode.getAttribute("react-type") === "button")
-        newNode.addEventListener("click", () => elementsFunctions.exampleButtonCallback({ data: "mounted-test" }))
+      const timeTrackId = timeTracker.startTimer();
+      // @ts-ignore
+      functionMount.ifButtonMountClick(newNode, timeTrackId);
     });
   }
 });

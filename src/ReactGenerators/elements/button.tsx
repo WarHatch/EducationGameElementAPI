@@ -1,8 +1,6 @@
 import React from "react";
 import ReactDOMServer from "react-dom/server";
 
-import functions from "../functions"
-
 export type IButtonData = {
   _key: string,
   _type: "button",
