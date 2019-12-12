@@ -14,11 +14,13 @@ app.use(cors());
 //   next();
 // });
 
+// TODO: install logger
+
 // Serve static files
 app.use(express.static("./src/ReactGenerators/dist"));
 
 app.use(mainRouter);
 
-const port = 8090;
 
+const port = 8090;
 app.listen(port, () => console.log("Server running on port " + port));

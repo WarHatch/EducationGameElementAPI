@@ -1,22 +1,22 @@
 import { Router } from "express";
+import SeqDataModels from "../../database/sequelize"; 
+
+// Types
+import { IClickDataModel } from "../../database/models/ClickData.d"; 
 
 const router = Router();
 
-export type IButtonData = {
-  _key: string,
-  _type: "button",
-  title: string,
-  backgroundColor: string,
-  disappears: boolean,
-  trackable: boolean,
-}
 router.post("/register/buttonClick", async (req, res) => {
-  console.log("Received body:\n" + JSON.stringify(req.body));
-  const buttonData: IButtonData = req.body.data;
+  const clickData: IClickDataModel = req.body;
+  console.log("Received data:\n");
+  console.log(clickData);
 
-  // code that saves data in DB...
-
-  res.status(201).send();
+  try {
+    SeqDataModels.ClickData.create(clickData);
+    res.status(201).send();
+  } catch (error) {
+    res.status(400).send("Error while trying to create an entry in database");
+  }
 });
 
 export default router;
