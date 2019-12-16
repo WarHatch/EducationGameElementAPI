@@ -10,6 +10,12 @@ const registerClick = async (data: IClickDataModel) => {
   console.log({ sent: data, received: res });
 }
 
+const moveDown = (buttonElement: HTMLElement) => {
+  const fallSpeed = 200;
+  buttonElement.style.top = (buttonElement.offsetTop + fallSpeed) + "px";
+}
+// TODO: set interval?
+
 export const ifButtonMountClick = (buttonElement: HTMLElement, timeTrackId: number) => {
   if (buttonElement.classList.contains("SSRElement") && buttonElement.getAttribute("react-type") === "button")
     buttonElement.addEventListener("click", () => {
@@ -18,4 +24,11 @@ export const ifButtonMountClick = (buttonElement: HTMLElement, timeTrackId: numb
         reactionTime,
       })
     })
+}
+
+export const mountMoveDown = (buttonElement: HTMLElement) => {
+  if (buttonElement.classList.contains("SSRElement") && buttonElement.getAttribute("react-type") === "button")
+  {
+    moveDown(buttonElement);
+  }
 }

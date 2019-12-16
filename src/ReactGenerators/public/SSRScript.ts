@@ -16,6 +16,8 @@ let observer = new MutationObserver((mutations) => {
       const timeTrackId = timeTracker.startTimer();
       // @ts-ignore
       functionMount.ifButtonMountClick(newNode, timeTrackId);
+      // @ts-ignore
+      functionMount.mountMoveDown(newNode)
     });
   }
 });

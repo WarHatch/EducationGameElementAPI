@@ -8,7 +8,7 @@ const router = Router();
 
 router.post("/register/buttonClick", async (req, res) => {
   const clickData: IClickDataModel = req.body;
-  console.log("Received data:\n");
+  console.log("Received data:");
   console.log(clickData);
 
   try {

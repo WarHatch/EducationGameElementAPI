@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import Button from "../../ReactGenerators/elements/button"
+import Button from "../../ReactGenerators/elements/button/button"
 import CMSController from "../../cmsDataHandler/gameElementController";
 
 const router = Router();

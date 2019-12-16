@@ -18,7 +18,7 @@ const ClickData = clickDataModel(sequelize, Sequelize)
 
 sequelize.sync({ force: false })
   .then(() => {
-    console.log("Database & tables created here!")
+    console.log("Database & tables created!")
   })
 
 export default {
