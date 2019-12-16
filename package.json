@@ -7,7 +7,7 @@
   "author": "Karolis Staskevičius",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack && tsnd src/server.ts",
+    "dev": "concurrently --kill-others \"yarn webpack --watch\" \"yarn tsnd src/server.ts\"",
     "lint": "tslint src/**/*.ts*"
   },
   "dependencies": {
@@ -34,6 +34,7 @@
     "@types/react": "^16.9.14",
     "@types/react-dom": "^16.9.4",
     "@types/sequelize": "^4.28.8",
+    "concurrently": "^5.0.1",
     "ts-node-dev": "^1.0.0-pre.44",
     "tslint": "^5.20.1",
     "typescript": "^3.7.2"
