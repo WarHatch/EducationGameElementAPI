@@ -13,10 +13,8 @@ const registerClick = async (data: IClickDataModel) => {
 const moveDown = (buttonElement: HTMLElement, moveDownPX: number) => {
   buttonElement.style.top = (buttonElement.offsetTop + moveDownPX) + "px";
 }
-// TODO: set interval?
 
-export const ifButtonMountClick = (buttonElement: HTMLElement, timeTrackId: number) => {
-  if (buttonElement.classList.contains("SSRElement") && buttonElement.getAttribute("react-type") === "button")
+export const mountClick = (buttonElement: HTMLElement, timeTrackId: number) => {
     buttonElement.addEventListener("click", () => {
       const reactionTime = timeTracker.checkTimer(timeTrackId)
       registerClick({
@@ -25,12 +23,15 @@ export const ifButtonMountClick = (buttonElement: HTMLElement, timeTrackId: numb
     })
 }
 
-export const mountMoveDown = (buttonElement: HTMLElement) => {
-  if (buttonElement.classList.contains("SSRElement") && buttonElement.getAttribute("react-type") === "button")
-  {
-    const refreshRateMS = 1000;
+export const mountFalling = (buttonElement: HTMLElement) => {
+    const refreshRateMS = 10;
     setInterval(() => {
-      moveDown(buttonElement, 20);
+      moveDown(buttonElement, 2);
     }, refreshRateMS);
-  }
+}
+
+export const mountRemoveAfter = (buttonElement: HTMLElement) => {
+  setTimeout(() => {
+    buttonElement.parentNode.removeChild(buttonElement);
+  }, 2000);
 }

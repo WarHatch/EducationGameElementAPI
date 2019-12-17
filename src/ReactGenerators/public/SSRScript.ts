@@ -12,12 +12,19 @@ let observer = new MutationObserver((mutations) => {
     console.log("Mutation Detected: ");
     // Overwriting mutations Node type
     mutation.addedNodes.forEach((newNode) => {
-      console.log(newNode)
-      const timeTrackId = timeTracker.startTimer();
       // @ts-ignore
-      functionMount.ifButtonMountClick(newNode, timeTrackId);
-      // @ts-ignore
-      functionMount.mountMoveDown(newNode)
+      if (newNode.classList.contains("SSRElement") && newNode.getAttribute("react-type") === "button") {
+        console.log(newNode)
+        // @ts-ignore
+        const buttonElement: HTMLElement = newNode;
+
+        const timeTrackId = timeTracker.startTimer();
+        functionMount.mountClick(buttonElement, timeTrackId);
+
+        functionMount.mountFalling(buttonElement);
+
+        functionMount.mountRemoveAfter(buttonElement);
+      }
     });
   }
 });
