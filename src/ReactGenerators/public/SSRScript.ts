@@ -5,25 +5,26 @@ import "./gameElementsStylesheet.css"
 
 import * as functionMount from "../functionMounters/buttonFunctions";
 
-import timeTracker from "../trackerHelpers/timeTracker";
+import timeTracker from "../helpers/timeTracker";
 
 let observer = new MutationObserver((mutations) => {
   for (const mutation of mutations) {
     console.log("Mutation Detected: ");
     // Overwriting mutations Node type
-    mutation.addedNodes.forEach((newNode) => {
-      // @ts-ignore
-      if (newNode.classList.contains("SSRElement") && newNode.getAttribute("react-type") === "button") {
+    mutation.addedNodes.forEach((newNode: HTMLElement) => {
+      if (newNode.classList.contains("SSRElement") && newNode.getAttribute("data-type") === "button") {
         console.log(newNode)
-        // @ts-ignore
         const buttonElement: HTMLElement = newNode;
+        // Prep data by attributes
+        // if (buttonElement.getAttribute())
 
         const timeTrackId = timeTracker.startTimer();
         functionMount.mountClick(buttonElement, timeTrackId);
 
-        functionMount.mountFalling(buttonElement);
+        // TODO: uncomment these mounts
+        // functionMount.mountFalling(buttonElement);
 
-        functionMount.mountRemoveAfter(buttonElement);
+        // functionMount.mountRemoveAfter(buttonElement);
       }
     });
   }

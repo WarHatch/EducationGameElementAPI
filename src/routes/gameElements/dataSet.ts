@@ -1,6 +1,7 @@
 import { Router } from "express";
 
-import Button from "../../ReactGenerators/elements/button/button"
+import goodButton from "../../ReactGenerators/elements/button/goodButton"
+import badButton from "../../ReactGenerators/elements/button/badButton"
 import CMSController from "../../cmsDataHandler/gameElementController";
 
 const router = Router();
@@ -26,12 +27,12 @@ router.get("/dataSet", async (req, res) => {
   
   const correctHTMLElements = data.correctAnswers.map((answerData) => {
     return {
-      html: Button(answerData)
+      html: goodButton(answerData)
     }
   })
   const incorrectHTMLElements = data.incorrectAnswers.map((answerData) => {
     return {
-      html: Button(answerData)
+      html: badButton(answerData)
     }
   })
 

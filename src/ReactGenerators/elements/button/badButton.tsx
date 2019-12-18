@@ -9,7 +9,8 @@ const Button = (props: Props) => {
   return (
     <>
       <button
-        react-type={props._type}
+        data-type={props._type}
+        data-correct={false}
         className={`SSRElement SSR-${props.backgroundColor}`}
         //onClick mounted after ReactDOMServer render
       >
