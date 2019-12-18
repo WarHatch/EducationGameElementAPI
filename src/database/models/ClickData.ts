@@ -5,6 +5,9 @@ export default (sequelize, type) => {
           primaryKey: true,
           autoIncrement: true
       },
+      sessionId: {
+        type: type.UUID,
+      },
       reactionTime: {
         type: type.INTEGER,
         allowNull: false,

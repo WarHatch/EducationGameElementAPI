@@ -1,11 +1,15 @@
 console.log("server script received");
 
+import { v1 } from "uuid";
+
 // CSS needs to be imported to be bundled
 import "./gameElementsStylesheet.css"
 
 import * as functionMount from "../functionMounters/buttonFunctions";
 
 import timeTracker from "../helpers/timeTracker";
+
+const uuid = v1();
 
 let observer = new MutationObserver((mutations) => {
   for (const mutation of mutations) {
@@ -17,10 +21,10 @@ let observer = new MutationObserver((mutations) => {
         const buttonElement: HTMLElement = newNode;
         // Prep data by attributes
         const timeTrackId = timeTracker.startTimer();
-        if (buttonElement.getAttribute("data-correct") === "true"){
-          functionMount.mountClick(buttonElement, timeTrackId, true);
+        if (buttonElement.getAttribute("data-correct") === "true") {
+          functionMount.mountClick(buttonElement, uuid, timeTrackId, true);
         } else {
-          functionMount.mountClick(buttonElement, timeTrackId, false);
+          functionMount.mountClick(buttonElement, uuid, timeTrackId, false);
         }
 
 
