@@ -1,9 +1,11 @@
 import { Router } from "express";
 
-import rootRoutes from "./register"
+import registerRoutes from "./register"
+import dataRoutes from "./data";
 
 const gameSessionRouter = Router();
 
-gameSessionRouter.use(rootRoutes);
+gameSessionRouter.use(registerRoutes);
+gameSessionRouter.use(dataRoutes);
 
 export default gameSessionRouter;

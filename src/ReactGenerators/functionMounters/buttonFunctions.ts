@@ -15,21 +15,24 @@ const moveDown = (buttonElement: HTMLElement, moveDownPX: number) => {
 }
 
 export const mountClick = (buttonElement: HTMLElement, sessionId: string, timeTrackId: number, correct: boolean) => {
-    buttonElement.addEventListener("click", () => {
-      const reactionTime = timeTracker.checkTimer(timeTrackId)
-      registerClick({
-        reactionTime,
-        sessionId,
-        correct,
-      })
+  const question = buttonElement.getAttribute("data-question");
+
+  buttonElement.addEventListener("click", () => {
+    const reactionTime = timeTracker.checkTimer(timeTrackId)
+    registerClick({
+      reactionTime,
+      sessionId,
+      correct,
+      question,
     })
+  })
 }
 
 export const mountFalling = (buttonElement: HTMLElement) => {
-    const refreshRateMS = 10;
-    setInterval(() => {
-      moveDown(buttonElement, 2);
-    }, refreshRateMS);
+  const refreshRateMS = 10;
+  setInterval(() => {
+    moveDown(buttonElement, 2);
+  }, refreshRateMS);
 }
 
 export const mountRemoveAfter = (buttonElement: HTMLElement) => {

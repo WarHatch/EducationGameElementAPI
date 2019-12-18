@@ -16,7 +16,7 @@ const sequelize = new Sequelize.Sequelize(
 
 const ClickData = clickDataModel(sequelize, Sequelize)
 
-sequelize.sync({ force: false })
+sequelize.sync({ force: true })
   .then(() => {
     console.log("Database & tables created!")
   })

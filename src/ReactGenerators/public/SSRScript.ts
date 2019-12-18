@@ -19,7 +19,7 @@ let observer = new MutationObserver((mutations) => {
       if (newNode.classList.contains("SSRElement") && newNode.getAttribute("data-type") === "button") {
         console.log(newNode)
         const buttonElement: HTMLElement = newNode;
-        // Prep data by attributes
+
         const timeTrackId = timeTracker.startTimer();
         if (buttonElement.getAttribute("data-correct") === "true") {
           functionMount.mountClick(buttonElement, uuid, timeTrackId, true);

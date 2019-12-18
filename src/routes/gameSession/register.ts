@@ -12,7 +12,7 @@ router.post("/register/buttonClick", async (req, res) => {
   console.log(clickData);
 
   try {
-    SeqDataModels.ClickData.create(clickData);
+    await SeqDataModels.ClickData.create(clickData);
     res.status(201).send();
   } catch (error) {
     res.status(400).send("Error while trying to create an entry in database");

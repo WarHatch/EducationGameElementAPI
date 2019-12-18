@@ -1,7 +1,6 @@
 import { Router } from "express";
 
-import goodButton from "../../ReactGenerators/elements/button/goodButton"
-import badButton from "../../ReactGenerators/elements/button/badButton"
+import button from "../../ReactGenerators/elements/button/Button"
 import CMSController from "../../cmsDataHandler/gameElementController";
 
 const router = Router();
@@ -22,17 +21,26 @@ interface IAsteroidDataSet {
 }
 
 router.get("/dataSet", async (req, res) => {
-  const dataQuery: IAsteroidDataSet = await CMSController.fetchALLCMSData();
-  const data = dataQuery[0];
+  const dataQuery = await CMSController.fetchALLCMSData();
+  const data: IAsteroidDataSet = dataQuery[0];
+  const { quizTitle } = data;
   
   const correctHTMLElements = data.correctAnswers.map((answerData) => {
     return {
-      html: goodButton(answerData)
+      html: button({
+        answerData,
+        quizTitle,
+        correct: true,
+      })
     }
   })
   const incorrectHTMLElements = data.incorrectAnswers.map((answerData) => {
     return {
-      html: badButton(answerData)
+      html: button({
+        answerData,
+        quizTitle,
+        correct: false,
+      })
     }
   })
 
