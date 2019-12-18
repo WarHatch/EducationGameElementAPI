@@ -9,5 +9,9 @@ export default (sequelize, type) => {
         type: type.INTEGER,
         allowNull: false,
       },
+      correct: {
+        type: type.BOOLEAN,
+        allowNull: false,
+      }
   })
 }

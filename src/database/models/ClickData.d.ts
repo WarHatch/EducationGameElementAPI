@@ -1,9 +1,5 @@
 export type IClickDataModel = {
   id?: number,
   reactionTime: number,
+  correct: boolean,
 }
-
-// export interface IClickDataGeneratorModel {
-//   id?: any,
-//   reactionTime: any,
-// }

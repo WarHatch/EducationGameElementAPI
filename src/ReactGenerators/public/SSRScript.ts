@@ -16,10 +16,13 @@ let observer = new MutationObserver((mutations) => {
         console.log(newNode)
         const buttonElement: HTMLElement = newNode;
         // Prep data by attributes
-        // if (buttonElement.getAttribute())
-
         const timeTrackId = timeTracker.startTimer();
-        functionMount.mountClick(buttonElement, timeTrackId);
+        if (buttonElement.getAttribute("data-correct") === "true"){
+          functionMount.mountClick(buttonElement, timeTrackId, true);
+        } else {
+          functionMount.mountClick(buttonElement, timeTrackId, false);
+        }
+
 
         // TODO: uncomment these mounts
         // functionMount.mountFalling(buttonElement);

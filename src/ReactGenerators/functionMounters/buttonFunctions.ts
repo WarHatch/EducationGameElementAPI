@@ -14,11 +14,12 @@ const moveDown = (buttonElement: HTMLElement, moveDownPX: number) => {
   buttonElement.style.top = (buttonElement.offsetTop + moveDownPX) + "px";
 }
 
-export const mountClick = (buttonElement: HTMLElement, timeTrackId: number) => {
+export const mountClick = (buttonElement: HTMLElement, timeTrackId: number, correct: boolean) => {
     buttonElement.addEventListener("click", () => {
       const reactionTime = timeTracker.checkTimer(timeTrackId)
       registerClick({
         reactionTime,
+        correct,
       })
     })
 }
