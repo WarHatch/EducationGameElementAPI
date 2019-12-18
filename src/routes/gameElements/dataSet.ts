@@ -5,7 +5,7 @@ import CMSController from "../../cmsDataHandler/gameElementController";
 
 const router = Router();
 
-export type IButtonData = {
+export interface IAnswer {
   _key: string,
   _type: "button",
   title: string,
@@ -13,25 +13,40 @@ export type IButtonData = {
   disappears: boolean,
   trackable: boolean,
 }
+
+interface IAsteroidDataSet {
+  correctAnswers: IAnswer[],
+  incorrectAnswers: IAnswer[],
+  quizTitle: string,
+}
+
 router.get("/dataSet", async (req, res) => {
-  const data = await CMSController.fetchALLCMSData();
-
-  const buttonData: IButtonData = data[0].correctAnswers[0];
+  const dataQuery: IAsteroidDataSet = await CMSController.fetchALLCMSData();
+  const data = dataQuery[0];
   
-  const html = Button(buttonData);
+  const correctHTMLElements = data.correctAnswers.map((answerData) => {
+    return {
+      html: Button(answerData)
+    }
+  })
+  const incorrectHTMLElements = data.incorrectAnswers.map((answerData) => {
+    return {
+      html: Button(answerData)
+    }
+  })
 
-  const gameElementsDataSet: IGameUnitDataSet<IGameElement> = {
-    css: null,
-    gameElements: [
-      {
-        slug: data[0]._id,
-        html: html
-      },
-    ]
+  const gameElementsDataSet = {
+    // id: data._id
+    gameElements: {
+      correctHTMLElements,
+      incorrectHTMLElements,
+    }
   }
 
   res.json(gameElementsDataSet);
-  console.log("Game elements sent");
+  
+  console.log("Game elements sent:");
+  console.log(gameElementsDataSet);
 });
 
 router.get("/cms", async (req, res) => {

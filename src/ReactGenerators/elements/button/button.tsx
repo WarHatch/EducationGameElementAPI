@@ -1,16 +1,9 @@
 import React from "react";
 import ReactDOMServer from "react-dom/server";
 
-export type IButtonData = {
-  _key: string,
-  _type: "button",
-  title: string,
-  backgroundColor: string,
-  disappears: boolean,
-  trackable: boolean,
-}
+import { IAnswer } from "../../../routes/gameElements/dataSet";
 
-type Props = IButtonData
+type Props = IAnswer
 
 const Button = (props: Props) => {
   return (
@@ -26,4 +19,4 @@ const Button = (props: Props) => {
   )
 }
 
-export default (buttonData: IButtonData) => ReactDOMServer.renderToString(Button(buttonData));
+export default (buttonData: IAnswer) => ReactDOMServer.renderToString(Button(buttonData));
