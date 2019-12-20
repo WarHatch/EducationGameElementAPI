@@ -1,9 +1,9 @@
 import { Router } from "express";
-import SeqDataModels from "../../database/sequelize"; 
+import SeqDataModels from "../../database/sequelize";
 import { countAverageReactionTime, countPercentCorrect } from "../../dataParsing";
 
 // Types
-import { IClickDataModel } from "../../database/models/ClickData.d"; 
+import { IClickDataModel } from "../../database/models/ClickData.d";
 
 export type ISessionDataRequestModel = {
   sessionId: string,
@@ -11,12 +11,12 @@ export type ISessionDataRequestModel = {
 
 const router = Router();
 
-router.get("/data", async (req, res) => {
+router.post("/data", async (req, res) => {
   const { body } = req;
   console.log("Received data:");
   console.log(body);
 
-  const { sessionId }:ISessionDataRequestModel = body;;
+  const { sessionId }: ISessionDataRequestModel = body;;
   try {
     const dbData = await SeqDataModels.ClickData.findAll({
       where: {

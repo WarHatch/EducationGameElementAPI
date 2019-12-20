@@ -1,5 +1,4 @@
 import React from "react"
-// import uniqueId, { resetUniqueIds } from "react-html-id";
 
 // TODO: remove if unused
 class DataSetWithUniqueIds<P, S> extends React.Component {
