@@ -1,5 +1,6 @@
 import Sequelize from "sequelize";
 import clickDataModel from "./models/ClickData";
+import gameSessionModel from "./models/Session";
 
 const DATABASE_NAME = "game-data-registry";
 const USERNAME = "root";
@@ -15,6 +16,7 @@ const sequelize = new Sequelize.Sequelize(
 );
 
 const ClickData = clickDataModel(sequelize, Sequelize)
+const GameSession = gameSessionModel(sequelize, Sequelize)
 
 sequelize.sync({ force: true })
   .then(() => {
@@ -22,5 +24,6 @@ sequelize.sync({ force: true })
   })
 
 export default {
-  ClickData
+  ClickData,
+  GameSession
 }

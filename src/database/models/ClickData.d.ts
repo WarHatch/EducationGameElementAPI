@@ -1,8 +1,4 @@
-interface ISeqModel {
-  id?: number,
-  createdAt?: string,
-  updatedAt?: string,
-}
+import { ISeqModel } from "../sequelize.d"
 
 export interface IClickDataModel extends ISeqModel {
   sessionId: string,

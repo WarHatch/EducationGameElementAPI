@@ -1,12 +1,9 @@
 export default (sequelize, type) => {
-  return sequelize.define("clickdata", {
+  return sequelize.define("clickData", {
     id: {
       type: type.INTEGER,
       primaryKey: true,
       autoIncrement: true
-    },
-    sessionId: {
-      type: type.UUID,
     },
     reactionTime: {
       type: type.INTEGER,
