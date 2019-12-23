@@ -4,10 +4,6 @@ const Session = (sequelize, type) => {
       type: type.UUID,
       primaryKey: true,
     },
-    callbackAddress: {
-      type: type.STRING,
-      allowNull: false,
-    },
     finishedAt: {
       type: type.DATE,
       allowNull: true,

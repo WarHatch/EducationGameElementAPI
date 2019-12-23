@@ -26,7 +26,6 @@ router.post("/influence/:sessionId", async (req, res) => {
 
     const responseBody = {
       fullData: dbData,
-      callbackAddress: dbData.callbackAddress
     }
 
     //TODO proxy send the influence body using the callback address

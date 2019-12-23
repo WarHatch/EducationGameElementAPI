@@ -13,7 +13,6 @@ import timeTracker from "../helpers/timeTracker";
 const uuid = v1();
 
 startSession({
-  callbackAddress: "placeholder",
   sessionId: uuid,
   finishedAt: null,
 })
