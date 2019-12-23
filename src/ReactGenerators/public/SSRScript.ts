@@ -6,10 +6,16 @@ import { v1 } from "uuid";
 import "./gameElementsStylesheet.css"
 
 import * as functionMount from "../functionMounters/buttonFunctions";
-
+import { startSession } from "../helpers/sessionManager";
 import timeTracker from "../helpers/timeTracker";
 
 const uuid = v1();
+
+startSession({
+  callbackAddress: "placeholder",
+  sessionId: uuid,
+  finishedAt: null,
+})
 
 let observer = new MutationObserver((mutations) => {
   for (const mutation of mutations) {

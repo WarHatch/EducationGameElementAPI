@@ -7,16 +7,17 @@ import { ISession } from "../../database/models/Session.d";
 
 const router = Router();
 
-router.post("/register/start", async (req, res) => {
+router.post("/register", async (req, res) => {
   const startData: ISession = req.body;
-  console.log("Received startData:");
+  console.log("Received start session data:");
   console.log(startData);
 
   try {
-    // await SeqDataModels.qqq.create(startData); TODO
+    await SeqDataModels.Session.upsert(startData);
     res.status(201).send();
   } catch (error) {
-    res.status(400).send("Error while trying to create an entry in database");
+    res.status(400).send("Error while trying to create/update an entry in database");
+    console.log(error);
   }
 });
 

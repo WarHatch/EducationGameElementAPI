@@ -1,7 +1,3 @@
-import { Sequelize } from "sequelize/types"
-
-import ClickData from "./ClickData"
-
 const Session = (sequelize, type) => {
   return sequelize.define("session", {
     sessionId: {
@@ -19,8 +15,8 @@ const Session = (sequelize, type) => {
   })
 }
 
-const connectedModel = (sequelize, type) =>
-  Session(sequelize, type).hasMany(ClickData(sequelize, type), { foreignKey: "sessionId" })
-
-
-export default connectedModel;
+export default (sequelize, type, ClickData) => {
+  const SessionModel = Session(sequelize, type);
+  SessionModel.hasMany(ClickData, { foreignKey: "sessionId" })
+  return SessionModel
+}

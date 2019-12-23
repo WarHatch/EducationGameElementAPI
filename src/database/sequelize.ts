@@ -1,6 +1,6 @@
 import Sequelize from "sequelize";
 import clickDataModel from "./models/ClickData";
-import gameSessionModel from "./models/Session";
+import sessionModel from "./models/Session";
 
 const DATABASE_NAME = "game-data-registry";
 const USERNAME = "root";
@@ -16,14 +16,14 @@ const sequelize = new Sequelize.Sequelize(
 );
 
 const ClickData = clickDataModel(sequelize, Sequelize)
-const GameSession = gameSessionModel(sequelize, Sequelize)
+const Session = sessionModel(sequelize, Sequelize, ClickData)
 
-sequelize.sync({ force: true })
+sequelize.sync({ force: false })
   .then(() => {
     console.log("Database & tables created!")
   })
 
 export default {
   ClickData,
-  GameSession
+  Session
 }

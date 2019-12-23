@@ -4,6 +4,7 @@ import { countAverageReactionTime, countPercentCorrect } from "../../dataParsing
 
 // Types
 import { IClickDataModel } from "../../database/models/ClickData.d";
+import { ISession } from "../../database/models/Session.d";
 
 export type ISessionDataRequestModel = {
   sessionId: string,
@@ -16,18 +17,22 @@ router.post("/data", async (req, res) => {
   console.log("Received data:");
   console.log(body);
 
-  const { sessionId }: ISessionDataRequestModel = body;;
+  const { sessionId }: ISessionDataRequestModel = body;
   try {
-    const dbData = await SeqDataModels.ClickData.findAll({
+    const dbData: ISession = await SeqDataModels.Session.findOne({
       where: {
         sessionId
-      }
+      },
+      include: [
+        { model: SeqDataModels.ClickData }
+      ]
     });
+    const { clickData } = dbData;
 
-    const { correctPercentage, incorrectPercentage } = countPercentCorrect(dbData);
+    const { correctPercentage, incorrectPercentage } = countPercentCorrect(clickData);
     const responseBody = {
       fullData: dbData,
-      averageReactionTime: countAverageReactionTime(dbData),
+      averageReactionTime: countAverageReactionTime(clickData),
       correctPercentage,
       incorrectPercentage,
     }

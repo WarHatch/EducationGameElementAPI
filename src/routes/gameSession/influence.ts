@@ -18,7 +18,7 @@ router.post("/influence/:sessionId", async (req, res) => {
   console.log(params);
 
   try {
-    const dbData: ISession = await SeqDataModels.GameSession.findAll({
+    const dbData: ISession = await SeqDataModels.Session.findAll({
       where: {
         sessionId
       }
