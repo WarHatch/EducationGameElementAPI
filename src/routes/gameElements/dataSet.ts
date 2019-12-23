@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import button from "../../ReactGenerators/elements/button/Button"
 import CMSController from "../../cmsDataHandler/gameElementController";
+import endSessionButton from "../../ReactGenerators/elements/endSessionButton/endSessionButton";
 
 const router = Router();
 
@@ -43,12 +44,16 @@ router.get("/dataSet", async (req, res) => {
       })
     }
   })
+  const endSessionHTML = {
+      html: endSessionButton()
+  }
 
   const gameElementsDataSet = {
     // id: data._id
     gameElements: {
       correctHTMLElements,
       incorrectHTMLElements,
+      endSessionHTML,
     }
   }
 

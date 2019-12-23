@@ -1,3 +1,0 @@
-interface IGameElement {
-  html: string,
-}

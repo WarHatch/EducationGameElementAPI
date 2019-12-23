@@ -21,6 +21,29 @@ router.post("/register", async (req, res) => {
   }
 });
 
+interface IEndSessionData {
+  sessionId: string,
+  finishedAt: string,
+}
+
+router.post("/register/end", async (req, res) => {
+  const endData: IEndSessionData = req.body;
+  console.log("Received end session data:");
+  console.log(endData);
+  
+  try {
+    await SeqDataModels.Session.update(endData,
+      {
+        where: { sessionId: endData.sessionId }
+      }
+    );
+    res.status(201).send();
+  } catch (error) {
+    res.status(400).send("Error while trying to update an entry in database");
+    console.log(error);
+  }
+});
+
 router.post("/register/buttonClick", async (req, res) => {
   const clickData: IClickDataModel = req.body;
   console.log("Received data:");
