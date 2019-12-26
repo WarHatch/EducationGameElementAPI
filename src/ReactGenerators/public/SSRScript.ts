@@ -47,6 +47,9 @@ let observer = new MutationObserver((mutations) => {
         else if (newNode.getAttribute("data-type") === "end-button") {
           endFuncMount.mountClick(buttonElement, uuid)
         }
+        else if (newNode.getAttribute("data-type") === "sessionId-text") {
+          newNode.innerText = "session Id: " + uuid;
+        }
       }
     });
   }

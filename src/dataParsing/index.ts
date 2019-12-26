@@ -12,7 +12,7 @@ export const countPercentCorrect = (sessionData: IClickDataModel[]) => {
       correctCount += 1;
   });
 
-  const correctPercentage = correctCount/dataEntryCount * 100;
+  const correctPercentage = correctCount / dataEntryCount * 100;
   const incorrectPercentage = 100 - correctPercentage;
 
   return {

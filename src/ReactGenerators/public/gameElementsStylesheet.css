@@ -3,6 +3,10 @@
   border-color: black;
 }
 
+.SSR-sessionid {
+  font-size: medium;
+}
+
 button {
   /* To allow free movement */
   position: absolute;

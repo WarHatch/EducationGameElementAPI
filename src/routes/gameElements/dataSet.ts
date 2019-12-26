@@ -3,6 +3,7 @@ import { Router } from "express";
 import button from "../../ReactGenerators/elements/button/Button"
 import CMSController from "../../cmsDataHandler/gameElementController";
 import endSessionButton from "../../ReactGenerators/elements/endSessionButton/endSessionButton";
+import sessionIdText from "../../ReactGenerators/elements/sessionIdText";
 
 const router = Router();
 
@@ -47,6 +48,9 @@ router.get("/dataSet", async (req, res) => {
   const endSessionHTML = {
       html: endSessionButton()
   }
+  const sessionIdHTML = {
+    html: sessionIdText()
+  }
 
   const gameElementsDataSet = {
     // id: data._id
@@ -54,6 +58,7 @@ router.get("/dataSet", async (req, res) => {
       correctHTMLElements,
       incorrectHTMLElements,
       endSessionHTML,
+      sessionIdHTML,
     }
   }
 
