@@ -14,6 +14,7 @@ router.post("/register", async (req, res) => {
 
   try {
     await SeqDataModels.Session.upsert(startData);
+    await SeqDataModels.SessionConfig.upsert(startData.sessionConfigs[0] || startData.sessionConfigs);
     res.status(201).send();
   } catch (error) {
     res.status(400).send("Error while trying to create/update an entry in database");

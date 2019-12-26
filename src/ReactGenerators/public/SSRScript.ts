@@ -9,12 +9,17 @@ import * as buttonFuncMount from "../functionMounters/buttonFunctions";
 import * as endFuncMount from "../functionMounters/endSessionFunctions";
 import { startSession } from "../helpers/sessionManager";
 import timeTracker from "../helpers/timeTracker";
+import { defaultSessionConfig } from "../constants";
 
 const uuid = v1();
 
 startSession({
   sessionId: uuid,
   finishedAt: null,
+  sessionConfigs: [{
+    sessionId: uuid,
+    ...defaultSessionConfig,
+  }]
 })
 
 const observerOptions = {

@@ -6,5 +6,5 @@ export interface ISession extends ISeqModel {
   sessionId: string,
   finishedAt: string | null,
   clickData?: IClickDataModel[],
-  sessionConfig?: ISessionConfig[],
+  sessionConfigs?: ISessionConfig[],
 }

@@ -14,12 +14,10 @@ const router = Router();
 
 router.post("/data", async (req, res) => {
   const { body } = req;
-  console.log("Received data:");
-  console.log(body);
 
   const { sessionId }: ISessionDataRequestModel = body;
   try {
-    const dbData: ISession = await SeqDataModels.Session.findOne({
+    const dbData = await SeqDataModels.Session.findOne({
       where: {
         sessionId
       },
@@ -27,7 +25,7 @@ router.post("/data", async (req, res) => {
         { model: SeqDataModels.ClickData }
       ]
     });
-    const { clickData } = dbData;
+    const { clickData }: ISession = dbData;
 
     const { correctPercentage, incorrectPercentage } = countPercentCorrect(clickData);
     const responseBody = {
