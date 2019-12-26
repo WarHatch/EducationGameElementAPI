@@ -3,6 +3,7 @@ import SeqDataModels from "../../database/sequelize";
 
 // Types
 import { ISession } from "../../database/models/Session.d";
+import { ISessionConfig } from "../../database/models/SessionConfig";
 
 export type ISessionDataRequestModel = {
   sessionId: string,
@@ -43,9 +44,17 @@ router.post("/config", async (req, res) => {
 // Set new config
 router.post("/config/new", async (req, res) => {
   const { body } = req;
-  res.status(500).json({
-    message: "NOT IMPLEMENTED",
-  });
+
+  try {
+    const dbResponse: Promise<ISessionConfig> = await SessionConfig.create(body);
+  
+    res.status(201).json(dbResponse);
+  } catch (error) {
+    res.status(400).json({
+      message: "Error while trying to create config",
+      error: error,
+    });
+  }
 });
 
 export default router;
