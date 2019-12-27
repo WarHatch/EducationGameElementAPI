@@ -1,4 +1,3 @@
-import { Request, Response } from "express";
 import sanityClient from "@sanity/client";
 
 const client = sanityClient({

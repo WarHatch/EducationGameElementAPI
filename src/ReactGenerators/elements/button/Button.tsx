@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOMServer from "react-dom/server";
 
-import { IAnswer } from "../../../routes/gameElements/dataSet";
+import { IAnswer } from ".";
 
 type Props = {
   answerData: IAnswer,
