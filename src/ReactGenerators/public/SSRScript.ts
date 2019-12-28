@@ -45,6 +45,8 @@ startSession({
     ...defaultSessionConfig,
   }]
 })
+// TODO: getConfig
+
 
 // meteor spawn game setup
 asteroidButtons().then(({ correctHTMLElements, incorrectHTMLElements }) => {

@@ -1,4 +1,4 @@
 export const defaultSessionConfig = {
-  speed: 5
+  asteroidSpawnPerMinute: 30
 };
 

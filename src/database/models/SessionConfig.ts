@@ -2,7 +2,7 @@ import { ISeqModel } from "../sequelize.d"
 
 export interface ISessionConfig extends ISeqModel {
   sessionId: string,
-  speed: number,
+  asteroidSpawnPerMinute: number,
 }
 
 export default (sequelize, type) => {

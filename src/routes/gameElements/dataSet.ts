@@ -1,7 +1,5 @@
 import { Router } from "express";
 
-import CMSController from "../../cmsDataHandler/gameElementController";
-
 import asteroidButtons from "../../ReactGenerators/elements/button";
 import endSessionButton from "../../ReactGenerators/elements/endSessionButton/endSessionButton";
 import sessionIdText from "../../ReactGenerators/elements/sessionIdText";
@@ -32,12 +30,6 @@ router.get("/dataSet", async (req, res) => {
   
   console.log("Game elements sent:");
   console.log(gameElementsDataSet);
-});
-
-router.get("/cms", async (req, res) => {
-  const data = await CMSController.fetchALLCMSData();
-
-  res.json(data);
 });
 
 export default router;

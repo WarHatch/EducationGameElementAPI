@@ -1,5 +1,5 @@
-import CMSController from "../../../cmsDataHandler/gameElementController";
 import button from "./Button"
+import Axios, { AxiosResponse } from "axios";
 
 export interface IAnswer {
   _key: string,
@@ -17,11 +17,11 @@ export interface IAsteroidDataSet {
 }
 
 export default async () => {
-  const dataQuery = await CMSController.fetchALLCMSData();
-  const data: IAsteroidDataSet = dataQuery[0];
-  const { quizTitle } = data;
+  const dataQuery: AxiosResponse<IAsteroidDataSet> = await Axios.get("http://localhost:8090/gameElements/cms");
+  const { data } = dataQuery;
+  const { quizTitle, correctAnswers, incorrectAnswers } = data[0];
 
-  const correctHTMLElements = data.correctAnswers.map((answerData) => {
+  const correctHTMLElements = correctAnswers.map((answerData) => {
     return {
       html: button({
         answerData,
@@ -30,7 +30,7 @@ export default async () => {
       })
     }
   })
-  const incorrectHTMLElements = data.incorrectAnswers.map((answerData) => {
+  const incorrectHTMLElements = incorrectAnswers.map((answerData) => {
     return {
       html: button({
         answerData,
