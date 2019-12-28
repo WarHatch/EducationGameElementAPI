@@ -34,7 +34,7 @@ router.post("/data", async (req, res) => {
       correctPercentage,
       incorrectPercentage,
     }
-    res.status(201).json(responseBody);
+    res.status(200).json(responseBody);
   } catch (error) {
     res.status(400).json({
       message: "Error while trying to fetch data",

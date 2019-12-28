@@ -11,6 +11,14 @@ import * as endFuncMount from "../functionMounters/endSessionFunctions";
 import { startSession } from "../helpers/sessionManager";
 import timeTracker from "../helpers/timeTracker";
 import { defaultSessionConfig } from "../constants";
+import { ISession } from "../../database/models/Session.d";
+import { ISessionConfig } from "../../database/models/SessionConfig";
+import Axios from "axios";
+
+interface IAsteroidElements {
+  correctHTMLElements,
+  incorrectHTMLElements
+}
 
 const htmlToElement = (html: string) => {
   const template = document.createElement("template");
@@ -19,7 +27,10 @@ const htmlToElement = (html: string) => {
   return template.content.firstChild;
 }
 
-const spawnAsteroids = ({ correctHTMLElements, incorrectHTMLElements }) => {
+const spawnAsteroid = ({
+  correctHTMLElements,
+  incorrectHTMLElements
+}) => {
   const spawnCorrect = Math.floor(Math.random() * 2) == 0;
 
   let htmlElementToSpawn;
@@ -35,6 +46,20 @@ const spawnAsteroids = ({ correctHTMLElements, incorrectHTMLElements }) => {
   document.getElementById("game").appendChild(newNode);
 }
 
+const applyAsteroidConfig = (
+  config: ISessionConfig,
+  asteroidButtons: IAsteroidElements
+) => {
+  const { asteroidSpawnPerMinute } = config;
+
+  const spawnTimeout = 60 * 1000 / asteroidSpawnPerMinute;
+  const intervalSpawn = setInterval(() => {
+    spawnAsteroid(asteroidButtons);
+  }, spawnTimeout);
+
+  return intervalSpawn;
+}
+
 const uuid = v1();
 
 startSession({
@@ -44,17 +69,35 @@ startSession({
     sessionId: uuid,
     ...defaultSessionConfig,
   }]
-})
-// TODO: getConfig
+}).then(async (session) => {
+  const { sessionConfigs } = session;
+  // FIXME: assumes last item is latest
+  let latestConfig = sessionConfigs[sessionConfigs.length - 1];
 
+  const asteroidElements = await asteroidButtons();
 
-// meteor spawn game setup
-asteroidButtons().then(({ correctHTMLElements, incorrectHTMLElements }) => {
-  const spawnPerMinute = 30;
-  const spawnTimeout = 60 * 1000 / spawnPerMinute;
-  setInterval(() => {
-    spawnAsteroids({ correctHTMLElements, incorrectHTMLElements });
-  }, spawnTimeout);
+  // --- Initial setup
+  // spawnAsteroid(asteroidElements);
+  let appliedSpawnInterval = applyAsteroidConfig(latestConfig, asteroidElements)
+
+  // --- Dynamic config setup
+  const configRefreshInterval = 1000;
+  setInterval(async () => {
+    // get new config
+    const configResponse = await Axios.post("http://localhost:8090/gameSession/config",
+      { sessionId: uuid }
+    );
+    const receivedConfig = configResponse.data;
+    // if different config than used now
+    if (latestConfig.asteroidSpawnPerMinute !== receivedConfig.asteroidSpawnPerMinute)
+    {
+      latestConfig = receivedConfig;
+      // remove old intervals
+      clearInterval(appliedSpawnInterval);
+      // apply new config
+      appliedSpawnInterval = applyAsteroidConfig(latestConfig, asteroidElements)
+    }
+  }, configRefreshInterval)
 })
 
 const observerOptions = {

@@ -12,7 +12,7 @@ export default (sequelize, type) => {
       primaryKey: true,
       autoIncrement: true
     },
-    speed: {
+    asteroidSpawnPerMinute: {
       type: type.INTEGER,
       allowNull: false,
     }

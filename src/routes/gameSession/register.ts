@@ -15,9 +15,18 @@ router.post("/register", async (req, res) => {
   try {
     await SeqDataModels.Session.upsert(startData);
     await SeqDataModels.SessionConfig.upsert(startData.sessionConfigs[0] || startData.sessionConfigs);
-    res.status(201).send();
+    // Fetch what was created
+    const createdSession = await SeqDataModels.Session.findOne(
+      {
+        where: { sessionId: startData.sessionId },
+        include: [
+          { model: SeqDataModels.SessionConfig }
+        ]
+      }
+    );
+    res.status(201).json(createdSession);
   } catch (error) {
-    res.status(400).send("Error while trying to create/update an entry in database");
+    res.status(400).send("Error while trying to create/update a session in database");
     console.log(error);
   }
 });
@@ -38,7 +47,7 @@ router.post("/register/end", async (req, res) => {
         where: { sessionId: endData.sessionId }
       }
     );
-    res.status(201).send();
+    res.status(204).send();
   } catch (error) {
     res.status(400).send("Error while trying to update an entry in database");
     console.log(error);
