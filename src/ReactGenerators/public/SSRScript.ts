@@ -102,12 +102,13 @@ startSession({
 
 const observerOptions = {
   childList: true,
-  attributes: true,
+  attributes: false,
   subtree: true //Omit or set to false to observe only changes to the parent node.
 };
 let observer = new MutationObserver((mutations) => {
   for (const mutation of mutations) {
     console.log("Mutation Detected: ");
+    
     // Overwriting mutations Node type
     mutation.addedNodes.forEach((newNode: HTMLElement) => {
       if (newNode.classList.contains("SSRElement")) {
