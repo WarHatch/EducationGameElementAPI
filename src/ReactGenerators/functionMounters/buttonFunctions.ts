@@ -28,15 +28,15 @@ export const mountClick = (buttonElement: HTMLElement, sessionId: string, timeTr
   })
 }
 
-export const mountFalling = (buttonElement: HTMLElement) => {
-  const refreshRateMS = 10;
+export const mountFalling = (element: HTMLElement) => {
+  const refreshRateMS = 20;
   setInterval(() => {
-    moveDown(buttonElement, 2);
+    moveDown(element, 1);
   }, refreshRateMS);
 }
 
-export const mountRemoveAfter = (buttonElement: HTMLElement) => {
+export const mountRemoveAfter = (element: HTMLElement) => {
   setTimeout(() => {
-    buttonElement.parentNode.removeChild(buttonElement);
-  }, 2000);
+    element.parentNode.removeChild(element);
+  }, 12000);
 }

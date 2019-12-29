@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import asteroidButtons from "../../ReactGenerators/elements/button";
+import asteroidButtons from "../../ReactGenerators/elements/meteorButton";
 import endSessionButton from "../../ReactGenerators/elements/endSessionButton/endSessionButton";
 import sessionIdText from "../../ReactGenerators/elements/sessionIdText";
 

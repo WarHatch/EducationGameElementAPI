@@ -1,4 +1,4 @@
-import button from "./Button"
+import button from "./meteorButton"
 import Axios, { AxiosResponse } from "axios";
 
 export interface IAnswer {

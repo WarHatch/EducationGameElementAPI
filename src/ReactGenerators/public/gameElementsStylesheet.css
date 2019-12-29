@@ -7,19 +7,41 @@
   font-size: medium;
 }
 
-button {
+.MeteorContainer {
   /* To allow free movement */
   position: absolute;
 
+  /* Dev styling */
+  border: solid;
+  border-color: tomato;
+  border-width: 1px;
+}
+
+.MeteorContainer .SSR-Meteor {
+  width: 100px;
+  height: 100px;
+}
+
+.MeteorContainer button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+
+  padding: 15px 32px;
   background-color: #4CAF50; /* Green */
   border: none;
   color: white;
-  padding: 15px 32px;
+  text-shadow: 2px 2px #000000;
   text-align: center;
-  display: inline-block;
 
   animation-name: spectrum;
   animation-duration: 10s;
+}
+
+.container button:hover {
+  background-color: black;
 }
 
 @keyframes spectrum {

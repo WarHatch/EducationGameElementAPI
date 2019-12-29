@@ -15,14 +15,14 @@ module.exports = {
           'style-loader',
           'css-loader'
         ],
-      }
-      // {
-      //   test: /\.(png|svg|jpg|gif)$/,
-      //   loader: 'file-loader',
-      //   options: {
-      //     name: '[name].[ext]',
-      //   }
-      // },
+      },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+        }
+      },
     ]
   },
   resolve: {

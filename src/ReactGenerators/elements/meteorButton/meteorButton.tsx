@@ -12,7 +12,8 @@ type Props = {
 const Button = (props: Props) => {
   const {answerData, quizTitle, correct} = props;
   return (
-    <>
+    <div className="SSRElement MeteorContainer">
+      <img className="SSRElement SSR-Meteor" src="http://localhost:8090/meteor.png" />
       <button
         data-type={answerData._type}
         data-correct={correct}
@@ -22,7 +23,7 @@ const Button = (props: Props) => {
       >
         {answerData.title}
       </button>
-    </>
+    </div>
   )
 }
 

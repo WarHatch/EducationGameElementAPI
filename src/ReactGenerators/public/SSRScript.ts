@@ -5,7 +5,7 @@ import { v1 } from "uuid";
 // CSS needs to be imported to be bundled
 import "./gameElementsStylesheet.css"
 
-import asteroidButtons from "../../ReactGenerators/elements/button";
+import asteroidButtons from "../elements/meteorButton";
 import * as buttonFuncMount from "../functionMounters/buttonFunctions";
 import * as endFuncMount from "../functionMounters/endSessionFunctions";
 import { startSession } from "../helpers/sessionManager";
@@ -43,7 +43,10 @@ const spawnAsteroid = ({
   }
   const newNode = htmlToElement(htmlElementToSpawn);
 
-  document.getElementById("game").appendChild(newNode);
+  document.getElementById("game")
+  // FIXME: adding elements based on loose logic
+  .getElementsByTagName("div")[0]
+    .appendChild(newNode);
 }
 
 const applyAsteroidConfig = (
@@ -113,22 +116,26 @@ let observer = new MutationObserver((mutations) => {
     mutation.addedNodes.forEach((newNode: HTMLElement) => {
       if (newNode.classList.contains("SSRElement")) {
         console.log(newNode)
-        const buttonElement: HTMLElement = newNode;
+        const ssrElement: HTMLElement = newNode;
 
-        if (newNode.getAttribute("data-type") === "button") {
-          const timeTrackId = timeTracker.startTimer();
-          if (buttonElement.getAttribute("data-correct") === "true") {
-            buttonFuncMount.mountClick(buttonElement, uuid, timeTrackId, true);
-          } else {
-            buttonFuncMount.mountClick(buttonElement, uuid, timeTrackId, false);
+        if (newNode.classList.contains("MeteorContainer")) {
+          buttonFuncMount.mountFalling(ssrElement);
+          buttonFuncMount.mountRemoveAfter(ssrElement);
+
+          const insideButton = newNode.getElementsByTagName("button")[0];
+          if (insideButton.getAttribute("data-type") === "button") {
+            const timeTrackId = timeTracker.startTimer();
+            console.log("mounting click on " + insideButton.innerHTML);
+            
+            if (ssrElement.getAttribute("data-correct") === "true") {
+              buttonFuncMount.mountClick(insideButton, uuid, timeTrackId, true);
+            } else {
+              buttonFuncMount.mountClick(insideButton, uuid, timeTrackId, false);
+            }
           }
-
-          buttonFuncMount.mountFalling(buttonElement);
-
-          buttonFuncMount.mountRemoveAfter(buttonElement);
         }
         else if (newNode.getAttribute("data-type") === "end-button") {
-          endFuncMount.mountClick(buttonElement, uuid)
+          endFuncMount.mountClick(ssrElement, uuid)
         }
         else if (newNode.getAttribute("data-type") === "sessionId-text") {
           newNode.innerText = "session Id: " + uuid;
