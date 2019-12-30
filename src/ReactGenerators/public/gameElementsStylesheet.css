@@ -51,3 +51,14 @@
   from {background-color: red;}
   to {background-color: yellow;}
 }
+
+.SSR-QuestionContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  transform: translate(50%, 50%);
+  -ms-transform: translate(50%, 50%);
+  height: 768px; 
+  background-color: thistle;
+}

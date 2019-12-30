@@ -3,7 +3,7 @@ import Axios, { AxiosResponse } from "axios";
 
 export interface IAnswer {
   _key: string,
-  _type: "button",
+  _type: "button", //TODO: see if this field HAS to be used
   title: string,
   backgroundColor: string,
   disappears: boolean,
@@ -25,8 +25,8 @@ export default async () => {
     return {
       html: button({
         answerData,
-        quizTitle,
         correct: true,
+        quizTitle,
       })
     }
   })
@@ -34,8 +34,8 @@ export default async () => {
     return {
       html: button({
         answerData,
-        quizTitle,
         correct: false,
+        quizTitle,
       })
     }
   })

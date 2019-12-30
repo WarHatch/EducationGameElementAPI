@@ -66,8 +66,9 @@ const applyAsteroidConfig = (
 const uuid = v1();
 
 startSession({
-  sessionId: uuid,
   finishedAt: null,
+  sessionId: uuid,
+
   sessionConfigs: [{
     sessionId: uuid,
     ...defaultSessionConfig,
@@ -104,8 +105,8 @@ startSession({
 })
 
 const observerOptions = {
-  childList: true,
   attributes: false,
+  childList: true,
   subtree: true //Omit or set to false to observe only changes to the parent node.
 };
 let observer = new MutationObserver((mutations) => {

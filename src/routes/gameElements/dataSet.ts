@@ -1,33 +1,36 @@
 import { Router } from "express";
 
 import asteroidButtons from "../../ReactGenerators/elements/meteorButton";
-import endSessionButton from "../../ReactGenerators/elements/endSessionButton/endSessionButton";
+import endSessionButton from "../../ReactGenerators/elements/endSessionButton";
 import sessionIdText from "../../ReactGenerators/elements/sessionIdText";
+import questionElement from "../../ReactGenerators/elements/question";
 
 const router = Router();
 
 router.get("/dataSet", async (req, res) => {
+  const questionHTMLPromise = questionElement();
   const { correctHTMLElements, incorrectHTMLElements } = await asteroidButtons();
 
   const endSessionHTML = {
-      html: endSessionButton()
+    html: endSessionButton()
   }
   const sessionIdHTML = {
     html: sessionIdText()
   }
 
   const gameElementsDataSet = {
-    // id: data._id
     gameElements: {
+      endSessionHTML,
+      questionHTML: await questionHTMLPromise,
+      sessionIdHTML,
+
       correctHTMLElements,
       incorrectHTMLElements,
-      endSessionHTML,
-      sessionIdHTML,
     }
   }
 
   res.json(gameElementsDataSet);
-  
+
   console.log("Game elements sent:");
   console.log(gameElementsDataSet);
 });
