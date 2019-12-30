@@ -12,13 +12,13 @@ type Props = {
 const Button = (props: Props) => {
   const {answerData, quizTitle, correct} = props;
   return (
-    <div className="SSRElement MeteorContainer">
-      <img className="SSRElement SSR-Meteor" src="http://localhost:8090/meteor.png" />
+    <div className="SSRElement SSR-MeteorContainer">
+      <img className="SSR-Meteor" src="http://localhost:8090/meteor.png" />
       <button
         data-type={answerData._type}
         data-correct={correct}
         data-question={quizTitle}
-        className={`SSRElement SSR-${answerData.backgroundColor}`}
+        className={`SSR-${answerData.backgroundColor}`}
         //onClick mounted after ReactDOMServer render
       >
         {answerData.title}

@@ -118,7 +118,7 @@ let observer = new MutationObserver((mutations) => {
         console.log(newNode)
         const ssrElement: HTMLElement = newNode;
 
-        if (newNode.classList.contains("MeteorContainer")) {
+        if (newNode.classList.contains("SSR-MeteorContainer")) {
           buttonFuncMount.mountFalling(ssrElement);
           buttonFuncMount.mountRemoveAfter(ssrElement);
 

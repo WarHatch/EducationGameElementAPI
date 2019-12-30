@@ -7,7 +7,7 @@
   font-size: medium;
 }
 
-.MeteorContainer {
+.SSR-MeteorContainer {
   /* To allow free movement */
   position: absolute;
 
@@ -17,12 +17,12 @@
   border-width: 1px;
 }
 
-.MeteorContainer .SSR-Meteor {
+.SSR-MeteorContainer .SSR-Meteor {
   width: 100px;
   height: 100px;
 }
 
-.MeteorContainer button {
+.SSR-MeteorContainer button {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -43,7 +43,7 @@
   animation-duration: 10s;
 }
 
-/* .MeteorContainer button:hover {
+/* .SSR-MeteorContainer button:hover {
   background-color: black;
 } */
 
