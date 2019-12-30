@@ -1,3 +1,5 @@
+// tslint:disable: object-literal-sort-keys
+
 import { Router } from "express";
 import SeqDataModels from "../../database/sequelize";
 
@@ -30,7 +32,7 @@ router.post("/config", async (req, res) => {
       ]
     });
     const { sessionConfigs }: ISession = dbData;
-  
+    
     res.status(200).json(sessionConfigs[0]);
   } catch (error) {
     res.status(400).json({
@@ -47,7 +49,7 @@ router.post("/config/new", async (req, res) => {
 
   try {
     const dbResponse: Promise<ISessionConfig> = await SessionConfig.create(body);
-  
+
     res.status(201).json(dbResponse);
   } catch (error) {
     res.status(400).json({

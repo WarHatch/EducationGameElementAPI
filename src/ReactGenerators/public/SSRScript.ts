@@ -11,7 +11,6 @@ import * as endFuncMount from "../functionMounters/endSessionFunctions";
 import { startSession } from "../helpers/sessionManager";
 import timeTracker from "../helpers/timeTracker";
 import { defaultSessionConfig } from "../constants";
-import { ISession } from "../../database/models/Session.d";
 import { ISessionConfig } from "../../database/models/SessionConfig";
 import Axios from "axios";
 
