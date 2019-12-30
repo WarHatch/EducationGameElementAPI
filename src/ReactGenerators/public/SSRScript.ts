@@ -125,9 +125,8 @@ let observer = new MutationObserver((mutations) => {
           const insideButton = newNode.getElementsByTagName("button")[0];
           if (insideButton.getAttribute("data-type") === "button") {
             const timeTrackId = timeTracker.startTimer();
-            console.log("mounting click on " + insideButton.innerHTML);
             
-            if (ssrElement.getAttribute("data-correct") === "true") {
+            if (insideButton.getAttribute("data-correct") === "true") {
               buttonFuncMount.mountClick(insideButton, uuid, timeTrackId, true);
             } else {
               buttonFuncMount.mountClick(insideButton, uuid, timeTrackId, false);
