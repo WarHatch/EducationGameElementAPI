@@ -5,11 +5,11 @@ import { v1 } from "uuid";
 // CSS needs to be imported to be bundled
 import "./gameElementsStylesheet.css"
 
-import asteroidButtons from "../elements/meteorButton";
-import * as buttonFuncMount from "../functionMounters/buttonFunctions";
-import * as endFuncMount from "../functionMounters/endSessionFunctions";
 import { startSession } from "../helpers/sessionManager";
-import timeTracker from "../helpers/timeTracker";
+import htmlToElement from "../helpers/htmlToElement";
+
+import asteroidButtons from "../elements/meteorButton";
+import observeSSRElements from "./observer";
 import { defaultSessionConfig } from "../constants";
 import { ISessionConfig } from "../../database/models/SessionConfig";
 import Axios from "axios";
@@ -17,13 +17,6 @@ import Axios from "axios";
 interface IAsteroidElements {
   correctHTMLElements,
   incorrectHTMLElements
-}
-
-const htmlToElement = (html: string) => {
-  const template = document.createElement("template");
-  html = html.trim(); // Never return a text node of whitespace as the result
-  template.innerHTML = html;
-  return template.content.firstChild;
 }
 
 const spawnAsteroid = ({
@@ -62,6 +55,8 @@ const applyAsteroidConfig = (
   return intervalSpawn;
 }
 
+let currentConfig: ISessionConfig = undefined;
+
 const uuid = v1();
 
 startSession({
@@ -74,16 +69,17 @@ startSession({
   }]
 }).then(async (session) => {
   const { sessionConfigs } = session;
-  // FIXME: assumes last item is latest
-  let latestConfig = sessionConfigs[sessionConfigs.length - 1];
-
-  const asteroidElements = await asteroidButtons();
+  // assumes only 1 config was created
+  currentConfig = sessionConfigs[0];
 
   // --- Initial setup
-  // spawnAsteroid(asteroidElements);
-  let appliedSpawnInterval = applyAsteroidConfig(latestConfig, asteroidElements)
+  const asteroidElements = await asteroidButtons();
+  let currentSpawnInterval = applyAsteroidConfig(currentConfig, asteroidElements)
+  let currentObserver = observeSSRElements(uuid, currentConfig)
 
-  // --- Dynamic config setup
+  // spawnAsteroid(asteroidElements);
+
+  // --- Periodically check for config changes
   const configRefreshInterval = 1000;
   setInterval(async () => {
     // get new config
@@ -91,60 +87,21 @@ startSession({
       { sessionId: uuid }
     );
     const receivedConfig = configResponse.data;
-    // if different config than used now
-    if (latestConfig.asteroidSpawnPerMinute !== receivedConfig.asteroidSpawnPerMinute)
+    // if received different config DTO than the current
+    if (JSON.stringify(currentConfig) !== JSON.stringify(receivedConfig))
     {
-      latestConfig = receivedConfig;
+      currentConfig = receivedConfig;
       // remove old intervals
-      clearInterval(appliedSpawnInterval);
-      // apply new config
-      appliedSpawnInterval = applyAsteroidConfig(latestConfig, asteroidElements)
+      clearInterval(currentSpawnInterval);
+      // apply new intervals
+      currentSpawnInterval = applyAsteroidConfig(currentConfig, asteroidElements)
+
+      // Disconnect old observer
+      currentObserver.disconnect();
+      // Setup SSR element observer with new config
+      currentObserver = observeSSRElements(uuid, currentConfig)
     }
   }, configRefreshInterval)
-})
-
-const observerOptions = {
-  attributes: false,
-  childList: true,
-  subtree: true //Omit or set to false to observe only changes to the parent node.
-};
-let observer = new MutationObserver((mutations) => {
-  for (const mutation of mutations) {
-    console.log("Mutation Detected: ");
-    
-    // Overwriting mutations Node type
-    mutation.addedNodes.forEach((newNode: HTMLElement) => {
-      if (newNode.classList.contains("SSRElement")) {
-        console.log(newNode)
-        const ssrElement: HTMLElement = newNode;
-
-        if (newNode.classList.contains("SSR-MeteorContainer")) {
-          buttonFuncMount.mountFalling(ssrElement);
-          buttonFuncMount.mountRemoveAfter(ssrElement);
-
-          const insideButton = newNode.getElementsByTagName("button")[0];
-          if (insideButton.getAttribute("data-type") === "button") {
-            const timeTrackId = timeTracker.startTimer();
-            
-            if (insideButton.getAttribute("data-correct") === "true") {
-              buttonFuncMount.mountClick(insideButton, uuid, timeTrackId, true);
-            } else {
-              buttonFuncMount.mountClick(insideButton, uuid, timeTrackId, false);
-            }
-          }
-        }
-        else if (newNode.getAttribute("data-type") === "end-button") {
-          endFuncMount.mountClick(ssrElement, uuid)
-        }
-        else if (newNode.getAttribute("data-type") === "sessionId-text") {
-          newNode.innerText = "session Id: " + uuid;
-        }
-      }
-    });
-  }
 });
-const targetNode = document.getElementById("game")
-if (!targetNode) console.error("observe target node not found");
-observer.observe(targetNode, observerOptions);
 
 console.log("server script finished");

@@ -1,4 +1,9 @@
 export const defaultSessionConfig = {
-  asteroidSpawnPerMinute: 30
+  asteroidSecondsToCrash: 15,
+  asteroidSpawnPerMinute: 30,
 };
 
+export const gameDimensions = {
+  height: 768,
+  width: 1024,
+}

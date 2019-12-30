@@ -1,7 +1,6 @@
 import axios from "axios";
 
 // Types
-
 type IEndSessionData = {
   sessionId: string,
   finishedAt: Date,
@@ -16,8 +15,8 @@ export const mountClick = (buttonElement: HTMLElement, sessionId: string) => {
   buttonElement.addEventListener("click", () => {
     const now = new Date();
     endSessionClick({
-      sessionId,
       finishedAt: now,
+      sessionId,
     })
   })
 }

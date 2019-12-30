@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import timeTracker from "../helpers/timeTracker";
+import { gameDimensions } from "../constants";
 
 // Types
 import { IClickDataModel } from "../../database/models/ClickData.d";
@@ -20,23 +21,29 @@ export const mountClick = (buttonElement: HTMLElement, sessionId: string, timeTr
   buttonElement.addEventListener("click", () => {
     const reactionTime = timeTracker.checkTimer(timeTrackId)
     registerClick({
-      reactionTime,
-      sessionId,
       correct,
       question,
+      reactionTime,
+      sessionId,
     })
   })
 }
 
-export const mountFalling = (element: HTMLElement) => {
-  const refreshRateMS = 20;
-  setInterval(() => {
-    moveDown(element, 1);
-  }, refreshRateMS);
-}
-
-export const mountRemoveAfter = (element: HTMLElement) => {
+export const mountRemoveAfter = (element: HTMLElement, asteroidSecondsToCrash: number) => {
   setTimeout(() => {
     element.parentNode.removeChild(element);
-  }, 12000);
+  }, asteroidSecondsToCrash * 1000);
+}
+
+export const mountFalling = (element: HTMLElement, asteroidSecondsToCrash: number) => {
+  console.log(asteroidSecondsToCrash);
+  
+  const fallSpeed = (gameDimensions.height * 0.8) / asteroidSecondsToCrash;
+  const fps = 30;
+  const refreshRateMS = 1000 / fps;
+  const fallDelta = fallSpeed / fps;
+  // console.log(fallDelta);
+  setInterval(() => {
+    moveDown(element, fallDelta);
+  }, refreshRateMS);
 }

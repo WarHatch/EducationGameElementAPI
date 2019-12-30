@@ -14,6 +14,6 @@ const checkTimer = (instanceId: number) => {
 }
 
 export default {
-  startTimer,
   checkTimer,
+  startTimer,
 }
