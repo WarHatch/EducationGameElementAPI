@@ -26,6 +26,8 @@ export const mountClick = (buttonElement: HTMLElement, sessionId: string, timeTr
       reactionTime,
       sessionId,
     })
+    const buttonContainer = buttonElement.parentNode;
+    buttonContainer.parentNode.removeChild(buttonContainer);
   })
 }
 
