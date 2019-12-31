@@ -1,5 +1,6 @@
 import button from "./meteorButton"
 import Axios, { AxiosResponse } from "axios";
+import { ISessionConfig } from "../../../database/models/SessionConfig";
 
 export interface IAnswer {
   _key: string,
@@ -16,10 +17,14 @@ export interface IAsteroidDataSet {
   quizTitle: string,
 }
 
-export default async () => {
+export default async (gameConfig) => {
   const dataQuery: AxiosResponse<IAsteroidDataSet> = await Axios.get("http://localhost:8090/gameElements/cms");
   const { data } = dataQuery;
   const { quizTitle, correctAnswers, incorrectAnswers } = data[0];
+
+  const imageSize = 200;
+  const asteroidXPosition = gameConfig.width - 300 - imageSize/2;
+  const randXPosition = () => Math.floor(Math.random() * asteroidXPosition) + "px";
 
   const correctHTMLElements = correctAnswers.map((answerData) => {
     return {
@@ -27,6 +32,7 @@ export default async () => {
         answerData,
         correct: true,
         quizTitle,
+        xPosition: randXPosition(),
       })
     }
   })
@@ -36,6 +42,7 @@ export default async () => {
         answerData,
         correct: false,
         quizTitle,
+        xPosition: randXPosition(),
       })
     }
   })

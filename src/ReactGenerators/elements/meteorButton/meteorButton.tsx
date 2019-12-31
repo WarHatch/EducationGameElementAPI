@@ -7,12 +7,18 @@ type Props = {
   answerData: IAnswer,
   quizTitle: string,
   correct: boolean,
+  xPosition: string,
 }
 
 const Button = (props: Props) => {
-  const {answerData, quizTitle, correct} = props;
+  const {answerData, quizTitle, correct, xPosition} = props;
+
+  const meteorContainerStyle = {
+    left: xPosition,
+  };
+
   return (
-    <div className="SSRElement SSR-MeteorContainer">
+    <div className="SSRElement SSR-MeteorContainer" style={meteorContainerStyle}>
       <img className="SSR-Meteor" src="http://localhost:8090/meteor.png" />
       <button
         data-type={answerData._type}

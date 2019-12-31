@@ -10,7 +10,7 @@ import htmlToElement from "../helpers/htmlToElement";
 
 import asteroidButtons from "../elements/meteorButton";
 import observeSSRElements from "./observer";
-import { defaultSessionConfig } from "../constants";
+import { defaultSessionConfig, gameDimensions } from "../constants";
 import { ISessionConfig } from "../../database/models/SessionConfig";
 import Axios from "axios";
 
@@ -73,7 +73,7 @@ startSession({
   currentConfig = sessionConfigs[0];
 
   // --- Initial setup
-  const asteroidElements = await asteroidButtons();
+  const asteroidElements = await asteroidButtons(gameDimensions);
   let currentSpawnInterval = applyAsteroidConfig(currentConfig, asteroidElements)
   let currentObserver = observeSSRElements(uuid, currentConfig)
 
