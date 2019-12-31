@@ -37,14 +37,12 @@ export const mountRemoveAfter = (element: HTMLElement, asteroidSecondsToCrash: n
   }, asteroidSecondsToCrash * 1000);
 }
 
-export const mountFalling = (element: HTMLElement, asteroidSecondsToCrash: number) => {
-  console.log(asteroidSecondsToCrash);
-  
+export const mountFalling = (element: HTMLElement, asteroidSecondsToCrash: number) => {  
   const fallSpeed = (gameDimensions.height * 0.8) / asteroidSecondsToCrash;
   const fps = 30;
   const refreshRateMS = 1000 / fps;
   const fallDelta = fallSpeed / fps;
-  // console.log(fallDelta);
+  console.log("fallDelta: " + fallDelta);
   setInterval(() => {
     moveDown(element, fallDelta);
   }, refreshRateMS);
