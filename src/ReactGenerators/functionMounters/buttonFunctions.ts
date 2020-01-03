@@ -1,18 +1,14 @@
 import axios from "axios";
 
 import timeTracker from "../helpers/timeTracker";
-import { gameDimensions } from "../constants";
 
 // Types
 import { IClickDataModel } from "../../database/models/ClickData.d";
+import { asteroid } from "../gameConfigs";
 
 const registerClick = async (data: IClickDataModel) => {
   const res = await axios.post("http://localhost:8090/gameSession/register/buttonClick", data);
   console.log({ sent: data, received: res });
-}
-
-const moveDown = (buttonElement: HTMLElement, moveDownPX: number) => {
-  buttonElement.style.top = (buttonElement.offsetTop + moveDownPX) + "px";
 }
 
 export const mountClick = (buttonElement: HTMLElement, sessionId: string, timeTrackId: number, correct: boolean) => {
@@ -31,19 +27,31 @@ export const mountClick = (buttonElement: HTMLElement, sessionId: string, timeTr
   })
 }
 
-export const mountRemoveAfter = (element: HTMLElement, asteroidSecondsToCrash: number) => {
-  setTimeout(() => {
-    element.parentNode.removeChild(element);
-  }, asteroidSecondsToCrash * 1000);
+const moveDown = (buttonElement: HTMLElement, moveDownPX: number) => {
+  buttonElement.style.top = (buttonElement.offsetTop + moveDownPX) + "px";
+}
+
+const checkAndRemove = (element: HTMLElement) => {
+  try {
+    const topAttr = element.style.top;
+    const topAttrValue = parseInt(topAttr.substr(0, topAttr.length - 2));
+    if (topAttrValue >= asteroid.shieldPositionFromTop - asteroid.meteorSize / 2)
+    {
+      element.parentNode.removeChild(element);
+    }
+  } catch (error) {
+    console.error("Error trying to extract number from element.style.top. Expected px attribute")
+  }
 }
 
 export const mountFalling = (element: HTMLElement, asteroidSecondsToCrash: number) => {  
-  const fallSpeed = (gameDimensions.height * 0.8) / asteroidSecondsToCrash;
+  const fallSpeed = (asteroid.shieldPositionFromTop) / asteroidSecondsToCrash;
   const fps = 30;
   const refreshRateMS = 1000 / fps;
   const fallDelta = fallSpeed / fps;
   console.log("fallDelta: " + fallDelta);
   setInterval(() => {
     moveDown(element, fallDelta);
+    checkAndRemove(element);
   }, refreshRateMS);
 }

@@ -4,8 +4,7 @@ import asteroidButtons from "../../ReactGenerators/elements/meteorButton";
 import endSessionButton from "../../ReactGenerators/elements/endSessionButton";
 import sessionIdText from "../../ReactGenerators/elements/sessionIdText";
 import questionElement from "../../ReactGenerators/elements/question";
-import shieldElement from "../../ReactGenerators/elements/shieldImage";
-import { gameDimensions } from "../../ReactGenerators/constants";
+import { gameDimensions } from "../../ReactGenerators/canvasConfigs";
 
 const router = Router();
 

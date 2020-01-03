@@ -12,11 +12,12 @@ import htmlToElement from "../helpers/htmlToElement";
 
 import asteroidButtons from "../elements/meteorButton";
 import observeSSRElements from "./observer";
-import { defaultSessionConfig, gameDimensions } from "../constants";
+import { gameDimensions } from "../canvasConfigs";
 import { ISessionConfig } from "../../database/models/SessionConfig";
 import Axios from "axios";
 import sessionIdText from "../elements/sessionIdText";
 import shieldImage from "../elements/shieldImage";
+import { asteroid } from "../gameConfigs";
 
 interface IAsteroidElements {
   correctHTMLElements,
@@ -69,7 +70,7 @@ startSession({
 
   sessionConfigs: [{
     sessionId: uuid,
-    ...defaultSessionConfig,
+    ...asteroid.defaultSessionConfig
   }]
 }).then(async (session) => {
   const { sessionConfigs } = session;

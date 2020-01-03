@@ -1,3 +1,10 @@
 export const asteroid = {
-  shieldPositionFromTop: 640 + "px",
+  defaultSessionConfig: {
+    asteroidSecondsToCrash: 8,
+    asteroidSpawnPerMinute: 30,
+  },
+
+  meteorSize: 227,
+  shieldPositionFromTop: 640,
+
 }

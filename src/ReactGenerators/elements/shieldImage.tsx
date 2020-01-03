@@ -4,7 +4,7 @@ import { asteroid } from "../gameConfigs";
 
 const ShieldImage = () => {
   const style = {
-    top: asteroid.shieldPositionFromTop,
+    top: asteroid.shieldPositionFromTop + "px",
   }
 
   return (

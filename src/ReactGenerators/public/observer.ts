@@ -22,7 +22,6 @@ export default (uuid: string, config: ISessionConfig) => {
 
           if (newNode.classList.contains("SSR-MeteorContainer")) {
             const { asteroidSecondsToCrash } = config;
-            buttonFuncMount.mountRemoveAfter(ssrElement, asteroidSecondsToCrash);
             buttonFuncMount.mountFalling(ssrElement, asteroidSecondsToCrash);
 
             const insideButton = newNode.getElementsByTagName("button")[0];
