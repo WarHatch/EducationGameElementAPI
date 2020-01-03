@@ -2,8 +2,10 @@ console.log("server script received");
 
 import { v1 } from "uuid";
 
-// CSS needs to be imported to be bundled
+// Assets need to be imported to be bundled
 import "./gameElementsStylesheet.css"
+import "./assets/meteor.png"
+import "./assets/shield_line.png"
 
 import { startSession } from "../helpers/sessionManager";
 import htmlToElement from "../helpers/htmlToElement";
@@ -14,6 +16,7 @@ import { defaultSessionConfig, gameDimensions } from "../constants";
 import { ISessionConfig } from "../../database/models/SessionConfig";
 import Axios from "axios";
 import sessionIdText from "../elements/sessionIdText";
+import shieldImage from "../elements/shieldImage";
 
 interface IAsteroidElements {
   correctHTMLElements,
@@ -83,6 +86,12 @@ startSession({
     // FIXME: adding elements based on loose logic
     .getElementsByTagName("div")[0]
     .appendChild(htmlToElement(sessionIdText()));
+  // add sessionIdElement
+  document.getElementById("game")
+    // FIXME: adding elements based on loose logic
+    .getElementsByTagName("div")[0]
+    .appendChild(htmlToElement(shieldImage()));
+    
 
 
   // --- Periodically check for config changes

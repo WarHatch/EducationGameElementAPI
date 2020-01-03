@@ -4,6 +4,7 @@ import asteroidButtons from "../../ReactGenerators/elements/meteorButton";
 import endSessionButton from "../../ReactGenerators/elements/endSessionButton";
 import sessionIdText from "../../ReactGenerators/elements/sessionIdText";
 import questionElement from "../../ReactGenerators/elements/question";
+import shieldElement from "../../ReactGenerators/elements/shieldImage";
 import { gameDimensions } from "../../ReactGenerators/constants";
 
 const router = Router();
@@ -19,6 +20,7 @@ router.get("/dataSet", async (req, res) => {
     html: sessionIdText()
   }
 
+  // TODO: rename to gameTypeData
   const gameElementsDataSet = {
     gameElements: {
       endSessionHTML,

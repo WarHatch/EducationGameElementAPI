@@ -10,7 +10,6 @@
 .SSR-MeteorContainer {
   /* To allow free movement */
   position: absolute;
-
   /* Dev styling */
   border: solid;
   border-color: tomato;
@@ -29,17 +28,15 @@
   left: 50%;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
-
   padding: 15px 32px;
-  background-color: #4CAF50; /* Green */
+  background-color: #4CAF50;
+  /* Green */
   border: none;
   color: white;
   text-shadow: 2px 2px #000000;
   text-align: center;
-
   /* FIX for inhereting `pointer-events: none` from div */
   pointer-events: auto;
-
   animation-name: spectrum;
   animation-duration: 10s;
 }
@@ -49,11 +46,15 @@
 } */
 
 @keyframes spectrum {
-  from {background-color: red;}
-  to {background-color: yellow;}
+  from {
+    background-color: red;
+  }
+  to {
+    background-color: yellow;
+  }
 }
 
-.SSR-QuestionContainer{
+.SSR-QuestionContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -64,4 +65,12 @@
   height: 768px;
   width: 300px;
   background-color: thistle;
+}
+
+.SSR-Shield {
+  position: absolute;
+  /* Top-left anchor */
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  width: 780px;
 }
