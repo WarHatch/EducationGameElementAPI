@@ -13,6 +13,7 @@ import observeSSRElements from "./observer";
 import { defaultSessionConfig, gameDimensions } from "../constants";
 import { ISessionConfig } from "../../database/models/SessionConfig";
 import Axios from "axios";
+import sessionIdText from "../elements/sessionIdText";
 
 interface IAsteroidElements {
   correctHTMLElements,
@@ -77,7 +78,12 @@ startSession({
   let currentSpawnInterval = applyAsteroidConfig(currentConfig, asteroidElements)
   let currentObserver = observeSSRElements(uuid, currentConfig)
 
-  // spawnAsteroid(asteroidElements);
+  // add sessionIdElement
+  document.getElementById("game")
+    // FIXME: adding elements based on loose logic
+    .getElementsByTagName("div")[0]
+    .appendChild(htmlToElement(sessionIdText()));
+
 
   // --- Periodically check for config changes
   const configRefreshInterval = 1000;
