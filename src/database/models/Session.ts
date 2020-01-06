@@ -2,10 +2,13 @@ const Session = (sequelize, type) => {
   return sequelize.define("session", {
     sessionId: {
       type: type.UUID,
+
       primaryKey: true,
     },
+
     finishedAt: {
       type: type.DATE,
+
       allowNull: true,
     }
   })
