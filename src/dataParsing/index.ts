@@ -1,7 +1,7 @@
 
 
 // Types
-import { IClickDataModel } from "../database/models/ClickData.d";
+import { IClickDataModel } from "../database/models/ClickData";
 
 export const countPercentCorrect = (sessionData: IClickDataModel[]) => {
   const dataEntryCount = sessionData.length;

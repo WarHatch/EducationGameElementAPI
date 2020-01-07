@@ -6,7 +6,6 @@ export interface ISessionConfig extends ISeqModel {
   asteroidSecondsToCrash: number,
 }
 
-// tslint:disable: object-literal-sort-keys
 export default (sequelize, type) => {
   return sequelize.define("sessionConfig", {
     id: {

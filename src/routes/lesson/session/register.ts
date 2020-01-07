@@ -1,9 +1,9 @@
 import { Router } from "express";
-import SeqDataModels from "../../database/sequelize"; 
+import SeqDataModels from "../../../database/sequelize"; 
 
 // Types
-import { IClickDataModel } from "../../database/models/ClickData.d";
-import { ISession } from "../../database/models/Session.d";
+import { IClickDataModel } from "../../../database/models/ClickData";
+import { ISession } from "../../../database/models/Session";
 
 const router = Router();
 
@@ -19,6 +19,7 @@ router.post("/register", async (req, res) => {
     const createdSession = await SeqDataModels.Session.findOne(
       {
         where: { sessionId: startData.sessionId },
+
         include: [
           { model: SeqDataModels.SessionConfig }
         ]

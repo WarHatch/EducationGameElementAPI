@@ -1,10 +1,9 @@
 import { Router } from "express";
-import SeqDataModels from "../../database/sequelize";
-import { countAverageReactionTime, countPercentCorrect } from "../../dataParsing";
+import SeqDataModels from "../../../database/sequelize";
+import { countAverageReactionTime, countPercentCorrect } from "../../../dataParsing";
 
 // Types
-import { IClickDataModel } from "../../database/models/ClickData.d";
-import { ISession } from "../../database/models/Session.d";
+import { ISession } from "../../../database/models/Session";
 
 export type ISessionDataRequestModel = {
   sessionId: string,
@@ -21,6 +20,7 @@ router.post("/data", async (req, res) => {
       where: {
         sessionId
       },
+
       include: [
         { model: SeqDataModels.ClickData }
       ]
@@ -29,16 +29,16 @@ router.post("/data", async (req, res) => {
 
     const { correctPercentage, incorrectPercentage } = countPercentCorrect(clickData);
     const responseBody = {
-      fullData: dbData,
       averageReactionTime: countAverageReactionTime(clickData),
       correctPercentage,
+      fullData: dbData,
       incorrectPercentage,
     }
     res.status(200).json(responseBody);
   } catch (error) {
     res.status(400).json({
-      message: "Error while trying to fetch data",
       error: error,
+      message: "Error while trying to fetch data",
     });
     return
   }

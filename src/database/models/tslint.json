@@ -1,0 +1,18 @@
+{
+    "defaultSeverity": "warning",
+    "extends": [],
+    "jsRules": {},
+    "rules": {
+        "only-arrow-functions": true,
+        "no-require-imports": true,
+        "quotemark": [
+            true,
+            "double",
+            "avoid-template"
+        ],
+        "object-literal-sort-keys": [
+            false
+        ]
+    },
+    "rulesDirectory": []
+}

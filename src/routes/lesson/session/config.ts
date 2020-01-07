@@ -1,11 +1,11 @@
 // tslint:disable: object-literal-sort-keys
 
 import { Router } from "express";
-import SeqDataModels from "../../database/sequelize";
+import SeqDataModels from "../../../database/sequelize";
 
-// Types
-import { ISession } from "../../database/models/Session.d";
-import { ISessionConfig } from "../../database/models/SessionConfig";
+// Types  
+import { ISession } from "../../../database/models/Session";
+import { ISessionConfig } from "../../../database/models/SessionConfig";
 
 export type ISessionDataRequestModel = {
   sessionId: string,

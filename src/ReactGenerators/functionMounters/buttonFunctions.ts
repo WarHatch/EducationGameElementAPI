@@ -3,7 +3,7 @@ import axios from "axios";
 import timeTracker from "../helpers/timeTracker";
 
 // Types
-import { IClickDataModel } from "../../database/models/ClickData.d";
+import { IClickDataModel } from "../../database/models/ClickData";
 import { asteroid } from "../gameConfigs";
 
 const registerClick = async (data: IClickDataModel) => {

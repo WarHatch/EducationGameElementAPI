@@ -5,7 +5,6 @@ export interface ILesson extends ISeqModel {
   gameTypeJSON: string,
 }
 
-// tslint:disable: object-literal-sort-keys
 const Lesson = (sequelize, type) => {
   return sequelize.define("lesson", {
     id: {

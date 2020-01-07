@@ -1,3 +1,14 @@
+import { ISeqModel } from "../sequelize.d"
+import { IClickDataModel } from "./ClickData";
+import { ISessionConfig } from "./SessionConfig";
+
+export interface ISession extends ISeqModel {
+  sessionId: string,
+  finishedAt: string | null,
+  clickData?: IClickDataModel[],
+  sessionConfigs?: ISessionConfig[],
+}
+
 const Session = (sequelize, type) => {
   return sequelize.define("session", {
     sessionId: {
