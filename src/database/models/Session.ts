@@ -7,6 +7,7 @@ export interface ISession extends ISeqModel {
   finishedAt: string | null,
   clickData?: IClickDataModel[],
   sessionConfigs?: ISessionConfig[],
+  lessonId: string,
 }
 
 const Session = (sequelize, type) => {

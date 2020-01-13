@@ -1,5 +1,5 @@
 import Axios, { AxiosResponse } from "axios"
-import { ISession } from "../../database/models/Session.d";
+import { ISession } from "../../database/models/Session";
 
 export const startSession = async(data: ISession) => {
   const res: AxiosResponse<ISession> = await Axios.post("http://localhost:8090/gameSession/register", data);
