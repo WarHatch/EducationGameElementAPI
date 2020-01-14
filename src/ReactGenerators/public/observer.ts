@@ -47,7 +47,7 @@ export default (uuid: string, config: ISessionConfig) => {
   });
 
   const targetNode = document.getElementById("game")
-  if (!targetNode) console.error("observe target node not found");
+  if (targetNode === null) throw new Error("observe target node not found");
   observer.observe(targetNode, observerOptions);
 
   return observer;

@@ -26,7 +26,7 @@ router.post("/data", async (req, res) => {
       ]
     });
     const { clickData }: ISession = dbData;
-
+    if (clickData === undefined) throw new Error("dbData.clickData is undefined");
     const { correctPercentage, incorrectPercentage } = countPercentCorrect(clickData);
     const responseBody = {
       averageReactionTime: countAverageReactionTime(clickData),

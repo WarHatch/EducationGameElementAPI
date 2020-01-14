@@ -11,6 +11,7 @@ router.post("/register", async (req, res) => {
   const startData: ISession = req.body;
   console.log("Received start session data:");
   console.log(startData);
+  if (startData.sessionConfigs === undefined) throw new Error("req.body.sessionConfigs is undefined");
 
   try {
     await SeqDataModels.Session.upsert(startData);

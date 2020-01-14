@@ -1,5 +1,5 @@
 let instanceCount = 0;
-const timerStarts = [];
+const timerStarts: Date[] = [];
 
 const startTimer = () => {
   timerStarts[instanceCount] = new Date();

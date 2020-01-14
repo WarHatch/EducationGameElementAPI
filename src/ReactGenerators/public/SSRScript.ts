@@ -1,7 +1,5 @@
 console.log("server script received");
 
-import { v1 } from "uuid";
-
 // Assets need to be imported to be bundled
 import "./gameElementsStylesheet.css"
 import "./assets/meteor.png"
@@ -15,13 +13,19 @@ import observeSSRElements from "./observer";
 import { gameDimensions } from "../canvasConfigs";
 import { ISessionConfig } from "../../database/models/SessionConfig";
 import Axios from "axios";
-import sessionIdText from "../elements/sessionIdText";
 import shieldImage from "../elements/shieldImage";
 import { asteroid } from "../gameConfigs";
+import { ISession } from "../../database/models/Session";
 
 interface IAsteroidElements {
   correctHTMLElements,
   incorrectHTMLElements
+}
+
+const appendToCanvas = (element: ChildNode) => {
+  // FIXME: adding elements based on loose logic
+  const gameCanvas = document.getElementsByClassName("canvas")[0];
+  gameCanvas.appendChild(element);
 }
 
 const spawnAsteroid = ({
@@ -40,17 +44,14 @@ const spawnAsteroid = ({
   }
   const newNode = htmlToElement(htmlElementToSpawn);
 
-  document.getElementById("game")
-  // FIXME: adding elements based on loose logic
-  .getElementsByTagName("div")[0]
-    .appendChild(newNode);
+  appendToCanvas(newNode);
 }
 
 const applyAsteroidConfig = (
   config: ISessionConfig,
   asteroidButtons: IAsteroidElements
 ) => {
-  const { asteroidSpawnPerMinute } = config;
+  const { asteroidSpawnPerMinute } = config; //FIXME: config is undefined
 
   const spawnTimeout = 60 * 1000 / asteroidSpawnPerMinute;
   const intervalSpawn = setInterval(() => {
@@ -60,52 +61,35 @@ const applyAsteroidConfig = (
   return intervalSpawn;
 }
 
-let currentConfig: ISessionConfig = undefined;
 
-const uuid = v1();
+//@ts-ignore
+if (!!(window.session) === false) {
+  throw new Error("window.session is falsy");
+}
+//@ts-ignore handled above
+const session: ISession = window.session;
+const { sessionId } = session;
+//@ts-ignore 
+let currentConfig: ISessionConfig = session.sessionConfigs[0];
 
-startSession({
-  finishedAt: null,
-  sessionId: uuid,
-
-  sessionConfigs: [{
-    sessionId: uuid,
-    ...asteroid.defaultSessionConfig
-  }]
-}).then(async (session) => {
-  const { sessionConfigs } = session;
-  // assumes only 1 config was created
-  currentConfig = sessionConfigs[0];
-
-  // --- Initial setup
-  const asteroidElements = await asteroidButtons(gameDimensions);
+// --- Initial setup
+// const asteroidElements = await asteroidButtons(gameDimensions);
+asteroidButtons(gameDimensions).then((asteroidElements) => {
   let currentSpawnInterval = applyAsteroidConfig(currentConfig, asteroidElements)
-  let currentObserver = observeSSRElements(uuid, currentConfig)
+  let currentObserver = observeSSRElements(sessionId, currentConfig)
 
-  // add sessionIdElement
-  document.getElementById("game")
-    // FIXME: adding elements based on loose logic
-    .getElementsByTagName("div")[0]
-    .appendChild(htmlToElement(sessionIdText()));
-  // add sessionIdElement
-  document.getElementById("game")
-    // FIXME: adding elements based on loose logic
-    .getElementsByTagName("div")[0]
-    .appendChild(htmlToElement(shieldImage()));
-    
-
+  appendToCanvas(htmlToElement(shieldImage()));
 
   // --- Periodically check for config changes
   const configRefreshInterval = 1000;
   setInterval(async () => {
     // get new config
     const configResponse = await Axios.post("http://localhost:8090/gameSession/config",
-      { sessionId: uuid }
+      { sessionId }
     );
     const receivedConfig = configResponse.data;
     // if received different config DTO than the current
-    if (JSON.stringify(currentConfig) !== JSON.stringify(receivedConfig))
-    {
+    if (JSON.stringify(currentConfig) !== JSON.stringify(receivedConfig)) {
       currentConfig = receivedConfig;
       // remove old intervals
       clearInterval(currentSpawnInterval);
@@ -115,7 +99,7 @@ startSession({
       // Disconnect old observer
       currentObserver.disconnect();
       // Setup SSR element observer with new config
-      currentObserver = observeSSRElements(uuid, currentConfig)
+      currentObserver = observeSSRElements(sessionId, currentConfig)
     }
   }, configRefreshInterval)
 });

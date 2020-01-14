@@ -32,6 +32,7 @@ router.post("/config", async (req, res) => {
       ]
     });
     const { sessionConfigs }: ISession = dbData;
+    if (sessionConfigs === undefined) throw new Error("dbData.sessionConfigs is undefined");
     
     res.status(200).json(sessionConfigs[0]);
   } catch (error) {

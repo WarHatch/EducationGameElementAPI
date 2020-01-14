@@ -13,6 +13,7 @@ const registerClick = async (data: IClickDataModel) => {
 
 export const mountClick = (buttonElement: HTMLElement, sessionId: string, timeTrackId: number, correct: boolean) => {
   const question = buttonElement.getAttribute("data-question");
+  if (question === null) throw new Error("buttonElement.getAttribute('data-question') is not defined");
 
   buttonElement.addEventListener("click", () => {
     const reactionTime = timeTracker.checkTimer(timeTrackId)
@@ -23,7 +24,7 @@ export const mountClick = (buttonElement: HTMLElement, sessionId: string, timeTr
       sessionId,
     })
     const buttonContainer = buttonElement.parentNode;
-    buttonContainer.parentNode.removeChild(buttonContainer);
+    buttonContainer?.parentNode?.removeChild(buttonContainer);
   })
 }
 
@@ -37,7 +38,7 @@ const checkAndRemove = (element: HTMLElement) => {
     const topAttrValue = parseInt(topAttr.substr(0, topAttr.length - 2));
     if (topAttrValue >= asteroid.shieldPositionFromTop - asteroid.meteorSize / 2)
     {
-      element.parentNode.removeChild(element);
+      element.parentNode?.removeChild(element);
     }
   } catch (error) {
     console.error("Error trying to extract number from element.style.top. Expected px attribute")
