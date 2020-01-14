@@ -30,5 +30,6 @@ export default (sequelize, type, hasMany: { [key: string]: any }) => {
   const SessionModel = Session(sequelize, type);
   SessionModel.hasMany(hasMany.ClickData, { foreignKey: "sessionId" })
   SessionModel.hasMany(hasMany.SessionConfig, { foreignKey: "sessionId" })
+  
   return SessionModel
 }

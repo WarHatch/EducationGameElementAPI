@@ -69,8 +69,12 @@ if (!!(window.session) === false) {
 //@ts-ignore handled above
 const session: ISession = window.session;
 const { sessionId } = session;
-//@ts-ignore 
+console.log(session);
+//@ts-ignore handled below 
 let currentConfig: ISessionConfig = session.sessionConfigs[0];
+if (currentConfig === undefined) {
+  throw new Error("sessionConfig is undefined");
+}
 
 // --- Initial setup
 // const asteroidElements = await asteroidButtons(gameDimensions);
