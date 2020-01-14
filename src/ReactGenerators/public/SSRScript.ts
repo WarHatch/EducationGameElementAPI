@@ -23,8 +23,11 @@ interface IAsteroidElements {
 }
 
 const appendToCanvas = (element: ChildNode) => {
+  const gameElement = document.querySelector("#game");
   // FIXME: adding elements based on loose logic
-  const gameCanvas = document.getElementsByClassName("canvas")[0];
+  // @ts-ignore
+  const gameCanvas = gameElement.lastChild
+  // @ts-ignore
   gameCanvas.appendChild(element);
 }
 
@@ -51,7 +54,7 @@ const applyAsteroidConfig = (
   config: ISessionConfig,
   asteroidButtons: IAsteroidElements
 ) => {
-  const { asteroidSpawnPerMinute } = config; //FIXME: config is undefined
+  const { asteroidSpawnPerMinute } = config;
 
   const spawnTimeout = 60 * 1000 / asteroidSpawnPerMinute;
   const intervalSpawn = setInterval(() => {
