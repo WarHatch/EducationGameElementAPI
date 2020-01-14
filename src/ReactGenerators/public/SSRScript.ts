@@ -71,7 +71,7 @@ if (!!(window.session) === false) {
 }
 //@ts-ignore handled above
 const session: ISession = window.session;
-const { sessionId } = session;
+const { sessionId, lessonId } = session;
 console.log(session);
 //@ts-ignore handled below 
 let currentConfig: ISessionConfig = session.sessionConfigs[0];
@@ -91,7 +91,7 @@ asteroidButtons(gameDimensions).then((asteroidElements) => {
   const configRefreshInterval = 1000;
   setInterval(async () => {
     // get new config
-    const configResponse = await Axios.post("http://localhost:8090/gameSession/config",
+    const configResponse = await Axios.post(`http://localhost:8090/lesson/${lessonId}/session/config`,
       { sessionId }
     );
     const receivedConfig = configResponse.data;
