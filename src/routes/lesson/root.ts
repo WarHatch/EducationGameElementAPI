@@ -29,6 +29,7 @@ router.post("/new", async (req, res) => {
 
     res.status(200).json(lesson);
   } catch (error) {
+    console.log(error);
     const duplicateLesson = await SeqDataModels.Lesson.findOne({
       where: {
         id
@@ -41,6 +42,32 @@ router.post("/new", async (req, res) => {
         message: "Lesson with that id already exists",
       });
     }
+    return res.status(400).json(error);
+  }
+});
+
+router.post("/", async (req, res) => {
+  const { body } = req;
+  const { id, teacherId, gameType } = body;
+
+  const lessonQuery = {
+    id,
+    teacherId,
+  }
+  try {
+    const lesson: ILesson = await SeqDataModels.Lesson.findOne({
+      where: lessonQuery,
+      // include: [
+      //   { model: SeqDataModels.Session }
+      // ]
+      // order: [
+      //   [SeqDataModels.Session, "createdAt", "DESC"],
+      // ]
+    });
+
+    res.status(200).json(lesson);
+  } catch (error) {
+    console.log(error);
     return res.status(400).json(error);
   }
 });
