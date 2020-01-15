@@ -6,17 +6,20 @@ type IEndSessionData = {
   finishedAt: Date,
 }
 
-const endSessionClick = async (data: IEndSessionData) => {
-  const res = await axios.post("http://localhost:8090/gameSession/register/end", data);
+const endSessionClick = async (lessonId: string, data: IEndSessionData) => {
+  const res = await axios.post(`http://localhost:8090/lesson/${lessonId}/session/register/end`, data);
   console.log({ sent: data, received: res });
 }
 
-export const mountClick = (buttonElement: HTMLElement, sessionId: string) => {
+export const mountClick = (buttonElement: HTMLElement, sessionId: string, lessonId: string) => {
   buttonElement.addEventListener("click", () => {
     const now = new Date();
-    endSessionClick({
-      finishedAt: now,
-      sessionId,
-    })
+    endSessionClick(
+      lessonId,
+      {
+        finishedAt: now,
+        sessionId,
+      },
+    )
   })
 }

@@ -9,7 +9,7 @@ const observerOptions = {
   subtree: true //Omit or set to false to observe only changes to the parent node.
 };
 
-export default (uuid: string, config: ISessionConfig) => {
+export default (sessionId: string, config: ISessionConfig, lessonId: string) => {
   let observer = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
       console.log("Mutation Detected: ");
@@ -29,17 +29,17 @@ export default (uuid: string, config: ISessionConfig) => {
               const timeTrackId = timeTracker.startTimer();
 
               if (insideButton.getAttribute("data-correct") === "true") {
-                buttonFuncMount.mountClick(insideButton, uuid, timeTrackId, true);
+                buttonFuncMount.mountClick(insideButton, sessionId, timeTrackId, true, lessonId);
               } else {
-                buttonFuncMount.mountClick(insideButton, uuid, timeTrackId, false);
+                buttonFuncMount.mountClick(insideButton, sessionId, timeTrackId, false, lessonId);
               }
             }
           }
           else if (newNode.getAttribute("data-type") === "end-button") {
-            endFuncMount.mountClick(ssrElement, uuid)
+            endFuncMount.mountClick(ssrElement, sessionId, lessonId)
           }
           else if (newNode.getAttribute("data-type") === "sessionId-text") {
-            newNode.innerText = "session Id: " + uuid;
+            newNode.innerText = "session Id: " + sessionId;
           }
         }
       });

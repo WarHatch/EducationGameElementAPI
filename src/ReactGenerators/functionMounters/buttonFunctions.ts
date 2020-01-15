@@ -6,23 +6,32 @@ import timeTracker from "../timeTracker";
 import { IClickDataModel } from "../../database/models/ClickData";
 import { asteroid } from "../configs/gameConfigs";
 
-const registerClick = async (data: IClickDataModel) => {
-  const res = await axios.post("http://localhost:8090/gameSession/register/buttonClick", data);
+const registerClick = async (data: IClickDataModel, lessonId: string) => {
+  const res = await axios.post(`http://localhost:8090/lesson/${lessonId}/session/register/buttonClick`, data);
   console.log({ sent: data, received: res });
 }
 
-export const mountClick = (buttonElement: HTMLElement, sessionId: string, timeTrackId: number, correct: boolean) => {
+export const mountClick = (
+  buttonElement: HTMLElement,
+  sessionId: string,
+  timeTrackId: number,
+  correct: boolean,
+  lessonId: string,
+) => {
   const question = buttonElement.getAttribute("data-question");
   if (question === null) throw new Error("buttonElement.getAttribute('data-question') is not defined");
 
   buttonElement.addEventListener("click", () => {
     const reactionTime = timeTracker.checkTimer(timeTrackId)
-    registerClick({
-      correct,
-      question,
-      reactionTime,
-      sessionId,
-    })
+    registerClick(
+      {
+        correct,
+        question,
+        reactionTime,
+        sessionId,
+      },
+      lessonId
+    );
     const buttonContainer = buttonElement.parentNode;
     buttonContainer?.parentNode?.removeChild(buttonContainer);
   })
@@ -36,8 +45,7 @@ const checkAndRemove = (element: HTMLElement) => {
   try {
     const topAttr = element.style.top;
     const distanceDescended = parseInt(topAttr.substr(0, topAttr.length - 2));
-    if (distanceDescended >= asteroid.shieldPositionFromTop - asteroid.meteorSize / 4)
-    {
+    if (distanceDescended >= asteroid.shieldPositionFromTop - asteroid.meteorSize / 4) {
       element.parentNode?.removeChild(element);
     }
   } catch (error) {
@@ -45,7 +53,7 @@ const checkAndRemove = (element: HTMLElement) => {
   }
 }
 
-export const mountFalling = (element: HTMLElement, asteroidSecondsToCrash: number) => {  
+export const mountFalling = (element: HTMLElement, asteroidSecondsToCrash: number) => {
   const fallSpeed = (asteroid.shieldPositionFromTop) / asteroidSecondsToCrash;
   const fps = 30;
   const refreshRateMS = 1000 / fps;

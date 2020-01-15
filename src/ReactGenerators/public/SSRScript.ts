@@ -82,7 +82,7 @@ if (currentConfig === undefined) {
 // const asteroidElements = await asteroidButtons(gameDimensions);
 asteroidButtons(canvasDimensions).then((asteroidElements) => {
   let currentSpawnInterval = applyAsteroidConfig(currentConfig, asteroidElements)
-  let currentObserver = observeSSRElements(sessionId, currentConfig)
+  let currentObserver = observeSSRElements(sessionId, currentConfig, lessonId)
 
   appendToGame(htmlToElement(shieldImage()));
 
@@ -105,7 +105,7 @@ asteroidButtons(canvasDimensions).then((asteroidElements) => {
       // Disconnect old observer
       currentObserver.disconnect();
       // Setup SSR element observer with new config
-      currentObserver = observeSSRElements(sessionId, currentConfig)
+      currentObserver = observeSSRElements(sessionId, currentConfig, lessonId)
     }
   }, configRefreshInterval)
 });
