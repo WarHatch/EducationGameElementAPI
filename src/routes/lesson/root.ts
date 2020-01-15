@@ -25,16 +25,23 @@ router.post("/new", async (req, res) => {
     gameTypeJSON: JSON.stringify(gameType)
   }
   try {
-    const dbData = SeqDataModels.Lesson.create(lessonCreateData);
-    const lesson: ILesson = await dbData;
+    const lesson: ILesson = await SeqDataModels.Lesson.create(lessonCreateData);
 
     res.status(200).json(lesson);
   } catch (error) {
-    res.status(400).json({
-      error: error,
-      message: "Error while trying to fetch data",
+    const duplicateLesson = await SeqDataModels.Lesson.findOne({
+      where: {
+        id
+      }
     });
-    return
+    if (duplicateLesson) {
+      // TODO: unsure how to set status code and maintain message - https://stackoverflow.com/questions/14154337/how-to-send-a-custom-http-status-message-in-node-express
+      return res.json({
+        error,
+        message: "Lesson with that id already exists",
+      });
+    }
+    return res.status(400).json(error);
   }
 });
 
