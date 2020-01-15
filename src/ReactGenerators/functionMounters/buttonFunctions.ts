@@ -4,7 +4,7 @@ import timeTracker from "../timeTracker";
 
 // Types
 import { IClickDataModel } from "../../database/models/ClickData";
-import { asteroid } from "../gameConfigs";
+import { asteroid } from "../configs/gameConfigs";
 
 const registerClick = async (data: IClickDataModel) => {
   const res = await axios.post("http://localhost:8090/gameSession/register/buttonClick", data);
@@ -35,8 +35,8 @@ const moveDown = (buttonElement: HTMLElement, moveDownPX: number) => {
 const checkAndRemove = (element: HTMLElement) => {
   try {
     const topAttr = element.style.top;
-    const topAttrValue = parseInt(topAttr.substr(0, topAttr.length - 2));
-    if (topAttrValue >= asteroid.shieldPositionFromTop - asteroid.meteorSize / 2)
+    const distanceDescended = parseInt(topAttr.substr(0, topAttr.length - 2));
+    if (distanceDescended >= asteroid.shieldPositionFromTop - asteroid.meteorSize / 4)
     {
       element.parentNode?.removeChild(element);
     }

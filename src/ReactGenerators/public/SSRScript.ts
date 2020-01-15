@@ -7,15 +7,15 @@ import "./assets/shield_line.png"
 
 
 import Axios from "axios";
-import asteroidButtons from "../elements/meteorButton";
 import observeSSRElements from "./code/observer";
 import htmlToElement from "./code/htmlToElement";
-import { gameDimensions } from "../canvasConfigs";
-import { ISessionConfig } from "../../database/models/SessionConfig";
+import { canvasDimensions } from "../configs/canvasConfigs";
+
+import asteroidButtons from "../elements/meteorButton";
 import shieldImage from "../elements/shieldImage";
-import { asteroid } from "../gameConfigs";
 
 import { ISession } from "../../database/models/Session";
+import { ISessionConfig } from "../../database/models/SessionConfig";
 
 interface IAsteroidElements {
   correctHTMLElements,
@@ -80,7 +80,7 @@ if (currentConfig === undefined) {
 
 // --- Initial setup
 // const asteroidElements = await asteroidButtons(gameDimensions);
-asteroidButtons(gameDimensions).then((asteroidElements) => {
+asteroidButtons(canvasDimensions).then((asteroidElements) => {
   let currentSpawnInterval = applyAsteroidConfig(currentConfig, asteroidElements)
   let currentObserver = observeSSRElements(sessionId, currentConfig)
 

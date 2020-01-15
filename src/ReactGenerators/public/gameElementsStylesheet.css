@@ -68,9 +68,6 @@
 }
 
 .SSR-Shield {
-  position: absolute;
-  /* Top-left anchor */
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
   width: 780px;
+  /* ...inline style in shieldImage.tsx */
 }

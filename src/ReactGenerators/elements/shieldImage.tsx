@@ -1,9 +1,10 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import ReactDOMServer from "react-dom/server";
-import { asteroid } from "../gameConfigs";
+import { asteroid } from "../configs/gameConfigs";
 
 const ShieldImage = () => {
-  const style = {
+  const style: CSSProperties = {
+    position: "absolute",
     top: asteroid.shieldPositionFromTop + "px",
   }
 

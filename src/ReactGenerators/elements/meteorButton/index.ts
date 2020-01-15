@@ -22,8 +22,9 @@ export default async (gameConfig) => {
   const { data } = dataQuery;
   const { quizTitle, correctAnswers, incorrectAnswers } = data[0];
 
+  const instructionSize = 300;
   const imageSize = 200;
-  const asteroidXPosition = gameConfig.width - 300 - imageSize/2;
+  const asteroidXPosition = gameConfig.width - instructionSize - imageSize/2;
   const randXPosition = () => Math.floor(Math.random() * asteroidXPosition) + "px";
 
   const correctHTMLElements = correctAnswers.map((answerData) => {

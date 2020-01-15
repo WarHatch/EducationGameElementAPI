@@ -4,13 +4,13 @@ import asteroidButtons from "../../ReactGenerators/elements/meteorButton";
 import endSessionButton from "../../ReactGenerators/elements/endSessionButton";
 import sessionIdText from "../../ReactGenerators/elements/sessionIdText";
 import questionElement from "../../ReactGenerators/elements/question";
-import { gameDimensions } from "../../ReactGenerators/canvasConfigs";
+import { canvasDimensions } from "../../ReactGenerators/configs/canvasConfigs";
 
 const router = Router();
 
 router.get("/dataSet", async (req, res) => {
   const questionHTMLPromise = questionElement();
-  const { correctHTMLElements, incorrectHTMLElements } = await asteroidButtons(gameDimensions);
+  const { correctHTMLElements, incorrectHTMLElements } = await asteroidButtons(canvasDimensions);
 
   const endSessionHTML = {
     html: endSessionButton()
