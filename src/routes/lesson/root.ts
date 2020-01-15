@@ -36,7 +36,7 @@ router.post("/new", async (req, res) => {
       }
     });
     if (duplicateLesson) {
-      // TODO: unsure how to set status code and maintain message - https://stackoverflow.com/questions/14154337/how-to-send-a-custom-http-status-message-in-node-express
+      // TODO: https://stackoverflow.com/questions/14154337/how-to-send-a-custom-http-status-message-in-node-express
       return res.json({
         error,
         message: "Lesson with that id already exists",
@@ -57,12 +57,12 @@ router.post("/", async (req, res) => {
   try {
     const lesson: ILesson = await SeqDataModels.Lesson.findOne({
       where: lessonQuery,
-      // include: [
-      //   { model: SeqDataModels.Session }
-      // ]
-      // order: [
-      //   [SeqDataModels.Session, "createdAt", "DESC"],
-      // ]
+      include: [
+        { model: SeqDataModels.Session }
+      ],
+      order: [
+        [SeqDataModels.Session, "createdAt", "DESC"],
+      ]
     });
 
     res.status(200).json(lesson);

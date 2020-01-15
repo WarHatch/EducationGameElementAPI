@@ -9,9 +9,6 @@
             true,
             "double",
             "avoid-template"
-        ],
-        "object-literal-sort-keys": [
-            true
         ]
     },
     "rulesDirectory": []
