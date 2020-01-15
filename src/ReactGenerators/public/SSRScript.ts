@@ -5,16 +5,16 @@ import "./gameElementsStylesheet.css"
 import "./assets/meteor.png"
 import "./assets/shield_line.png"
 
-import { startSession } from "../helpers/sessionManager";
-import htmlToElement from "../helpers/htmlToElement";
 
+import Axios from "axios";
 import asteroidButtons from "../elements/meteorButton";
-import observeSSRElements from "./observer";
+import observeSSRElements from "./code/observer";
+import htmlToElement from "./code/htmlToElement";
 import { gameDimensions } from "../canvasConfigs";
 import { ISessionConfig } from "../../database/models/SessionConfig";
-import Axios from "axios";
 import shieldImage from "../elements/shieldImage";
 import { asteroid } from "../gameConfigs";
+
 import { ISession } from "../../database/models/Session";
 
 interface IAsteroidElements {
