@@ -22,13 +22,12 @@ interface IAsteroidElements {
   incorrectHTMLElements
 }
 
-const appendToCanvas = (element: ChildNode) => {
+const appendToGame = (element: ChildNode) => {
   const gameElement = document.querySelector("#game");
-  // FIXME: adding elements based on loose logic
-  // @ts-ignore
-  const gameCanvas = gameElement.lastChild
-  // @ts-ignore
-  gameCanvas.appendChild(element);
+  if (gameElement == null) throw new Error("div element with id \"game\" is missing");
+  // @ts-ignore // FIXME: assumed that "html canvas" element is present
+  const gameHTMLCanvas: Element = gameElement.firstChild;
+  gameHTMLCanvas.appendChild(element);
 }
 
 const spawnAsteroid = ({
@@ -47,7 +46,7 @@ const spawnAsteroid = ({
   }
   const newNode = htmlToElement(htmlElementToSpawn);
 
-  appendToCanvas(newNode);
+  appendToGame(newNode);
 }
 
 const applyAsteroidConfig = (
@@ -85,7 +84,7 @@ asteroidButtons(gameDimensions).then((asteroidElements) => {
   let currentSpawnInterval = applyAsteroidConfig(currentConfig, asteroidElements)
   let currentObserver = observeSSRElements(sessionId, currentConfig)
 
-  appendToCanvas(htmlToElement(shieldImage()));
+  appendToGame(htmlToElement(shieldImage()));
 
   // --- Periodically check for config changes
   const configRefreshInterval = 1000;
