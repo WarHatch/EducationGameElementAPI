@@ -48,12 +48,11 @@ router.post("/new", async (req, res) => {
 
 router.post("/", async (req, res) => {
   const { body } = req;
-  const { id, teacherId, gameType } = body;
+  
+  // Build query from body
+  const lessonQuery = {};
+  Object.keys(body).forEach(bodyPropKey => lessonQuery[bodyPropKey] = body[bodyPropKey]);
 
-  const lessonQuery = {
-    id,
-    teacherId,
-  }
   try {
     const lesson: ILesson = await SeqDataModels.Lesson.findOne({
       where: lessonQuery,
@@ -67,6 +66,7 @@ router.post("/", async (req, res) => {
 
     res.status(200).json(lesson);
   } catch (error) {
+    console.log("error");
     console.log(error);
     return res.status(400).json(error);
   }
