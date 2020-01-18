@@ -24,7 +24,7 @@ interface IAsteroidElements {
   incorrectHTMLElements
 }
 
-const appendToGame = (element: ChildNode) => {
+export const appendToGame = (element: ChildNode) => {
   const gameElement = document.querySelector("#game");
   if (gameElement == null) throw new Error("div element with id \"game\" is missing");
   // @ts-ignore // FIXME: assumed that "html canvas" element is present
@@ -66,12 +66,17 @@ const applyAsteroidConfig = (
 }
 
 
-//@ts-ignore
-if (!!(window.session) === false) {
+declare global {
+  interface Window {
+    session?: ISession | null;
+    gameEnded: boolean;
+  }
+}
+
+if (window.session === undefined || window.session === null) {
   throw new Error("window.session is falsy");
 }
-//@ts-ignore handled above
-const session: ISession = window.session;
+const { session } = window;
 const { sessionId, lessonId } = session;
 console.log(session);
 //@ts-ignore handled below 
@@ -81,6 +86,7 @@ if (currentConfig === undefined) {
 }
 
 // --- Initial setup
+window.gameEnded = false;
 asteroidButtons(canvasDimensions).then((asteroidElements) => {
   let currentSpawnInterval = applyAsteroidConfig(currentConfig, asteroidElements)
   let currentObserver = observeSSRElements(sessionId, currentConfig, lessonId)
@@ -92,23 +98,29 @@ asteroidButtons(canvasDimensions).then((asteroidElements) => {
   // --- Periodically check for config changes
   const configRefreshInterval = 1000;
   setInterval(async () => {
-    // get new config
-    const configResponse = await Axios.post(`http://localhost:8090/lesson/${lessonId}/session/config`,
-      { sessionId }
-    );
-    const receivedConfig = configResponse.data;
-    // if received different config DTO than the current
-    if (JSON.stringify(currentConfig) !== JSON.stringify(receivedConfig)) {
-      currentConfig = receivedConfig;
-      // remove old intervals
+    // @ts-ignore // FIXME: check for ended game in a different loop
+    if (window.gameEnded) {
       clearInterval(currentSpawnInterval);
-      // apply new intervals
-      currentSpawnInterval = applyAsteroidConfig(currentConfig, asteroidElements)
+    }
+    else {
+      // get new config
+      const configResponse = await Axios.post(`http://localhost:8090/lesson/${lessonId}/session/config`,
+        { sessionId }
+      );
+      const receivedConfig = configResponse.data;
+      // if received different config DTO than the current
+      if (JSON.stringify(currentConfig) !== JSON.stringify(receivedConfig)) {
+        currentConfig = receivedConfig;
+        // remove old intervals
+        clearInterval(currentSpawnInterval);
+        // apply new intervals
+        currentSpawnInterval = applyAsteroidConfig(currentConfig, asteroidElements)
 
-      // Disconnect old observer
-      currentObserver.disconnect();
-      // Setup SSR element observer with new config
-      currentObserver = observeSSRElements(sessionId, currentConfig, lessonId)
+        // Disconnect old observer
+        currentObserver.disconnect();
+        // Setup SSR element observer with new config
+        currentObserver = observeSSRElements(sessionId, currentConfig, lessonId)
+      }
     }
   }, configRefreshInterval)
 });

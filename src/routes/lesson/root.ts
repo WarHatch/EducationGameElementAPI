@@ -36,7 +36,7 @@ router.post("/new", async (req, res) => {
       }
     });
     if (duplicateLesson) {
-      // TODO: https://stackoverflow.com/questions/14154337/how-to-send-a-custom-http-status-message-in-node-express
+      // TODO: add status 409
       return res.json({
         error,
         message: "Lesson with that id already exists",

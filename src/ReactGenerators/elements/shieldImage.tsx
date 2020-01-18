@@ -9,7 +9,6 @@ export interface Props {
 
 const ShieldImage = (props: Props) => {
   const style: CSSProperties = {
-    position: "absolute", // TODO: move to CSS
     top: asteroid.shieldPositionFromTop + "px",
     width: canvasDimensions.width - questionWidth + "px",
   }

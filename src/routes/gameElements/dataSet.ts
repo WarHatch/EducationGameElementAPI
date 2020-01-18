@@ -13,7 +13,7 @@ router.get("/dataSet", async (req, res) => {
   const { correctHTMLElements, incorrectHTMLElements } = await asteroidButtons(canvasDimensions);
 
   const endSessionHTML = {
-    html: endSessionButton()
+    html: endSessionButton({})
   }
   const sessionIdHTML = {
     html: sessionIdText()

@@ -1,4 +1,8 @@
 import axios from "axios";
+import endSessionSplash from "../elements/endSessionSplash";
+import htmlToElement from "../public/code/htmlToElement";
+
+import { appendToGame } from "../public/SSRScript";
 
 // Types
 type IEndSessionData = {
@@ -21,5 +25,7 @@ export const mountClick = (buttonElement: HTMLElement, sessionId: string, lesson
         sessionId,
       },
     )
+    appendToGame(htmlToElement(endSessionSplash({})));
+    window.gameEnded = true;
   })
 }
