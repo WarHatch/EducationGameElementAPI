@@ -28,6 +28,7 @@ router.post("/register", async (req, res) => {
     );
     res.status(201).json(createdSession);
   } catch (error) {
+    // FIXME: message not sent/received properly
     res.status(400).send("Error while trying to create/update a session in database");
     console.log(error);
   }

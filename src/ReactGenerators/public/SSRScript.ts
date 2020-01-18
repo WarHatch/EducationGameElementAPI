@@ -13,6 +13,7 @@ import { canvasDimensions } from "../configs/canvasConfigs";
 
 import asteroidButtons from "../elements/meteorButton";
 import shieldImage from "../elements/shieldImage";
+import endSessionSplash from "../elements/endSessionSplash";
 
 import { ISession } from "../../database/models/Session";
 import { ISessionConfig } from "../../database/models/SessionConfig";
@@ -79,12 +80,13 @@ if (currentConfig === undefined) {
 }
 
 // --- Initial setup
-// const asteroidElements = await asteroidButtons(gameDimensions);
 asteroidButtons(canvasDimensions).then((asteroidElements) => {
   let currentSpawnInterval = applyAsteroidConfig(currentConfig, asteroidElements)
   let currentObserver = observeSSRElements(sessionId, currentConfig, lessonId)
 
-  appendToGame(htmlToElement(shieldImage()));
+  // One-time elements
+  appendToGame(htmlToElement(shieldImage({})));
+  appendToGame(htmlToElement(endSessionSplash({})));
 
   // --- Periodically check for config changes
   const configRefreshInterval = 1000;

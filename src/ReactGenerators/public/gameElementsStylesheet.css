@@ -1,3 +1,7 @@
+/* .SSRElement {
+  position: absolute;
+} */
+
 .SSR-white {
   color: whitesmoke;
   border-color: black;
@@ -29,8 +33,6 @@
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   padding: 15px 32px;
-  background-color: #4CAF50;
-  /* Green */
   border: none;
   color: white;
   text-shadow: 2px 2px #000000;
@@ -47,10 +49,10 @@
 
 @keyframes spectrum {
   from {
-    background-color: red;
+    background-color: yellow;
   }
   to {
-    background-color: yellow;
+    background-color: red;
   }
 }
 
@@ -62,12 +64,19 @@
   /* Top-left anchor */
   transform: translate(50%, 50%);
   -ms-transform: translate(50%, 50%);
-  height: 768px;
-  width: 300px;
+  /* Size set via component style object */
   background-color: thistle;
 }
 
-.SSR-Shield {
-  width: 780px;
-  /* ...inline style in shieldImage.tsx */
+.SSR-splash{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* FIX for inhereting `pointer-events: none` from div */
+  pointer-events: auto;
+}
+
+.card-title {
+  text-align: center;
 }
