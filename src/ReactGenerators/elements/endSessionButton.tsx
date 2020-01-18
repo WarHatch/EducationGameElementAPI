@@ -9,7 +9,7 @@ const EndButton = (props: Props) => {
   return (
     <button
       data-type="end-button"
-      className={"SSRElement SSR-red"}
+      className={"SSRElement SSRClickable SSR-EndSessionButton"}
       //onClick mounted after ReactDOMServer render
     >
       {"End Game Session"}
@@ -17,4 +17,4 @@ const EndButton = (props: Props) => {
   )
 }
 
-export default () => ReactDOMServer.renderToString(EndButton({}));
+export default (props: Props) => ReactDOMServer.renderToString(EndButton(props));

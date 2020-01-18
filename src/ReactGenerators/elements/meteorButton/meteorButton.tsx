@@ -24,7 +24,7 @@ const Button = (props: Props) => {
         data-type={answerData._type}
         data-correct={correct}
         data-question={quizTitle}
-        className={`SSR-${answerData.backgroundColor}`}
+        className={`SSR-${answerData.backgroundColor} SSRClickable`}
         //onClick mounted after ReactDOMServer render
       >
         {answerData.title}

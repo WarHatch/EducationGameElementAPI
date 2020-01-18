@@ -14,6 +14,7 @@ import { canvasDimensions } from "../configs/canvasConfigs";
 import asteroidButtons from "../elements/meteorButton";
 import shieldImage from "../elements/shieldImage";
 import endSessionSplash from "../elements/endSessionSplash";
+import endSessionButton from "../elements/endSessionButton";
 
 import { ISession } from "../../database/models/Session";
 import { ISessionConfig } from "../../database/models/SessionConfig";
@@ -86,7 +87,7 @@ asteroidButtons(canvasDimensions).then((asteroidElements) => {
 
   // One-time elements
   appendToGame(htmlToElement(shieldImage({})));
-  appendToGame(htmlToElement(endSessionSplash({})));
+  appendToGame(htmlToElement(endSessionButton({})));
 
   // --- Periodically check for config changes
   const configRefreshInterval = 1000;
