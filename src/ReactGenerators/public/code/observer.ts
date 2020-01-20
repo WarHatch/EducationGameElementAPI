@@ -1,7 +1,10 @@
 import * as buttonFuncMount from "../../functionMounters/buttonFunctions";
 import * as endFuncMount from "../../functionMounters/endSessionFunctions";
 import timeTracker from "../../timeTracker";
+
 import { ISessionConfig } from "../../../database/models/SessionConfig";
+import { ICanvasConfig } from "../../configs/canvasConfigs";
+import { ISession } from "../../../database/models/Session";
 
 const observerOptions = {
   attributes: false,
@@ -9,7 +12,10 @@ const observerOptions = {
   subtree: true //Omit or set to false to observe only changes to the parent node.
 };
 
-export default (sessionId: string, config: ISessionConfig, lessonId: string) => {
+export default (session: ISession, gameConfig: ISessionConfig, canvasConfig: { canvasHeight: number; }) => {
+  const { sessionId, lessonId } = session;
+  const { canvasHeight } = canvasConfig;
+
   let observer = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
       console.log("Mutation Detected: ");
@@ -21,8 +27,8 @@ export default (sessionId: string, config: ISessionConfig, lessonId: string) => 
           const ssrElement: HTMLElement = newNode;
 
           if (newNode.classList.contains("SSR-MeteorContainer")) {
-            const { asteroidSecondsToCrash } = config;
-            buttonFuncMount.mountFalling(ssrElement, asteroidSecondsToCrash);
+            const { asteroidSecondsToCrash } = gameConfig;
+            buttonFuncMount.mountFalling(ssrElement, canvasHeight, asteroidSecondsToCrash);
 
             const insideButton = newNode.getElementsByTagName("button")[0];
             if (insideButton.getAttribute("data-type") === "button") {

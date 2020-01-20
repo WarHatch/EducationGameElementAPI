@@ -5,5 +5,5 @@ export const asteroid = {
   },
 
   meteorSize: 227,
-  shieldPositionFromTop: 613,
+  shieldPositionFromBottom: 170,
 }

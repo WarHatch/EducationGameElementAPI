@@ -87,18 +87,17 @@ if (currentConfig === undefined) {
 
 // --- Initial setup
 window.gameEnded = false;
-const { width: canvasWidth, questionWidth } = getCanvasDimensions(window.innerWidth);
+const { width: canvasWidth, height: canvasHeight, questionWidth } = getCanvasDimensions(window.innerWidth);
+const canvasConfig = { canvasWidth, questionWidth, canvasHeight };
+appendToGame(htmlToElement(shieldImage(canvasConfig)));
+appendToGame(htmlToElement(endSessionButton({}))); // FIXME: spawn with gamequestion
 asteroidButtons({
   canvasWidth,
   questionWidth,
 })
   .then((asteroidElements) => {
     let currentSpawnInterval = applyAsteroidConfig(currentConfig, asteroidElements)
-    let currentObserver = observeSSRElements(sessionId, currentConfig, lessonId)
-
-    // One-time elements
-    appendToGame(htmlToElement(shieldImage({ canvasWidth })));
-    appendToGame(htmlToElement(endSessionButton({})));
+    let currentObserver = observeSSRElements(session, currentConfig, canvasConfig)
 
     // --- Periodically check for config changes
     const configRefreshInterval = 1000;
@@ -124,7 +123,7 @@ asteroidButtons({
           // Disconnect old observer
           currentObserver.disconnect();
           // Setup SSR element observer with new config
-          currentObserver = observeSSRElements(sessionId, currentConfig, lessonId)
+          currentObserver = observeSSRElements(session, currentConfig, canvasConfig)
         }
       }
     }, configRefreshInterval)

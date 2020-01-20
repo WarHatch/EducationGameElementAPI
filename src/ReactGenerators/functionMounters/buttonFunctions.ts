@@ -41,11 +41,11 @@ const moveDown = (buttonElement: HTMLElement, moveDownPX: number) => {
   buttonElement.style.top = (buttonElement.offsetTop + moveDownPX) + "px";
 }
 
-const checkAndRemove = (element: HTMLElement) => {
+const checkAndRemove = (distanceToShield: number, element: HTMLElement) => {
   try {
     const topAttr = element.style.top;
     const distanceDescended = parseInt(topAttr.substr(0, topAttr.length - 2));
-    if (distanceDescended >= asteroid.shieldPositionFromTop - asteroid.meteorSize / 4) {
+    if (distanceDescended >= distanceToShield - asteroid.meteorSize / 4) {
       element.parentNode?.removeChild(element);
     }
   } catch (error) {
@@ -53,14 +53,15 @@ const checkAndRemove = (element: HTMLElement) => {
   }
 }
 
-export const mountFalling = (element: HTMLElement, asteroidSecondsToCrash: number) => {
-  const fallSpeed = (asteroid.shieldPositionFromTop) / asteroidSecondsToCrash;
+export const mountFalling = (element: HTMLElement, gameHeight: number, asteroidSecondsToCrash: number) => {
+  const distanceToShield = gameHeight - asteroid.shieldPositionFromBottom;
+  const fallSpeed = distanceToShield / asteroidSecondsToCrash;
   const fps = 30;
   const refreshRateMS = 1000 / fps;
   const fallDelta = fallSpeed / fps;
   console.log("fallDelta: " + fallDelta);
   setInterval(() => {
     moveDown(element, fallDelta);
-    checkAndRemove(element);
+    checkAndRemove(distanceToShield, element);
   }, refreshRateMS);
 }
