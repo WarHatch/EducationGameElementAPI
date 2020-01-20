@@ -1,6 +1,6 @@
 export interface ICanvasConfig {
-  height: number;
   width: number;
+  height: number;
 }
 
 const canvasDimensions: ICanvasConfig[] = [
