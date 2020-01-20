@@ -41,12 +41,9 @@ export default (session: ISession, gameConfig: ISessionConfig, canvasConfig: { c
               }
             }
           }
-          else if (newNode.getAttribute("data-type") === "end-button") {
-            endFuncMount.mountClick(ssrElement, sessionId, lessonId)
-          }
-          else if (newNode.getAttribute("data-type") === "sessionId-text") {
-            newNode.innerText = "session Id: " + sessionId;
-          }
+          // else if (newNode.getAttribute("data-type") === "sessionId-text") {
+          //   newNode.innerText = "session Id: " + sessionId;
+          // }
         }
       });
     }

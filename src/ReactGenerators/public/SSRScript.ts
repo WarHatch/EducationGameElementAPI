@@ -10,11 +10,11 @@ import Axios from "axios";
 import observeSSRElements from "./code/observer";
 import htmlToElement from "./code/htmlToElement";
 import getCanvasDimensions from "../configs/canvasConfigs";
+import { mountClick } from "../functionMounters/endSessionFunctions";
 
 import asteroidButtons from "../elements/meteorButton";
 import shieldImage from "../elements/shieldImage";
-import endSessionSplash from "../elements/endSessionSplash";
-import endSessionButton from "../elements/endSessionButton";
+import { endButtonClassName } from "../elements/endSessionButton";
 
 import { ISession } from "../../database/models/Session";
 import { ISessionConfig } from "../../database/models/SessionConfig";
@@ -89,8 +89,19 @@ if (currentConfig === undefined) {
 window.gameEnded = false;
 const { width: canvasWidth, height: canvasHeight, questionWidth } = getCanvasDimensions(window.innerWidth);
 const canvasConfig = { canvasWidth, questionWidth, canvasHeight };
+// Single spawn elements
 appendToGame(htmlToElement(shieldImage(canvasConfig)));
-appendToGame(htmlToElement(endSessionButton({}))); // FIXME: spawn with gamequestion
+// FIXME: Dirty fix for phaser.Game loading async. Needs a shared state to know when Game/scene has loaded
+setTimeout(() => {
+  // Search for client-side elements to add functions to
+  const endButtonCollection = document.body.getElementsByClassName(endButtonClassName);
+  if (endButtonCollection.length === 0) throw new Error("SSRScript ran before endButton element was spawned");
+  for (let i = 0; i < endButtonCollection.length; i++) {
+    const endButton = endButtonCollection[i];
+    mountClick(endButton, sessionId, lessonId);
+  }
+}, 1000)
+
 asteroidButtons({
   canvasWidth,
   questionWidth,

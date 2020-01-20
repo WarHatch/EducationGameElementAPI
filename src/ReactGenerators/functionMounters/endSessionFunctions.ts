@@ -15,7 +15,7 @@ const endSessionClick = async (lessonId: string, data: IEndSessionData) => {
   console.log({ sent: data, received: res });
 }
 
-export const mountClick = (buttonElement: HTMLElement, sessionId: string, lessonId: string) => {
+export const mountClick = (buttonElement: Element, sessionId: string, lessonId: string) => {
   buttonElement.addEventListener("click", () => {
     const now = new Date();
     endSessionClick(
