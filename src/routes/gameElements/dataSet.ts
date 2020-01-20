@@ -11,11 +11,11 @@ const router = Router();
 
 router.get("/dataSet/:canvasWidth", async (req, res) => {
   const { canvasWidth: canvasWidthParam } = req.params;
-  
-  const { height, width } = getCanvasDimensions(parseInt(canvasWidthParam));
+
+  const { height, width, questionWidth } = getCanvasDimensions(parseInt(canvasWidthParam));
   console.log({ height, width });
 
-  const questionHTMLPromise = questionElement({conteinerHeight: height});
+  const questionHTMLPromise = questionElement({ conteinerHeight: height, width: questionWidth });
   // TODO: atm answer elements aren't used so unnecesarry generation is removed
   // const { correctHTMLElements, incorrectHTMLElements } = await asteroidButtons({ canvasWidth: width });
 

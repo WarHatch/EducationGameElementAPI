@@ -36,10 +36,11 @@ router.post("/new", async (req, res) => {
       }
     });
     if (duplicateLesson) {
-      // TODO: add status 409
+      // TODO: res.status(409)
       return res.json({
         error,
         message: "Lesson with that id already exists",
+        status: 409,
       });
     }
     return res.status(400).json(error);

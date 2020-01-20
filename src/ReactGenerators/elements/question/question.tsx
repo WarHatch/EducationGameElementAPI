@@ -5,17 +5,15 @@ interface Props {
   quizTitle: string,
   explanation: string,
   conteinerHeight: number,
+  width: number;
 }
 
-// TODO: make size dynamic
-export const questionWidth = 300;
-
 const Question = (props: Props) => {
-  const { conteinerHeight } = props;
+  const { conteinerHeight, width } = props;
 
   const containerStyle: CSSProperties = {
     height: conteinerHeight,
-    width: questionWidth,
+    width,
   }
 
   const textStyle: CSSProperties = {

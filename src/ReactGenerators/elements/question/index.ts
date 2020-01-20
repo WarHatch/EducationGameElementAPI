@@ -10,10 +10,11 @@ interface IAsteroidDataSet {
 
 interface Props {
   conteinerHeight: number,
+  width: number,
 }
 
 export default async (props: Props) => {
-  const { conteinerHeight } = props;
+  const { conteinerHeight, width } = props;
 
   const dataQuery: AxiosResponse<IAsteroidDataSet> = await Axios.get("http://localhost:8090/gameElements/cms");
   const { data } = dataQuery;
@@ -24,6 +25,7 @@ export default async (props: Props) => {
       explanation,
       quizTitle,
       conteinerHeight,
+      width,
     })
   }
 }
