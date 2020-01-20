@@ -17,14 +17,20 @@ export interface IAsteroidDataSet {
   quizTitle: string,
 }
 
-export default async (gameConfig) => {
+interface Props {
+  canvasWidth: number,
+}
+
+export default async (props: Props) => {
+  const { canvasWidth } = props;
+
   const dataQuery: AxiosResponse<IAsteroidDataSet> = await Axios.get("http://localhost:8090/gameElements/cms");
   const { data } = dataQuery;
   const { quizTitle, correctAnswers, incorrectAnswers } = data[0];
 
   const instructionSize = 300;
   const imageSize = 200;
-  const asteroidXPosition = gameConfig.width - instructionSize - imageSize/2;
+  const asteroidXPosition = canvasWidth - instructionSize - imageSize/2;
   const randXPosition = () => Math.floor(Math.random() * asteroidXPosition) + "px";
 
   const correctHTMLElements = correctAnswers.map((answerData) => {

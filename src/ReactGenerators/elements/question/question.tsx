@@ -1,25 +1,28 @@
 import React, { CSSProperties } from "react";
 import ReactDOMServer from "react-dom/server";
-import { canvasDimensions } from "../../configs/canvasConfigs";
 
 interface Props {
   quizTitle: string,
   explanation: string,
+  conteinerHeight: number,
 }
 
+// TODO: make size dynamic
 export const questionWidth = 300;
 
-const containerStyle: CSSProperties = {
-  height: canvasDimensions.height,
-  width: questionWidth + "px",
-}
-
-const textStyle: CSSProperties = {
-  padding: "1rem",
-  paddingTop: "unset",
-}
-
 const Question = (props: Props) => {
+  const { conteinerHeight } = props;
+
+  const containerStyle: CSSProperties = {
+    height: conteinerHeight,
+    width: questionWidth,
+  }
+
+  const textStyle: CSSProperties = {
+    padding: "1rem",
+    paddingTop: "unset",
+  }
+
   return (
     <div className={"SSRElement SSR-QuestionContainer"} style={containerStyle}>
       <span data-type={"question-text"} className={"SSR-QuestionText"} style={textStyle}>
@@ -32,4 +35,4 @@ const Question = (props: Props) => {
   )
 }
 
-export default  (props: Props) => ReactDOMServer.renderToString(Question(props));
+export default (props: Props) => ReactDOMServer.renderToString(Question(props));

@@ -4,6 +4,7 @@ import CMSController from "../../cmsDataHandler/gameElementController";
 
 const router = Router();
 
+// TODO: remove?
 router.get("/cms", async (req, res) => {
   const data = await CMSController.fetchALLCMSData();
 

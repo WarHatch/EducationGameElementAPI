@@ -9,7 +9,7 @@ import "./assets/shield_line.png"
 import Axios from "axios";
 import observeSSRElements from "./code/observer";
 import htmlToElement from "./code/htmlToElement";
-import { canvasDimensions } from "../configs/canvasConfigs";
+import getCanvasDimensions from "../configs/canvasConfigs";
 
 import asteroidButtons from "../elements/meteorButton";
 import shieldImage from "../elements/shieldImage";
@@ -87,42 +87,46 @@ if (currentConfig === undefined) {
 
 // --- Initial setup
 window.gameEnded = false;
-asteroidButtons(canvasDimensions).then((asteroidElements) => {
-  let currentSpawnInterval = applyAsteroidConfig(currentConfig, asteroidElements)
-  let currentObserver = observeSSRElements(sessionId, currentConfig, lessonId)
+const canvasWidth = getCanvasDimensions(window.innerWidth).width;
+asteroidButtons({
+  canvasWidth
+})
+  .then((asteroidElements) => {
+    let currentSpawnInterval = applyAsteroidConfig(currentConfig, asteroidElements)
+    let currentObserver = observeSSRElements(sessionId, currentConfig, lessonId)
 
-  // One-time elements
-  appendToGame(htmlToElement(shieldImage({})));
-  appendToGame(htmlToElement(endSessionButton({})));
+    // One-time elements
+    appendToGame(htmlToElement(shieldImage({canvasWidth})));
+    appendToGame(htmlToElement(endSessionButton({})));
 
-  // --- Periodically check for config changes
-  const configRefreshInterval = 1000;
-  setInterval(async () => {
-    // @ts-ignore // FIXME: check for ended game in a different loop
-    if (window.gameEnded) {
-      clearInterval(currentSpawnInterval);
-    }
-    else {
-      // get new config
-      const configResponse = await Axios.post(`http://localhost:8090/lesson/${lessonId}/session/config`,
-        { sessionId }
-      );
-      const receivedConfig = configResponse.data;
-      // if received different config DTO than the current
-      if (JSON.stringify(currentConfig) !== JSON.stringify(receivedConfig)) {
-        currentConfig = receivedConfig;
-        // remove old intervals
+    // --- Periodically check for config changes
+    const configRefreshInterval = 1000;
+    setInterval(async () => {
+      // @ts-ignore // FIXME: check for ended game in a different loop
+      if (window.gameEnded) {
         clearInterval(currentSpawnInterval);
-        // apply new intervals
-        currentSpawnInterval = applyAsteroidConfig(currentConfig, asteroidElements)
-
-        // Disconnect old observer
-        currentObserver.disconnect();
-        // Setup SSR element observer with new config
-        currentObserver = observeSSRElements(sessionId, currentConfig, lessonId)
       }
-    }
-  }, configRefreshInterval)
-});
+      else {
+        // get new config
+        const configResponse = await Axios.post(`http://localhost:8090/lesson/${lessonId}/session/config`,
+          { sessionId }
+        );
+        const receivedConfig = configResponse.data;
+        // if received different config DTO than the current
+        if (JSON.stringify(currentConfig) !== JSON.stringify(receivedConfig)) {
+          currentConfig = receivedConfig;
+          // remove old intervals
+          clearInterval(currentSpawnInterval);
+          // apply new intervals
+          currentSpawnInterval = applyAsteroidConfig(currentConfig, asteroidElements)
+
+          // Disconnect old observer
+          currentObserver.disconnect();
+          // Setup SSR element observer with new config
+          currentObserver = observeSSRElements(sessionId, currentConfig, lessonId)
+        }
+      }
+    }, configRefreshInterval)
+  });
 
 console.log("server script finished");

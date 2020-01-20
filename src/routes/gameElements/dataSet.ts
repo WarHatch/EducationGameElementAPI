@@ -4,13 +4,20 @@ import asteroidButtons from "../../ReactGenerators/elements/meteorButton";
 import endSessionButton from "../../ReactGenerators/elements/endSessionButton";
 import sessionIdText from "../../ReactGenerators/elements/sessionIdText";
 import questionElement from "../../ReactGenerators/elements/question";
-import { canvasDimensions } from "../../ReactGenerators/configs/canvasConfigs";
+
+import getCanvasDimensions from "../../ReactGenerators/configs/canvasConfigs";
 
 const router = Router();
 
-router.get("/dataSet", async (req, res) => {
-  const questionHTMLPromise = questionElement();
-  const { correctHTMLElements, incorrectHTMLElements } = await asteroidButtons(canvasDimensions);
+router.get("/dataSet/:canvasWidth", async (req, res) => {
+  const { canvasWidth: canvasWidthParam } = req.params;
+  
+  const { height, width } = getCanvasDimensions(parseInt(canvasWidthParam));
+  console.log({ height, width });
+
+  const questionHTMLPromise = questionElement({conteinerHeight: height});
+  // TODO: atm answer elements aren't used so unnecesarry generation is removed
+  // const { correctHTMLElements, incorrectHTMLElements } = await asteroidButtons({ canvasWidth: width });
 
   const endSessionHTML = {
     html: endSessionButton({})
@@ -19,15 +26,14 @@ router.get("/dataSet", async (req, res) => {
     html: sessionIdText()
   }
 
-  // TODO: rename to gameTypeData
   const gameElementsDataSet = {
     gameElements: {
       endSessionHTML,
       questionHTML: await questionHTMLPromise,
       sessionIdHTML,
 
-      correctHTMLElements,
-      incorrectHTMLElements,
+      // correctHTMLElements,
+      // incorrectHTMLElements,
     }
   }
 
