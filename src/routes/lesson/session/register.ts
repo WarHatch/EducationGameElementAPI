@@ -1,21 +1,26 @@
 import { Router } from "express";
 import SeqDataModels from "../../../database/sequelize"; 
+import {asteroid as asteroidConfig} from "../../../ReactGenerators/configs/gameConfigs"
 
 // Types
 import { IClickDataModel } from "../../../database/models/ClickData";
 import { ISession } from "../../../database/models/Session";
+import { ISessionConfig } from "../../../database/models/SessionConfig";
 
 const router = Router();
 
 router.post("/register", async (req, res) => {
   const startData: ISession = req.body;
-  console.log("Received start session data:");
-  console.log(startData);
-  if (startData.sessionConfigs === undefined) throw new Error("req.body.sessionConfigs is undefined");
 
   try {
     await SeqDataModels.Session.upsert(startData);
-    await SeqDataModels.SessionConfig.upsert(startData.sessionConfigs[0] || startData.sessionConfigs);
+
+    const sessionConfigDefaultPayload: ISessionConfig = {
+      asteroidSecondsToCrash: asteroidConfig.defaultSessionConfig.asteroidSecondsToCrash,
+      asteroidSpawnPerMinute: asteroidConfig.defaultSessionConfig.asteroidSpawnPerMinute,
+      sessionId: startData.sessionId,
+    }
+    await SeqDataModels.SessionConfig.upsert(sessionConfigDefaultPayload);
     // Fetch what was created
     const createdSession = await SeqDataModels.Session.findOne(
       {

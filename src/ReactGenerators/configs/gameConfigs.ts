@@ -1,7 +1,7 @@
 export const asteroid = {
   defaultSessionConfig: {
-    asteroidSecondsToCrash: 8,
-    asteroidSpawnPerMinute: 30,
+    asteroidSpawnPerMinute: 20,
+    asteroidSecondsToCrash: 9,
   },
 
   meteorSize: 227,
