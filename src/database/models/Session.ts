@@ -8,6 +8,7 @@ export interface ISession extends ISeqModel {
   clickData?: IClickDataModel[],
   sessionConfigs?: ISessionConfig[],
   lessonId: string,
+  playerName: string,
 }
 
 const Session = (sequelize, type) => {
@@ -22,7 +23,11 @@ const Session = (sequelize, type) => {
       type: type.DATE,
 
       allowNull: true,
-    }
+    },
+    playerName: {
+      type: type.STRING,
+      allowNull: false,
+    },
   })
 }
 
@@ -30,6 +35,6 @@ export default (sequelize, type, hasMany: { [key: string]: any }) => {
   const SessionModel = Session(sequelize, type);
   SessionModel.hasMany(hasMany.ClickData, { foreignKey: "sessionId", allowNull: false })
   SessionModel.hasMany(hasMany.SessionConfig, { foreignKey: "sessionId", allowNull: false })
-  
+
   return SessionModel
 }
