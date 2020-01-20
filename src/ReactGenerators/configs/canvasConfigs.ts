@@ -1,6 +1,7 @@
 export interface ICanvasConfig {
   width: number;
   height: number;
+  questionWidth: number;
 }
 
 const canvasDimensions: ICanvasConfig[] = [
@@ -8,24 +9,29 @@ const canvasDimensions: ICanvasConfig[] = [
   {
     width: 750,
     height: 600,
+    questionWidth: 300,
   },
   // Large devices (desktops, 992px and up)
   {
     width: 1024,
     height: 768,
+    questionWidth: 300,
   },
   // Extra large devices (large desktops, 1200px and up)
   {
     width: 1300,
     height: 830,
+    questionWidth: 300,
   },
 ]
 
 const getMatchingCanvasConfig = (windowWidth: number): ICanvasConfig => {
-  for (let sizeIndex = 0; sizeIndex < canvasDimensions.length; sizeIndex++) {
+  // return last smaller canvas
+  for (let sizeIndex = 1; sizeIndex < canvasDimensions.length; sizeIndex++) {
+    const lastSize = canvasDimensions[sizeIndex -1];
     const canvasSize = canvasDimensions[sizeIndex];
     if (canvasSize.width > windowWidth)
-      return canvasSize;
+      return lastSize;
   }
   // last/biggest option
   return canvasDimensions[canvasDimensions.length -1];

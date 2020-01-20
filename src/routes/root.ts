@@ -8,13 +8,13 @@ router.get("/", (req, res) => {
   res.send("GameElementAPI is online");
 });
 
-router.get("/canvasConfig/:canvasWidth", async (req, res) => {
-  const { canvasWidth: canvasWidthParam } = req.params;
+router.get("/canvasConfig/:windowWidth", async (req, res) => {
+  const { windowWidth: windowWidthParam } = req.params;
 
   try {
-    const canvasConfig = getCanvasDimensions(parseInt(canvasWidthParam));
+    const canvasDimensions = getCanvasDimensions(parseInt(windowWidthParam));
 
-    res.status(200).json(canvasConfig);
+    res.status(200).json(canvasDimensions);
   } catch (error) {
     console.log(error);
     return res.status(400).send();

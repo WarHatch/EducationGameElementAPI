@@ -19,27 +19,28 @@ export interface IAsteroidDataSet {
 
 interface Props {
   canvasWidth: number,
+  questionWidth: number,
 }
 
 export default async (props: Props) => {
-  const { canvasWidth } = props;
+  const { canvasWidth, questionWidth } = props;
 
   const dataQuery: AxiosResponse<IAsteroidDataSet> = await Axios.get("http://localhost:8090/gameElements/cms");
   const { data } = dataQuery;
   const { quizTitle, correctAnswers, incorrectAnswers } = data[0];
 
-  const instructionSize = 300;
-  const imageSize = 200;
-  const asteroidXPosition = canvasWidth - instructionSize - imageSize/2;
-  const randXPosition = () => Math.floor(Math.random() * asteroidXPosition) + "px";
+  const imageSize = 230;
+  const asteroidXPosition = canvasWidth - questionWidth - imageSize/2;
+  const randXPosition = () => questionWidth + Math.floor(Math.random() * asteroidXPosition) + "px";
 
   const correctHTMLElements = correctAnswers.map((answerData) => {
+    const xPosition = randXPosition();
     return {
       html: button({
         answerData,
         correct: true,
         quizTitle,
-        xPosition: randXPosition(),
+        xPosition,
       })
     }
   })

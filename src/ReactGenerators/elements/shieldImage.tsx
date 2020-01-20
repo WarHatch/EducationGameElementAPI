@@ -1,16 +1,18 @@
 import React, { CSSProperties } from "react";
 import ReactDOMServer from "react-dom/server";
 import { asteroid } from "../configs/gameConfigs";
-import { questionWidth } from "./question/question";
 
 export interface Props {
-  canvasWidth: number
+  canvasWidth: number,
+  canvasHeight: number,
+  questionWidth: number,
 }
 
 const ShieldImage = (props: Props) => {
   const style: CSSProperties = {
-    top: asteroid.shieldPositionFromTop + "px",
-    width: props.canvasWidth - questionWidth + "px",
+    top: props.canvasHeight - asteroid.shieldPositionFromBottom,
+    left: props.questionWidth,
+    width: props.canvasWidth,
   }
 
   return (

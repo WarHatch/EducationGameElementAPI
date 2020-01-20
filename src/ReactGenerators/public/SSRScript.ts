@@ -87,16 +87,17 @@ if (currentConfig === undefined) {
 
 // --- Initial setup
 window.gameEnded = false;
-const canvasWidth = getCanvasDimensions(window.innerWidth).width;
+const { width: canvasWidth, questionWidth } = getCanvasDimensions(window.innerWidth);
 asteroidButtons({
-  canvasWidth
+  canvasWidth,
+  questionWidth,
 })
   .then((asteroidElements) => {
     let currentSpawnInterval = applyAsteroidConfig(currentConfig, asteroidElements)
     let currentObserver = observeSSRElements(sessionId, currentConfig, lessonId)
 
     // One-time elements
-    appendToGame(htmlToElement(shieldImage({canvasWidth})));
+    appendToGame(htmlToElement(shieldImage({ canvasWidth })));
     appendToGame(htmlToElement(endSessionButton({})));
 
     // --- Periodically check for config changes
