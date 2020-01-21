@@ -32,6 +32,7 @@ const devConfig = {
 
 const productionConfig = {
   port: "80",
+  host: "https://education-game-tool-2020.herokuapp.com",
   databaseConfig: {
     databaseName: "game-data-registry",
     dialect: "mysql",
@@ -41,9 +42,7 @@ const productionConfig = {
 
 const configByEnv = (): IFullConfig => {
   if (process.env.NODE_ENV === "production") {
-    const { db_user, db_pass, db_host, host, port } = process.env
-    if (host === undefined)
-    throw new Error("host missing from env");
+    const { db_user, db_pass, db_host, port } = process.env
     if (port === undefined)
       console.log("[WARNING]: port is undefined. Falling back to port " + productionConfig.port)
     if (db_user === undefined)
@@ -56,7 +55,6 @@ const configByEnv = (): IFullConfig => {
     return {
       ...productionConfig,
       port: port ?? productionConfig.port,
-      host,
       databaseConfig: {
         ...productionConfig.databaseConfig,
         username: db_user,
