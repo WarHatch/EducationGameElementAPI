@@ -10,6 +10,7 @@ import config from "../config"
 const { databaseName, username, password, host, dialect, pool } = config.databaseConfig;
 
 const sequelize = new Sequelize.Sequelize(
+  // @ts-ignore FIXME: unsure if username is actually needed
   databaseName, username, password,
   // @ts-ignore no way to enfore correct env input
   {
