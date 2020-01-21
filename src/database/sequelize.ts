@@ -7,13 +7,15 @@ import config from "../config"
 
 // tslint:disable: object-literal-sort-keys
 
-// @ts-ignore // FIXME: missing production values
 const { databaseName, username, password, host, dialect, pool } = config.databaseConfig;
 
 const sequelize = new Sequelize.Sequelize(
   databaseName, username, password,
+  // @ts-ignore no way to enfore correct env input
   {
-    dialect, host, pool
+    dialect,
+    host,
+    pool,
   }
 );
 
