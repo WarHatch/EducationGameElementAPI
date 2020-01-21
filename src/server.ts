@@ -4,6 +4,8 @@ import cors from "cors";
 
 import config from "./config";
 import mainRouter from "./routes";
+
+console.log(config);
  
 const app = express();
 

@@ -1,5 +1,5 @@
 interface IFullConfig {
-  port: number;
+  port: string;
   host: string;
   databaseConfig: {
     databaseName: string;
@@ -17,7 +17,7 @@ interface IFullConfig {
 }
 
 const devConfig = {
-  port: 8090,
+  port: "8090",
   host: "http://localhost:8090",
 
   databaseConfig: {
@@ -31,9 +31,7 @@ const devConfig = {
 }
 
 const productionConfig = {
-  port: 8090,
-  host: "http://localhost:8090",
-
+  port: "80",
   databaseConfig: {
     databaseName: "game-data-registry",
     dialect: "mysql",
@@ -43,7 +41,11 @@ const productionConfig = {
 
 const configByEnv = (): IFullConfig => {
   if (process.env.NODE_ENV === "production") {
-    const { db_user, db_pass, db_host } = process.env
+    const { db_user, db_pass, db_host, host, port } = process.env
+    if (host === undefined)
+    throw new Error("host missing from env");
+    if (port === undefined)
+      console.log("[WARNING]: port is undefined. Falling back to port " + productionConfig.port)
     if (db_user === undefined)
       throw new Error("db_user missing from env");
     if (db_pass === undefined)
@@ -53,6 +55,8 @@ const configByEnv = (): IFullConfig => {
 
     return {
       ...productionConfig,
+      port: port ?? productionConfig.port,
+      host,
       databaseConfig: {
         ...productionConfig.databaseConfig,
         username: db_user,
