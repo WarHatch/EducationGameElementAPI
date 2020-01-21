@@ -5,8 +5,6 @@ import "./gameElementsStylesheet.css"
 import "./assets/meteor.png"
 import "./assets/shield_line.png"
 
-
-import Axios from "axios";
 import observeSSRElements from "./code/observer";
 import htmlToElement from "./code/htmlToElement";
 import getCanvasDimensions from "../configs/canvasConfigs";

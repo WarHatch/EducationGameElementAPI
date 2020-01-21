@@ -1,4 +1,7 @@
+/** Used for generating static resources/script from ReactGenerators folder */
+
 const path = require('path');
+const webpack = require('webpack');
 
 const outputPath = process.env.NODE_ENV === "production" ?
   path.resolve(__dirname, 'src/ReactGenerators/dist') :
@@ -36,5 +39,10 @@ module.exports = {
     filename: 'bundle.js',
     path: outputPath,
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': process.env.NODE_ENV
+    })
+  ],
   mode: 'development'
 };
