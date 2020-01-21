@@ -11,6 +11,7 @@
     "lint": "tslint src/**/*.ts*",
     "lint:fix": "tslint src/**/*.ts* --fix",
     "build": "webpack --mode production & tsc -p tsconfig.json",
+    "heroku-postbuild": "webpack --mode production & tsc -p tsconfig.json",
     "start": "cross-env NODE_ENV=production node dist/server.js"
   },
   "dependencies": {
