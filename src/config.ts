@@ -42,9 +42,9 @@ const productionConfig = {
 
 const configByEnv = (): IFullConfig => {
   if (process.env.NODE_ENV === "production") {
-    const { db_user, db_pass, DATABASE_URL, port } = process.env
-    if (port === undefined)
-      console.log("[WARNING]: port is undefined. Falling back to port " + productionConfig.port)
+    const { db_user, db_pass, DATABASE_URL, PORT } = process.env
+    if (PORT === undefined)
+      console.log("[WARNING]: PORT is undefined. Falling back to port " + productionConfig.port)
     // if (db_user === undefined)
     //   throw new Error("db_user missing from env");
     // if (db_pass === undefined)
@@ -54,7 +54,7 @@ const configByEnv = (): IFullConfig => {
 
     return {
       ...productionConfig,
-      port: port ?? productionConfig.port,
+      port: PORT ?? productionConfig.port,
       databaseConfig: {
         ...productionConfig.databaseConfig,
         // username: db_user,
