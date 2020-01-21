@@ -18,6 +18,7 @@ import { endButtonClassName } from "../elements/endSessionButton";
 
 import { ISession } from "../../database/models/Session";
 import { ISessionConfig } from "../../database/models/SessionConfig";
+import { getSessionConfig } from "../dataHandler";
 
 interface IAsteroidElements {
   correctHTMLElements,
@@ -113,16 +114,13 @@ asteroidButtons({
     // --- Periodically check for config changes
     const configRefreshInterval = 1000;
     setInterval(async () => {
-      // @ts-ignore // FIXME: check for ended game in a different loop
+      // @ts-ignore // TODO: check for ended game in a different loop
       if (window.gameEnded) {
         clearInterval(currentSpawnInterval);
       }
       else {
         // get new config
-        const configResponse = await Axios.post(`http://localhost:8090/lesson/${lessonId}/session/config`,
-          { sessionId }
-        );
-        const receivedConfig = configResponse.data;
+        const receivedConfig = await getSessionConfig(lessonId, {sessionId});
         // if received different config DTO than the current
         if (JSON.stringify(currentConfig) !== JSON.stringify(receivedConfig)) {
           currentConfig = receivedConfig;

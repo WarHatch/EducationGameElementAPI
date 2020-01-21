@@ -1,6 +1,7 @@
 import React, { CSSProperties } from "react";
 import ReactDOMServer from "react-dom/server";
 import { asteroid } from "../configs/gameConfigs";
+import config from "../../config";
 
 export interface Props {
   canvasWidth: number,
@@ -16,7 +17,7 @@ const ShieldImage = (props: Props) => {
   }
 
   return (
-    <img className="SSRElement SSR-Shield" src="http://localhost:8090/shield_line.png" style={style} />
+    <img className="SSRElement SSR-Shield" src={config.host + "/shield_line.png"} style={style} />
   )
 }
 

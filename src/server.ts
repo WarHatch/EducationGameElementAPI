@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 
+import config from "./config";
 import mainRouter from "./routes";
  
 const app = express();
@@ -14,13 +15,16 @@ app.use(cors());
 //   next();
 // });
 
-// TODO: install logger
+// FIXME: install logger
 
 // Serve static files
-app.use(express.static("./src/ReactGenerators/dist"));
+let reactGeneratorsStaticPath = "./src/ReactGenerators/dist"
+// FIXME: untested path
+if (process.env.NODE_ENV === "production") reactGeneratorsStaticPath = "./ReactGenerators/dist";
+app.use(express.static(reactGeneratorsStaticPath));
 
 app.use(mainRouter);
 
 
-const port = 8090;
+const { port } = config;
 app.listen(port, () => console.log("Server running on port " + port));

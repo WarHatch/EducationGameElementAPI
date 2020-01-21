@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "concurrently --kill-others \"yarn webpack --watch\" \"yarn tsnd src/server.ts\"",
     "lint": "tslint src/**/*.ts*",
-    "lint:fix": "tslint src/**/*.ts* --fix"
+    "lint:fix": "tslint src/**/*.ts* --fix",
+    "production:build": "webpack --mode production & tsc -p tsconfig.json"
   },
   "dependencies": {
     "@sanity/client": "^0.146.0",

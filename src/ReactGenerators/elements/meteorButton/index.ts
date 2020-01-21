@@ -1,21 +1,5 @@
-import button from "./meteorButton"
-import Axios, { AxiosResponse } from "axios";
-import { ISessionConfig } from "../../../database/models/SessionConfig";
-
-export interface IAnswer {
-  _key: string,
-  _type: "button", //TODO: see if this field HAS to be used
-  title: string,
-  backgroundColor: string,
-  disappears: boolean,
-  trackable: boolean,
-}
-
-export interface IAsteroidDataSet {
-  correctAnswers: IAnswer[],
-  incorrectAnswers: IAnswer[],
-  quizTitle: string,
-}
+import button from "./meteorButton";
+import { getCMSData } from "../../dataHandler";
 
 interface Props {
   canvasWidth: number,
@@ -25,9 +9,7 @@ interface Props {
 export default async (props: Props) => {
   const { canvasWidth, questionWidth } = props;
 
-  const dataQuery: AxiosResponse<IAsteroidDataSet> = await Axios.get("http://localhost:8090/gameElements/cms");
-  const { data } = dataQuery;
-  const { quizTitle, correctAnswers, incorrectAnswers } = data[0];
+  const { quizTitle, correctAnswers, incorrectAnswers } = await getCMSData();
 
   const imageSize = 230;
   const asteroidXPosition = canvasWidth - questionWidth - imageSize/2;

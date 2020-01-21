@@ -1,13 +1,13 @@
 import axios from "axios";
-
+import config from "../../config";
 import timeTracker from "../timeTracker";
 
 // Types
 import { IClickDataModel } from "../../database/models/ClickData";
 import { asteroid } from "../configs/gameConfigs";
 
-const registerClick = async (data: IClickDataModel, lessonId: string) => {
-  const res = await axios.post(`http://localhost:8090/lesson/${lessonId}/session/register/buttonClick`, data);
+const registerClick = async (data: IClickDataModel, lessonId: string): Promise<void> => {
+  const res = await axios.post(`${config.host}/lesson/${lessonId}/session/register/buttonClick`, data);
   console.log({ sent: data, received: res });
 }
 

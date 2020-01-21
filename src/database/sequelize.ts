@@ -3,19 +3,17 @@ import clickDataModel from "./models/ClickData";
 import sessionModel from "./models/Session";
 import sessionConfigModel from "./models/SessionConfig";
 import lessonModel from "./models/Lesson";
+import config from "../config"
 
 // tslint:disable: object-literal-sort-keys
 
-const DATABASE_NAME = "game-data-registry";
-const USERNAME = "root";
-const PASSWORD = "root";
-const HOST = "localhost";
-const DIALECT = "mysql";
+// @ts-ignore // FIXME: missing production values
+const { databaseName, username, password, host, dialect, pool } = config.databaseConfig;
 
 const sequelize = new Sequelize.Sequelize(
-  DATABASE_NAME, USERNAME, PASSWORD,
+  databaseName, username, password,
   {
-    dialect: DIALECT, host: HOST, pool: { max: 10, min: 0, acquire: 30000, idle: 10000 }
+    dialect, host, pool
   }
 );
 

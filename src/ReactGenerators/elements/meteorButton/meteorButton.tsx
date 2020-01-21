@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOMServer from "react-dom/server";
-
-import { IAnswer } from ".";
+import config from "../../../config";
+import { IAnswer } from "../../dataHandler";
 
 type Props = {
   answerData: IAnswer,
@@ -19,7 +19,7 @@ const Button = (props: Props) => {
 
   return (
     <div className="SSRElement SSR-MeteorContainer" style={meteorContainerStyle}>
-      <img className="SSR-Meteor" src="http://localhost:8090/meteor.png" />
+      <img className="SSR-Meteor" src={config.host + "/meteor.png"} />
       <button
         data-type={answerData._type}
         data-correct={correct}

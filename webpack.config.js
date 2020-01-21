@@ -1,5 +1,9 @@
 const path = require('path');
 
+const outputPath = process.env.NODE_ENV === "production" ?
+  path.resolve(__dirname, 'src/ReactGenerators/dist') :
+  path.resolve(__dirname, 'dist/ReactGenerators/dist');
+
 module.exports = {
   entry: './src/ReactGenerators/public/SSRScript.ts',
   module: {
@@ -30,7 +34,7 @@ module.exports = {
   },
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'src/ReactGenerators/dist')
+    path: outputPath,
   },
   mode: 'development'
 };

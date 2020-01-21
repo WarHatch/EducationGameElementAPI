@@ -1,12 +1,5 @@
 import question from "./question"
-import Axios, { AxiosResponse } from "axios";
-
-interface IAsteroidDataSet {
-  // correctAnswers: IAnswer[],
-  // incorrectAnswers: IAnswer[],
-  quizTitle: string,
-  explanation: string,
-}
+import { getCMSData } from "../../dataHandler";
 
 interface Props {
   conteinerHeight: number,
@@ -16,9 +9,7 @@ interface Props {
 export default async (props: Props) => {
   const { conteinerHeight, width } = props;
 
-  const dataQuery: AxiosResponse<IAsteroidDataSet> = await Axios.get("http://localhost:8090/gameElements/cms");
-  const { data } = dataQuery;
-  const { quizTitle, explanation } = data[0];
+  const { quizTitle, explanation } = await getCMSData();
 
   return {
     html: question({
