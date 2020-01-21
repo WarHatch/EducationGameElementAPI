@@ -18,13 +18,9 @@ app.use(cors());
 // FIXME: install logger
 
 // Serve static files
-let reactGeneratorsStaticPath = "./src/ReactGenerators/dist"
-// FIXME: untested path
-if (process.env.NODE_ENV === "production") reactGeneratorsStaticPath = "./ReactGenerators/dist";
-app.use(express.static(reactGeneratorsStaticPath));
+app.use(express.static(__dirname + "/ReactGenerators/dist"));
 
 app.use(mainRouter);
-
 
 const { port } = config;
 app.listen(port, () => console.log("Server running on port " + port));
