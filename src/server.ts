@@ -20,7 +20,8 @@ app.use(cors());
 // FIXME: install logger
 
 // Serve static files
-app.use(express.static(__dirname + "/ReactGenerators/dist"));
+const prodPathPrefix = process.env.NODE_ENV === "production" ? "/dist" : ""
+app.use(express.static(__dirname + prodPathPrefix + "/ReactGenerators/dist"));
 
 app.use(mainRouter);
 
