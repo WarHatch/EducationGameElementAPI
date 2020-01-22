@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
+import path from "path";
 
 import config from "./config";
 import mainRouter from "./routes";
@@ -20,8 +21,10 @@ app.use(cors());
 // FIXME: install logger
 
 // Serve static files
-const prodPathPrefix = process.env.NODE_ENV === "production" ? "/dist" : ""
-app.use(express.static(__dirname + prodPathPrefix + "/ReactGenerators/dist"));
+const staticFilePath = process.env.NODE_ENV === "production" ? process.cwd + "/ReactGenerators/dist" :
+  __dirname + "/ReactGenerators/dist";
+console.log("Static files servet at: " + staticFilePath);
+app.use(express.static(staticFilePath));
 
 app.use(mainRouter);
 
