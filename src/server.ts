@@ -21,7 +21,7 @@ app.use(cors());
 // FIXME: install logger
 
 // Serve static files
-const staticFilePath = process.env.NODE_ENV === "production" ? process.cwd + "/ReactGenerators/dist" :
+const staticFilePath = process.env.NODE_ENV === "production" ? process.cwd() + "/ReactGenerators/dist" :
   __dirname + "/ReactGenerators/dist";
 console.log("Static files servet at: " + staticFilePath);
 app.use(express.static(staticFilePath));
