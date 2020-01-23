@@ -26,7 +26,7 @@ interface IAsteroidElements {
 export const appendToGame = (element: ChildNode) => {
   const gameElement = document.querySelector("#game");
   if (gameElement == null) throw new Error("div element with id \"game\" is missing");
-  // @ts-ignore // FIXME: assumed that "html canvas" element is present
+  // @ts-ignore // FIXME: gameElement should have html canvas properties
   const gameHTMLCanvas: Element = gameElement.firstChild;
   gameHTMLCanvas.appendChild(element);
 }
@@ -118,7 +118,7 @@ asteroidButtons({
       }
       else {
         // get new config
-        const receivedConfig = await getSessionConfig(lessonId, {sessionId});
+        const receivedConfig = await getSessionConfig(lessonId, { sessionId });
         // if received different config DTO than the current
         if (JSON.stringify(currentConfig) !== JSON.stringify(receivedConfig)) {
           currentConfig = receivedConfig;
