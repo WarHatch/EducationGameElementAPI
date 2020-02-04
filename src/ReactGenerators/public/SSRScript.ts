@@ -112,7 +112,7 @@ asteroidButtons({
     // --- Periodically check for config changes
     const configRefreshInterval = 1000;
     setInterval(async () => {
-      // @ts-ignore // TODO: check for ended game in a different loop
+      // TODO: check for ended game in a different loop
       if (window.gameEnded) {
         clearInterval(currentSpawnInterval);
       }

@@ -9,14 +9,14 @@ import { ISession } from "../../../database/models/Session";
 const observerOptions = {
   attributes: false,
   childList: true,
-  subtree: true //Omit or set to false to observe only changes to the parent node.
+  subtree: true,
 };
 
 export default (session: ISession, gameConfig: ISessionConfig, canvasConfig: { canvasHeight: number; }) => {
   const { sessionId, lessonId } = session;
   const { canvasHeight } = canvasConfig;
 
-  let observer = new MutationObserver((mutations) => {
+  const observer = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
       console.log("Mutation Detected: ");
 
