@@ -89,6 +89,9 @@ window.gameEnded = false;
 const { width: canvasWidth, height: canvasHeight, questionWidth } = getCanvasDimensions(window.innerWidth);
 const canvasConfig = { canvasWidth, questionWidth, canvasHeight };
 // Single spawn elements
+question({ conteinerHeight: canvasHeight, width: questionWidth }).then((questionElement) => {
+  appendToGame(htmlToElement(questionElement.html))
+})
 appendToGame(htmlToElement(shieldImage(canvasConfig)));
 // FIXME: Dirty fix for phaser.Game loading async. Needs a shared state to know when Game/scene has loaded
 setTimeout(() => {
