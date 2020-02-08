@@ -17,6 +17,7 @@ import { endButtonClassName } from "../elements/endSessionButton";
 import { ISession } from "../../database/models/Session";
 import { ISessionConfig } from "../../database/models/SessionConfig";
 import { getSessionConfig } from "../dataHandler";
+import question from "../elements/question";
 
 interface IAsteroidElements {
   correctHTMLElements,
@@ -93,16 +94,15 @@ question({ conteinerHeight: canvasHeight, width: questionWidth }).then((question
   appendToGame(htmlToElement(questionElement.html))
 })
 appendToGame(htmlToElement(shieldImage(canvasConfig)));
-// FIXME: Dirty fix for phaser.Game loading async. Needs a shared state to know when Game/scene has loaded
+// FIXME: Dirty fix for phaser.GameScene loading async. Searches for client-side elements to add functions to
 setTimeout(() => {
-  // Search for client-side elements to add functions to
   const endButtonCollection = document.body.getElementsByClassName(endButtonClassName);
-  if (endButtonCollection.length === 0) throw new Error("SSRScript ran before endButton element was spawned");
+  // if (endButtonCollection.length === 0) throw new Error("SSRScript ran before endButton element was spawned");
   for (let i = 0; i < endButtonCollection.length; i++) {
     const endButton = endButtonCollection[i];
     mountClick(endButton, sessionId, lessonId);
   }
-}, 1000)
+}, 500)
 
 asteroidButtons({
   canvasWidth,
