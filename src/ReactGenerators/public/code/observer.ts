@@ -1,22 +1,23 @@
 import * as buttonFuncMount from "../../functionMounters/buttonFunctions";
 import * as endFuncMount from "../../functionMounters/endSessionFunctions";
-import timeTracker from "../../timeTracker";
+import timeTracker from "../../gameScripts/timeTracker";
 
 import { ISessionConfig } from "../../../database/models/SessionConfig";
 import { ICanvasConfig } from "../../configs/canvasConfigs";
 import { ISession } from "../../../database/models/Session";
+import { endButtonClassName } from "../../elements/endSessionButton";
 
 const observerOptions = {
   attributes: false,
   childList: true,
-  subtree: true //Omit or set to false to observe only changes to the parent node.
+  subtree: true,
 };
 
 export default (session: ISession, gameConfig: ISessionConfig, canvasConfig: { canvasHeight: number; }) => {
   const { sessionId, lessonId } = session;
   const { canvasHeight } = canvasConfig;
 
-  let observer = new MutationObserver((mutations) => {
+  const observer = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
       console.log("Mutation Detected: ");
 
@@ -26,11 +27,11 @@ export default (session: ISession, gameConfig: ISessionConfig, canvasConfig: { c
           console.log(newNode)
           const ssrElement: HTMLElement = newNode;
 
-          if (newNode.classList.contains("SSR-MeteorContainer")) {
+          if (ssrElement.classList.contains("SSR-MeteorContainer")) {
             const { asteroidSecondsToCrash } = gameConfig;
             buttonFuncMount.mountFalling(ssrElement, canvasHeight, asteroidSecondsToCrash);
 
-            const insideButton = newNode.getElementsByTagName("button")[0];
+            const insideButton = ssrElement.getElementsByTagName("button")[0];
             if (insideButton.getAttribute("data-type") === "button") {
               const timeTrackId = timeTracker.startTimer();
 
@@ -40,6 +41,9 @@ export default (session: ISession, gameConfig: ISessionConfig, canvasConfig: { c
                 buttonFuncMount.mountClick(insideButton, sessionId, timeTrackId, false, lessonId);
               }
             }
+          }
+          else if (ssrElement.classList.contains(endButtonClassName)) {
+            endFuncMount.mountClick(ssrElement, sessionId, lessonId);
           }
           // else if (newNode.getAttribute("data-type") === "sessionId-text") {
           //   newNode.innerText = "session Id: " + sessionId;

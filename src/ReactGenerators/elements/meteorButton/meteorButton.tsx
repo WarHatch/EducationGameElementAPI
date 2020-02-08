@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOMServer from "react-dom/server";
 import config from "../../../config";
 import { IAnswer } from "../../dataHandler";
+import { meteorContainerClassname } from ".";
 
 type Props = {
   answerData: IAnswer,
@@ -18,7 +19,7 @@ const Button = (props: Props) => {
   };
 
   return (
-    <div className="SSRElement SSR-MeteorContainer" style={meteorContainerStyle}>
+    <div className={`SSRElement ${meteorContainerClassname}`} style={meteorContainerStyle}>
       <img className="SSR-Meteor" src={config.host + "/meteor.png"} />
       <button
         data-type={answerData._type}

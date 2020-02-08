@@ -22,7 +22,7 @@ app.use(cors());
 
 // Serve static files
 // TODO: solve hardcoded production path
-const staticFilePath = process.env.NODE_ENV === "production" ? "/app/src/ReactGenerators/dist" :
+const staticFilePath = process.env.NODE_ENV === "production" ? "/app/dist/ReactGenerators/dist" :
   __dirname + "/ReactGenerators/dist";
 console.log("Static files servet at: " + staticFilePath);
 app.use(express.static(staticFilePath));

@@ -17,6 +17,8 @@ import { endButtonClassName } from "../elements/endSessionButton";
 import { ISession } from "../../database/models/Session";
 import { ISessionConfig } from "../../database/models/SessionConfig";
 import { getSessionConfig } from "../dataHandler";
+import question from "../elements/question";
+import cleanup from "../gameScripts/asteroidGame/cleanup";
 
 interface IAsteroidElements {
   correctHTMLElements,
@@ -26,7 +28,7 @@ interface IAsteroidElements {
 export const appendToGame = (element: ChildNode) => {
   const gameElement = document.querySelector("#game");
   if (gameElement == null) throw new Error("div element with id \"game\" is missing");
-  // @ts-ignore // FIXME: assumed that "html canvas" element is present
+  // @ts-ignore // FIXME: gameElement should have html canvas properties
   const gameHTMLCanvas: Element = gameElement.firstChild;
   gameHTMLCanvas.appendChild(element);
 }
@@ -89,17 +91,19 @@ window.gameEnded = false;
 const { width: canvasWidth, height: canvasHeight, questionWidth } = getCanvasDimensions(window.innerWidth);
 const canvasConfig = { canvasWidth, questionWidth, canvasHeight };
 // Single spawn elements
+question({ conteinerHeight: canvasHeight, width: questionWidth }).then((questionElement) => {
+  appendToGame(htmlToElement(questionElement.html))
+})
 appendToGame(htmlToElement(shieldImage(canvasConfig)));
-// FIXME: Dirty fix for phaser.Game loading async. Needs a shared state to know when Game/scene has loaded
+// FIXME: Dirty fix for phaser.GameScene loading async. Searches for client-side elements to add functions to
 setTimeout(() => {
-  // Search for client-side elements to add functions to
   const endButtonCollection = document.body.getElementsByClassName(endButtonClassName);
-  if (endButtonCollection.length === 0) throw new Error("SSRScript ran before endButton element was spawned");
+  // if (endButtonCollection.length === 0) throw new Error("SSRScript ran before endButton element was spawned");
   for (let i = 0; i < endButtonCollection.length; i++) {
     const endButton = endButtonCollection[i];
     mountClick(endButton, sessionId, lessonId);
   }
-}, 1000)
+}, 500)
 
 asteroidButtons({
   canvasWidth,
@@ -112,13 +116,14 @@ asteroidButtons({
     // --- Periodically check for config changes
     const configRefreshInterval = 1000;
     setInterval(async () => {
-      // @ts-ignore // TODO: check for ended game in a different loop
+      // TODO: check for ended game in a different loop
       if (window.gameEnded) {
         clearInterval(currentSpawnInterval);
+        cleanup();
       }
       else {
         // get new config
-        const receivedConfig = await getSessionConfig(lessonId, {sessionId});
+        const receivedConfig = await getSessionConfig(lessonId, { sessionId });
         // if received different config DTO than the current
         if (JSON.stringify(currentConfig) !== JSON.stringify(receivedConfig)) {
           currentConfig = receivedConfig;

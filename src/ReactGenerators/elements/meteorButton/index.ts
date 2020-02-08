@@ -6,6 +6,8 @@ interface Props {
   questionWidth: number,
 }
 
+export const meteorContainerClassname = "SSR-MeteorContainer";
+
 export default async (props: Props) => {
   const { canvasWidth, questionWidth } = props;
 

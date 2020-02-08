@@ -3,9 +3,9 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const outputPath = process.env.NODE_ENV === "production" ?
-  path.resolve(__dirname, 'src/ReactGenerators/dist') :
-  path.resolve(__dirname, 'dist/ReactGenerators/dist');
+let outputPath = path.resolve(__dirname, 'src/ReactGenerators/dist');
+if (process !== undefined && process.env.NODE_ENV === "production")
+ outputPath = path.resolve(__dirname, 'dist/ReactGenerators/dist')
 
 module.exports = {
   entry: './src/ReactGenerators/public/SSRScript.ts',
@@ -41,6 +41,7 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
+      // TODO: specify only required env values
       'process.env': JSON.stringify(process.env)
     })
   ],
