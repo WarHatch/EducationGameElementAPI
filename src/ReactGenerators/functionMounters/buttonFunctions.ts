@@ -1,6 +1,6 @@
 import axios from "axios";
 import config from "../../config";
-import timeTracker from "../timeTracker";
+import timeTracker from "../gameScripts/timeTracker";
 
 // Types
 import { IClickDataModel } from "../../database/models/ClickData";

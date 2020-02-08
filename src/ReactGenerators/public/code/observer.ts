@@ -1,6 +1,6 @@
 import * as buttonFuncMount from "../../functionMounters/buttonFunctions";
 import * as endFuncMount from "../../functionMounters/endSessionFunctions";
-import timeTracker from "../../timeTracker";
+import timeTracker from "../../gameScripts/timeTracker";
 
 import { ISessionConfig } from "../../../database/models/SessionConfig";
 import { ICanvasConfig } from "../../configs/canvasConfigs";

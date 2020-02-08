@@ -18,6 +18,7 @@ import { ISession } from "../../database/models/Session";
 import { ISessionConfig } from "../../database/models/SessionConfig";
 import { getSessionConfig } from "../dataHandler";
 import question from "../elements/question";
+import cleanup from "../gameScripts/asteroidGame/cleanup";
 
 interface IAsteroidElements {
   correctHTMLElements,
@@ -118,6 +119,7 @@ asteroidButtons({
       // TODO: check for ended game in a different loop
       if (window.gameEnded) {
         clearInterval(currentSpawnInterval);
+        cleanup();
       }
       else {
         // get new config
