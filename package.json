@@ -1,6 +1,6 @@
 {
   "name": "educational_game_element_api",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "API that stores, prepares and delivers educational web game elements",
   "main": "server.ts",
   "repository": "https://github.com/WarHatch/EducationGameElementAPI",
