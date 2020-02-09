@@ -53,15 +53,27 @@ const checkAndRemove = (distanceToShield: number, element: HTMLElement) => {
   }
 }
 
+const getRoundingRemainder = (n: number) => {
+  const rounded = Math.round(n);
+
+  return n - rounded;
+}
+
 export const mountFalling = (element: HTMLElement, gameHeight: number, asteroidSecondsToCrash: number) => {
   const distanceToShield = gameHeight - asteroid.shieldPositionFromBottom;
   const fallSpeed = distanceToShield / asteroidSecondsToCrash;
   const fps = 30;
   const refreshRateMS = 1000 / fps;
   const fallDelta = fallSpeed / fps;
-  console.log("fallDelta: " + fallDelta);
+
+  let fallRemainder: number = 0;
   setInterval(() => {
-    moveDown(element, fallDelta);
+    fallRemainder += getRoundingRemainder(fallDelta)
+    const adjustValue = fallRemainder > 0 ? Math.floor(fallRemainder) : Math.ceil(fallRemainder);
+    const adjustedFallDelta = fallDelta + adjustValue;
+    fallRemainder -= adjustValue;
+
+    moveDown(element, adjustedFallDelta);
     checkAndRemove(distanceToShield, element);
   }, refreshRateMS);
 }

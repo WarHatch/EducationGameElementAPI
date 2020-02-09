@@ -1,5 +1,3 @@
-// TODO: figure out where to put it
-
 let instanceCount = 0;
 const timerStarts: Date[] = [];
 
