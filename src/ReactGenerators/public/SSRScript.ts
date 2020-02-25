@@ -78,13 +78,12 @@ if (window.session === undefined || window.session === null) {
   throw new Error("window.session is falsy");
 }
 const { session } = window;
-const { sessionId, lessonId } = session;
 console.log(session);
-//@ts-ignore handled below 
-let currentConfig: ISessionConfig = session.sessionConfigs[0];
-if (currentConfig === undefined) {
-  throw new Error("sessionConfig is undefined");
+const { sessionId, lessonId, sessionConfigs } = session;
+if (sessionConfigs === undefined || sessionConfigs[0] === undefined) {
+  throw new Error("sessionConfigs is undefined");
 }
+let currentConfig: ISessionConfig = sessionConfigs[0];
 
 // --- Initial setup
 window.gameEnded = false;
@@ -98,13 +97,13 @@ appendToGame(htmlToElement(shieldImage(canvasConfig)));
 // FIXME: Dirty fix for phaser.GameScene loading async. Searches for client-side elements to add functions to
 setTimeout(() => {
   const endButtonCollection = document.body.getElementsByClassName(endButtonClassName);
-  // if (endButtonCollection.length === 0) throw new Error("SSRScript ran before endButton element was spawned");
+  if (endButtonCollection.length === 0) throw new Error("SSRScript ran before endButton element was spawned");
   for (let i = 0; i < endButtonCollection.length; i++) {
-    const endButton = endButtonCollection[i];
-    mountClick(endButton, sessionId, lessonId);
+    mountClick(endButtonCollection[i], sessionId, lessonId);
   }
 }, 500)
 
+// --- Retrieve asteroid elements and start game
 asteroidButtons({
   canvasWidth,
   questionWidth,
@@ -113,18 +112,18 @@ asteroidButtons({
     let currentSpawnInterval = applyAsteroidConfig(currentConfig, asteroidElements)
     let currentObserver = observeSSRElements(session, currentConfig, canvasConfig)
 
-    // --- Periodically check for config changes
-    const configRefreshInterval = 1000;
-    setInterval(async () => {
-      // TODO: check for ended game in a different loop
+    // --- Periodically check for config changes and update spawners
+    const configRefreshInterval = setInterval(async () => {
       if (window.gameEnded) {
         clearInterval(currentSpawnInterval);
         cleanup();
+        console.log("Ending game");
+        clearInterval(configRefreshInterval) // Kill self
       }
       else {
         // get new config
         const receivedConfig = await getSessionConfig(lessonId, { sessionId });
-        // if received different config DTO than the current
+        // if received different config than the current
         if (JSON.stringify(currentConfig) !== JSON.stringify(receivedConfig)) {
           currentConfig = receivedConfig;
           // remove old intervals
@@ -138,7 +137,7 @@ asteroidButtons({
           currentObserver = observeSSRElements(session, currentConfig, canvasConfig)
         }
       }
-    }, configRefreshInterval)
+    }, 1000) // repeat after a second
   });
 
 console.log("server script finished");
