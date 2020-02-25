@@ -1,6 +1,6 @@
 import { Router } from "express";
-import SeqDataModels from "../../../database/sequelize"; 
-import {asteroid as asteroidConfig} from "../../../ReactGenerators/configs/gameConfigs"
+import SeqDataModels from "../../../database/sequelize";
+import { asteroid as asteroidConfig } from "../../../ReactGenerators/configs/gameConfigs"
 
 // Types
 import { IClickDataModel } from "../../../database/models/ClickData";
@@ -33,9 +33,8 @@ router.post("/register", async (req, res) => {
     );
     res.status(201).json(createdSession);
   } catch (error) {
-    // FIXME: https://stackoverflow.com/questions/14154337/how-to-send-a-custom-http-status-message-in-node-express
+    console.error(error);
     res.status(400).send("Error while trying to create/update a session in database");
-    console.log(error);
   }
 });
 
@@ -46,9 +45,7 @@ interface IEndSessionData {
 
 router.post("/register/end", async (req, res) => {
   const endData: IEndSessionData = req.body;
-  console.log("Received end session data:");
-  console.log(endData);
-  
+
   try {
     await SeqDataModels.Session.update(endData,
       {
@@ -57,20 +54,19 @@ router.post("/register/end", async (req, res) => {
     );
     res.status(204).send();
   } catch (error) {
+    console.error(error);
     res.status(400).send("Error while trying to update an entry in database");
-    console.log(error);
   }
 });
 
 router.post("/register/buttonClick", async (req, res) => {
   const clickData: IClickDataModel = req.body;
-  console.log("Received data:");
-  console.log(clickData);
 
   try {
     await SeqDataModels.ClickData.create(clickData);
     res.status(201).send();
   } catch (error) {
+    console.error(error)
     res.status(400).send("Error while trying to create an entry in database");
   }
 });

@@ -33,14 +33,11 @@ router.post("/config", async (req, res) => {
     });
     const { sessionConfigs }: ISession = dbData;
     if (sessionConfigs === undefined) throw new Error("dbData.sessionConfigs is undefined");
-    
+
     res.status(200).json(sessionConfigs[0]);
   } catch (error) {
-    res.status(400).json({
-      message: "Error while trying to fetch config",
-      error: error,
-    });
-    return
+    console.error(error);
+    res.status(400).send("Error while trying to fetch config");
   }
 });
 
@@ -53,10 +50,8 @@ router.post("/config/new", async (req, res) => {
 
     res.status(201).json(dbResponse);
   } catch (error) {
-    res.status(400).json({
-      message: "Error while trying to create config",
-      error: error,
-    });
+    console.error(error);
+    res.status(400).send("Error while trying to create config")
   }
 });
 

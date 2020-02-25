@@ -1,6 +1,5 @@
 import { Router } from "express";
 
-import asteroidButtons from "../../ReactGenerators/elements/meteorButton";
 import endSessionButton from "../../ReactGenerators/elements/endSessionButton";
 import questionElement from "../../ReactGenerators/elements/question";
 
@@ -15,8 +14,6 @@ router.get("/dataSet/:canvasWidth", async (req, res) => {
   console.log({ height, width });
 
   const questionHTMLPromise = questionElement({ conteinerHeight: height, width: questionWidth });
-  // TODO: atm answer elements aren't used so unnecesarry generation is removed
-  // const { correctHTMLElements, incorrectHTMLElements } = await asteroidButtons({ canvasWidth: width });
 
   const endSessionHTML = {
     html: endSessionButton({})
@@ -26,9 +23,6 @@ router.get("/dataSet/:canvasWidth", async (req, res) => {
     gameElements: {
       endSessionHTML,
       questionHTML: await questionHTMLPromise,
-
-      // correctHTMLElements,
-      // incorrectHTMLElements,
     }
   }
 
