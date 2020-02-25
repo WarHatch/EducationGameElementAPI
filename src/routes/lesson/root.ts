@@ -7,8 +7,8 @@ export interface ILessonCreateData {
   lessonId: string,
   teacherId: string,
   gameType: {
-    type: "asteroid",
-    // TODO: add more config
+    type: "asteroid"|"assembly",
+    // TODO: rely on types on EduGameManager/.../datahandler/data.d.ts
   },
 }
 
