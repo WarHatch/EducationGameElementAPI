@@ -7,7 +7,7 @@ export interface ILessonCreateData {
   lessonId: string,
   teacherId: string,
   gameType: {
-    type: "asteroid"|"assembly",
+    type: "asteroid" | "assembly",
     // TODO: rely on types on EduGameManager/.../datahandler/data.d.ts
   },
 }
@@ -29,27 +29,20 @@ router.post("/new", async (req, res) => {
 
     res.status(200).json(lesson);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     const duplicateLesson = await SeqDataModels.Lesson.findOne({
-      where: {
-        id
-      }
+      where: { id }
     });
     if (duplicateLesson) {
-      // TODO: res.status(409)
-      return res.json({
-        error,
-        message: "Lesson with that id already exists",
-        status: 409,
-      });
+      res.status(409).send("Lesson with that id already exists");
     }
-    return res.status(400).json(error);
+    return res.status(400).send("Unknown error while searching for lesson");
   }
 });
 
 router.post("/", async (req, res) => {
   const { body } = req;
-  
+
   // Build query from body
   const lessonQuery = {};
   Object.keys(body).forEach(bodyPropKey => lessonQuery[bodyPropKey] = body[bodyPropKey]);
@@ -67,8 +60,8 @@ router.post("/", async (req, res) => {
 
     res.status(200).json(lesson);
   } catch (error) {
-    console.log(error);
-    return res.status(400).json(error);
+    console.error(error);
+    return res.status(400).send("Error while finding lesson");
   }
 });
 

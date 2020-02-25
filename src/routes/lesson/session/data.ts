@@ -36,11 +36,8 @@ router.post("/data", async (req, res) => {
     }
     res.status(200).json(responseBody);
   } catch (error) {
-    res.status(400).json({
-      error: error,
-      message: "Error while trying to fetch data",
-    });
-    return
+    console.error(error);
+    res.status(400).send("Error while trying to fetch data");
   }
 });
 
