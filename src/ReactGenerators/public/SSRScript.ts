@@ -145,4 +145,4 @@ setTimeout(() => {
     });
 
   console.log("server script finished");
-}, 500)
+}, 700)

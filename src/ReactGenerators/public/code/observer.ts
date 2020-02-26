@@ -19,14 +19,11 @@ export default (session: ISession, gameConfig: ISessionConfig, canvasConfig: { c
 
   const observer = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
-      console.log("Mutation Detected: ");
-
       // Overwriting mutations Node type
       mutation.addedNodes.forEach((newNode: HTMLElement) => {
         if (newNode.classList.contains("SSRElement")) {
-          console.log(newNode)
           const ssrElement: HTMLElement = newNode;
-
+          // Asteroid game logic
           if (ssrElement.classList.contains("SSR-MeteorContainer")) {
             const { asteroidSecondsToCrash } = gameConfig;
             buttonFuncMount.mountFalling(ssrElement, canvasHeight, asteroidSecondsToCrash);
