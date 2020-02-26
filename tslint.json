@@ -9,7 +9,8 @@
             true,
             "double",
             "avoid-template"
-        ]
+        ],
+        "ban-ts-ignore": "warning"
     },
     "rulesDirectory": []
 }

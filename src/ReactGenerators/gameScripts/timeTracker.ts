@@ -9,7 +9,7 @@ const startTimer = () => {
 }
 
 const checkTimer = (instanceId: number) => {
-  // @ts-ignore
+  // @ts-ignore Date - Date operations work as expected
   return new Date() - timerStarts[instanceId];
 }
 

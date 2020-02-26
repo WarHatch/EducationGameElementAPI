@@ -13,7 +13,7 @@ const observerOptions = {
   subtree: true,
 };
 
-export default (session: ISession, gameConfig: ISessionConfig, canvasConfig: { canvasHeight: number; }, gameElement: Element) => {
+export default (session: ISession, gameConfig: ISessionConfig, canvasConfig: { canvasHeight: number; }) => {
   const { sessionId, lessonId } = session;
   const { canvasHeight } = canvasConfig;
 
@@ -40,7 +40,7 @@ export default (session: ISession, gameConfig: ISessionConfig, canvasConfig: { c
             }
           }
           else if (ssrElement.classList.contains(endButtonClassName)) {
-            endFuncMount.mountClick(ssrElement, sessionId, lessonId, gameElement);
+            endFuncMount.mountClick(ssrElement, sessionId, lessonId);
           }
           // else if (newNode.getAttribute("data-type") === "sessionId-text") {
           //   newNode.innerText = "session Id: " + sessionId;

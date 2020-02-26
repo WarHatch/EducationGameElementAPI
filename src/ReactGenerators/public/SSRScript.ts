@@ -19,7 +19,7 @@ import { ISessionConfig } from "../../database/models/SessionConfig";
 import { getSessionConfig } from "../dataHandler";
 import question from "../elements/question";
 import cleanup from "../gameScripts/asteroidGame/cleanup";
-import { appendToGame } from "./code/appendToGame";
+import { appendToGame, getHTMLCanvasElement } from "./code/HTMLCanvasManager";
 
 // * Asteroid Game Functions
 
@@ -31,9 +31,7 @@ interface IAsteroidElements {
 const spawnAsteroid = ({
   correctHTMLElements,
   incorrectHTMLElements,
-},
-  gameElement: Element
-) => {
+}) => {
   const spawnCorrect = Math.floor(Math.random() * 2) == 0;
 
   let htmlElementToSpawn;
@@ -46,19 +44,18 @@ const spawnAsteroid = ({
   }
   const newNode = htmlToElement(htmlElementToSpawn);
 
-  appendToGame(newNode, gameElement);
+  appendToGame(newNode);
 }
 
 const applyAsteroidConfig = (
   config: ISessionConfig,
   asteroidButtons: IAsteroidElements,
-  gameElement: Element,
 ) => {
   const { asteroidSpawnPerMinute } = config;
 
   const spawnTimeout = 60 * 1000 / asteroidSpawnPerMinute;
   const intervalSpawn = setInterval(() => {
-    spawnAsteroid(asteroidButtons, gameElement);
+    spawnAsteroid(asteroidButtons);
   }, spawnTimeout);
 
   return intervalSpawn;
@@ -93,19 +90,16 @@ const canvasConfig = { canvasWidth, questionWidth, canvasHeight };
 // --- Game start 
 // FIXME: Dirty fix for phaser.GameScene loading async after this script is mounted
 setTimeout(() => {
-  const gameElement = document.querySelector("#game");
-  if (gameElement == null) throw new Error("div element with id \"game\" is missing");
-
   const endButtonCollection = document.body.getElementsByClassName(endButtonClassName);
   if (endButtonCollection.length === 0) throw new Error("SSRScript ran before endButton element was spawned");
   for (let i = 0; i < endButtonCollection.length; i++) {
-    mountClick(endButtonCollection[i], sessionId, lessonId, gameElement);
+    mountClick(endButtonCollection[i], sessionId, lessonId);
   }
   // Single spawn elements
   question({ conteinerHeight: canvasHeight, width: questionWidth }).then((questionElement) => {
-    appendToGame(htmlToElement(questionElement.html), gameElement)
+    appendToGame(htmlToElement(questionElement.html))
   })
-  appendToGame(htmlToElement(shieldImage(canvasConfig)), gameElement);
+  appendToGame(htmlToElement(shieldImage(canvasConfig)));
 
   // --- Retrieve asteroid elements and start game
   asteroidButtons({
@@ -113,14 +107,14 @@ setTimeout(() => {
     questionWidth,
   })
     .then((asteroidElements) => {
-      let currentSpawnInterval = applyAsteroidConfig(currentConfig, asteroidElements, gameElement)
-      let currentObserver = observeSSRElements(session, currentConfig, canvasConfig, gameElement)
+      let currentSpawnInterval = applyAsteroidConfig(currentConfig, asteroidElements)
+      let currentObserver = observeSSRElements(session, currentConfig, canvasConfig)
 
       // --- Periodically check for config changes and update spawners
       const configRefreshInterval = setInterval(async () => {
         if (window.gameEnded) {
           clearInterval(currentSpawnInterval);
-          cleanup(gameElement);
+          cleanup(getHTMLCanvasElement());
           console.log("Ending game");
           clearInterval(configRefreshInterval) // Kill self
         }
@@ -133,16 +127,16 @@ setTimeout(() => {
             // remove old intervals
             clearInterval(currentSpawnInterval);
             // apply new intervals
-            currentSpawnInterval = applyAsteroidConfig(currentConfig, asteroidElements, gameElement)
+            currentSpawnInterval = applyAsteroidConfig(currentConfig, asteroidElements)
 
             // Disconnect old observer
             currentObserver.disconnect();
             // Setup SSR element observer with new config
-            currentObserver = observeSSRElements(session, currentConfig, canvasConfig, gameElement)
+            currentObserver = observeSSRElements(session, currentConfig, canvasConfig)
           }
         }
       }, 1000) // repeat after a second
     });
 
-  console.log("server script finished");
+  console.log("server script finished mounting");
 }, 700)

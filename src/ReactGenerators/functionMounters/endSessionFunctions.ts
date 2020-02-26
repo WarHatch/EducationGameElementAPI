@@ -1,7 +1,7 @@
 import axios from "axios";
 import endSessionSplash from "../elements/endSessionSplash";
 import htmlToElement from "../public/code/htmlToElement";
-import { appendToGame } from "../public/code/appendToGame";
+import { appendToGame } from "../public/code/HTMLCanvasManager";
 import config from "../../config";
 
 // Types
@@ -15,7 +15,7 @@ const endSessionClick = async (lessonId: string, data: IEndSessionData): Promise
   console.log({ sent: data, received: res });
 }
 
-export const mountClick = (buttonElement: Element, sessionId: string, lessonId: string, gameElement: Element) => {
+export const mountClick = (buttonElement: Element, sessionId: string, lessonId: string) => {
   buttonElement.addEventListener("click", () => {
     const now = new Date();
     endSessionClick(
@@ -25,7 +25,7 @@ export const mountClick = (buttonElement: Element, sessionId: string, lessonId: 
         sessionId,
       },
     )
-    appendToGame(htmlToElement(endSessionSplash({})), gameElement);
+    appendToGame(htmlToElement(endSessionSplash({})));
     window.gameEnded = true;
   })
 }

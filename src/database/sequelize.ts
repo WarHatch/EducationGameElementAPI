@@ -19,7 +19,6 @@ if (process.env.NODE_ENV === "production" && process.env.DATABASE_URL) {
 } else {
   // @ts-ignore
   sequelize = new Sequelize.Sequelize(databaseName, username, password,
-    // @ts-ignore no way to enfore correct env input
     {
       dialect,
       host,

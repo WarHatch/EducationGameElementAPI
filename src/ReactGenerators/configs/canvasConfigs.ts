@@ -4,6 +4,8 @@ export interface ICanvasConfig {
   questionWidth: number;
 }
 
+// FIXME: initial game shouldn't rely on server configs
+
 const canvasDimensions: ICanvasConfig[] = [
   // Medium devices (tablets, 768px and up)
   {
