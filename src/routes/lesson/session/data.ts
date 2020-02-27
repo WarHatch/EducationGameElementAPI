@@ -1,6 +1,6 @@
 import { Router } from "express";
 import SeqDataModels from "../../../database/sequelize";
-import { countAverageReactionTime, countPercentCorrect } from "../../../dataParsing";
+import { countAverageReactionTime, countPercentCorrect } from "../../../routeDataParsing";
 
 // Types
 import { ISession } from "../../../database/models/Session";
