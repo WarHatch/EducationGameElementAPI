@@ -7,19 +7,19 @@ import "./assets/shield_line.png"
 
 import observeSSRElements from "./code/observer";
 import htmlToElement from "./code/htmlToElement";
-import getCanvasDimensions from "../configs/canvasConfigs";
-import { mountClick } from "../functionMounters/endSessionFunctions";
+import { appendToGame, getHTMLCanvasElement } from "./code/HTMLCanvasManager";
 
 import asteroidButtons from "../elements/meteorButton";
 import shieldImage from "../elements/shieldImage";
+import question from "../elements/question";
 import { endButtonClassName } from "../elements/endSessionButton";
 
+import { mountClick } from "../functionMounters/endSessionFunctions";
+import { getSessionConfig } from "../dataHandler";
+import cleanup from "../gameScripts/asteroidGame/cleanup";
+import { questionWidth } from "../configs/commonElementConfigs";
 import { ISession } from "../../database/models/Session";
 import { ISessionConfig } from "../../database/models/SessionConfig";
-import { getSessionConfig } from "../dataHandler";
-import question from "../elements/question";
-import cleanup from "../gameScripts/asteroidGame/cleanup";
-import { appendToGame, getHTMLCanvasElement } from "./code/HTMLCanvasManager";
 
 // * Asteroid Game Functions
 
@@ -65,7 +65,13 @@ const applyAsteroidConfig = (
 
 declare global {
   interface Window {
+    // Set by client
     session?: ISession | null;
+    htmlCanvas?: {
+      canvasWidth: number
+      canvasHeight: number
+    }
+    // Initial set by server
     gameEnded: boolean;
   }
 }
@@ -74,7 +80,10 @@ declare global {
 if (window.session === undefined || window.session === null) {
   throw new Error("window.session is falsy");
 }
-const { session } = window;
+if (window.htmlCanvas === undefined) {
+  throw new Error("window.htmlCanvas is undefined");
+}
+const { session, htmlCanvas } = window;
 console.log(session);
 const { sessionId, lessonId, sessionConfigs } = session;
 if (sessionConfigs === undefined || sessionConfigs[0] === undefined) {
@@ -84,8 +93,7 @@ let currentConfig: ISessionConfig = sessionConfigs[0];
 
 window.gameEnded = false;
 
-const { width: canvasWidth, height: canvasHeight, questionWidth } = getCanvasDimensions(window.innerWidth);
-const canvasConfig = { canvasWidth, questionWidth, canvasHeight };
+const { canvasWidth, canvasHeight } = htmlCanvas;
 
 // --- Game start 
 // FIXME: Dirty fix for phaser.GameScene loading async after this script is mounted
@@ -99,7 +107,7 @@ setTimeout(() => {
   question({ conteinerHeight: canvasHeight, width: questionWidth }).then((questionElement) => {
     appendToGame(htmlToElement(questionElement.html))
   })
-  appendToGame(htmlToElement(shieldImage(canvasConfig)));
+  appendToGame(htmlToElement(shieldImage({canvasWidth, canvasHeight, questionWidth})));
 
   // --- Retrieve asteroid elements and start game
   asteroidButtons({
@@ -108,7 +116,7 @@ setTimeout(() => {
   })
     .then((asteroidElements) => {
       let currentSpawnInterval = applyAsteroidConfig(currentConfig, asteroidElements)
-      let currentObserver = observeSSRElements(session, currentConfig, canvasConfig)
+      let currentObserver = observeSSRElements(session, currentConfig, htmlCanvas)
 
       // --- Periodically check for config changes and update spawners
       const configRefreshInterval = setInterval(async () => {
@@ -132,7 +140,7 @@ setTimeout(() => {
             // Disconnect old observer
             currentObserver.disconnect();
             // Setup SSR element observer with new config
-            currentObserver = observeSSRElements(session, currentConfig, canvasConfig)
+            currentObserver = observeSSRElements(session, currentConfig, htmlCanvas)
           }
         }
       }, 1000) // repeat after a second

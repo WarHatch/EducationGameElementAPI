@@ -3,7 +3,6 @@ import * as endFuncMount from "../../functionMounters/endSessionFunctions";
 import timeTracker from "../../gameScripts/timeTracker";
 
 import { ISessionConfig } from "../../../database/models/SessionConfig";
-import { ICanvasConfig } from "../../configs/canvasConfigs";
 import { ISession } from "../../../database/models/Session";
 import { endButtonClassName } from "../../elements/endSessionButton";
 
