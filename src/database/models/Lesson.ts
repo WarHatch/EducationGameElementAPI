@@ -2,6 +2,7 @@ import { ISeqModel } from "../sequelize.d"
 
 export interface ILesson extends ISeqModel {
   teacherId: string,
+  contentSlug: string,
   gameTypeJSON: string,
 }
 
@@ -12,6 +13,10 @@ const Lesson = (sequelize, type) => {
       primaryKey: true,
     },
     teacherId: {
+      type: type.STRING,
+      allowNull: false,
+    },
+    contentSlug: {
       type: type.STRING,
       allowNull: false,
     },

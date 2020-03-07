@@ -3,24 +3,33 @@ import { Router } from "express";
 import SeqDataModels from "../../database/sequelize";
 import { ILesson } from "../../database/models/Lesson";
 
-export interface ILessonCreateData {
-  lessonId: string,
+interface ILessonCreate {
+  id: string,
   teacherId: string,
+  contentSlug: string,
+}
+
+interface ILessonCreateReqPayload extends ILessonCreate {
   gameType: {
-    type: "asteroid" | "assembly",
     // TODO: rely on types on EduGameManager/.../datahandler/data.d.ts
+    type: "asteroid" | "assembly",
   },
+}
+
+interface ILessonCreateData extends ILessonCreate {
+  gameTypeJSON: string
 }
 
 const router = Router();
 
 router.post("/new", async (req, res) => {
-  const { body } = req;
-  const { id, teacherId, gameType } = body;
+  const { body }: { body: ILessonCreateReqPayload} = req;
+  const { id, teacherId, gameType, contentSlug } = body;
 
-  const lessonCreateData = {
+  const lessonCreateData: ILessonCreateData = {
     id,
     teacherId,
+    contentSlug,
 
     gameTypeJSON: JSON.stringify(gameType)
   }
