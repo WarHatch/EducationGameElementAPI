@@ -1,7 +1,7 @@
 import axios from "axios";
 import endSessionSplash from "../elements/endSessionSplash";
-import htmlToElement from "../public/code/htmlToElement";
-import { appendToGame } from "../public/code/HTMLCanvasManager";
+import htmlToElement from "../gameScripts/htmlToElement";
+import { appendToGame } from "../gameScripts/HTMLCanvasManager";
 import config from "../../config";
 
 // Types

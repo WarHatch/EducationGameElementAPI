@@ -5,46 +5,26 @@ import "./gameElementsStylesheet.css"
 import "./assets/meteor.png"
 import "./assets/shield_line.png"
 
-import observeSSRElements from "./code/observer";
-import htmlToElement from "./code/htmlToElement";
-import { appendToGame, getHTMLCanvasElement } from "./code/HTMLCanvasManager";
-
 import asteroidButtons from "../elements/meteorButton";
 import shieldImage from "../elements/shieldImage";
 import question from "../elements/question";
 import { endButtonClassName } from "../elements/endSessionButton";
 
+import observeSSRElements from "../gameScripts/observer";
+import htmlToElement from "../gameScripts/htmlToElement";
+import { appendToGame, getHTMLCanvasElement } from "../gameScripts/HTMLCanvasManager";
+import spawnAsteroid from "../gameScripts/asteroidGame/spawnAsteroid";
+import cleanup from "../gameScripts/asteroidGame/cleanup";
 import { mountClick } from "../functionMounters/endSessionFunctions";
 import { getSessionConfig } from "../dataHandler";
-import cleanup from "../gameScripts/asteroidGame/cleanup";
 import { questionWidth } from "../configs/commonElementConfigs";
 import { ISession } from "../../database/models/Session";
 import { ISessionConfig } from "../../database/models/SessionConfig";
 
-// * Asteroid Game Functions
 
 interface IAsteroidElements {
   correctHTMLElements,
   incorrectHTMLElements
-}
-
-const spawnAsteroid = ({
-  correctHTMLElements,
-  incorrectHTMLElements,
-}) => {
-  const spawnCorrect = Math.floor(Math.random() * 2) == 0;
-
-  let htmlElementToSpawn;
-  if (spawnCorrect) {
-    const htmlElementToSpawnIndex = Math.floor(Math.random() * correctHTMLElements.length);
-    htmlElementToSpawn = correctHTMLElements[htmlElementToSpawnIndex].html;
-  } else {
-    const htmlElementToSpawnIndex = Math.floor(Math.random() * incorrectHTMLElements.length);
-    htmlElementToSpawn = incorrectHTMLElements[htmlElementToSpawnIndex].html;
-  }
-  const newNode = htmlToElement(htmlElementToSpawn);
-
-  appendToGame(newNode);
 }
 
 const applyAsteroidConfig = (
@@ -107,7 +87,7 @@ setTimeout(() => {
   question({ conteinerHeight: canvasHeight, width: questionWidth }).then((questionElement) => {
     appendToGame(htmlToElement(questionElement.html))
   })
-  appendToGame(htmlToElement(shieldImage({canvasWidth, canvasHeight, questionWidth})));
+  appendToGame(htmlToElement(shieldImage({ canvasWidth, canvasHeight, questionWidth })));
 
   // --- Retrieve asteroid elements and start game
   asteroidButtons({

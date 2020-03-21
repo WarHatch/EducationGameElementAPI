@@ -1,10 +1,10 @@
-import * as buttonFuncMount from "../../functionMounters/buttonFunctions";
-import * as endFuncMount from "../../functionMounters/endSessionFunctions";
-import timeTracker from "../../gameScripts/timeTracker";
+import * as buttonFuncMount from "../functionMounters/buttonFunctions";
+import * as endFuncMount from "../functionMounters/endSessionFunctions";
+import timeTracker from "./timeTracker";
 
-import { ISessionConfig } from "../../../database/models/SessionConfig";
-import { ISession } from "../../../database/models/Session";
-import { endButtonClassName } from "../../elements/endSessionButton";
+import { ISessionConfig } from "../../database/models/SessionConfig";
+import { ISession } from "../../database/models/Session";
+import { endButtonClassName } from "../elements/endSessionButton";
 
 const observerOptions = {
   attributes: false,
