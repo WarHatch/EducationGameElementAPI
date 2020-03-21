@@ -1,0 +1,1 @@
+console.log("EduSentenceConstructor script finished mounting");

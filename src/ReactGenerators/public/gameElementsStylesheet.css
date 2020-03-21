@@ -17,8 +17,7 @@
   font-size: medium;
 }
 
-.SSR-MeteorContainer {
-}
+/* TODO: cut MeteorContainer and other gametype specific rules */
 
 .SSR-MeteorContainer .SSR-Meteor {
   width: 100px;

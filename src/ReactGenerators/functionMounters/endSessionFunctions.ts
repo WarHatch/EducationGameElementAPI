@@ -17,6 +17,8 @@ const endSessionClick = async (lessonId: string, data: IEndSessionData): Promise
 
 export const mountClick = (buttonElement: Element, sessionId: string, lessonId: string) => {
   buttonElement.addEventListener("click", () => {
+    if (window.gameEnded === true) return;
+    
     const now = new Date();
     endSessionClick(
       lessonId,
