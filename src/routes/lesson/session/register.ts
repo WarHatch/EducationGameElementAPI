@@ -3,9 +3,8 @@ import SeqDataModels from "../../../database/sequelize";
 import { asteroid as asteroidConfig } from "../../../ReactGenerators/configs/gameConfigs"
 
 // Types
-import { IClickDataModel } from "../../../database/models/ClickData";
+import { IAsteroidClickDataModel } from "../../../database/models/AsteroidClickData";
 import { ISession } from "../../../database/models/Session";
-import { ISessionConfig } from "../../../database/models/SessionConfig";
 
 const router = Router();
 
@@ -15,23 +14,57 @@ router.post("/register", async (req, res) => {
   try {
     await SeqDataModels.Session.upsert(startData);
 
-    const sessionConfigDefaultPayload: ISessionConfig = {
-      asteroidSecondsToCrash: asteroidConfig.defaultSessionConfig.asteroidSecondsToCrash,
-      asteroidSpawnPerMinute: asteroidConfig.defaultSessionConfig.asteroidSpawnPerMinute,
-      sessionId: startData.sessionId,
-    }
-    await SeqDataModels.SessionConfig.upsert(sessionConfigDefaultPayload);
-    // Fetch what was created
-    const createdSession = await SeqDataModels.Session.findOne(
-      {
-        where: { sessionId: startData.sessionId },
 
-        include: [
-          { model: SeqDataModels.SessionConfig }
-        ]
+    // Find the lesson by id to extract gameType
+    const parentLesson = await SeqDataModels.Lesson.findOne(
+      {
+        where: { id: startData.lessonId },
       }
     );
-    res.status(201).json(createdSession);
+    const { gameType } = parentLesson;
+
+    // by gameType determine which sessionConfig should be used
+    if (gameType === "asteroid") {
+      await SeqDataModels.SessionConfig.upsert({
+        asteroidSecondsToCrash: asteroidConfig.defaultSessionConfig.asteroidSecondsToCrash,
+        asteroidSpawnPerMinute: asteroidConfig.defaultSessionConfig.asteroidSpawnPerMinute,
+        sessionId: startData.sessionId,
+        gameType,
+      });
+      // Fetch what was created
+      const createdSession = await SeqDataModels.Session.findOne(
+        {
+          where: { sessionId: startData.sessionId },
+
+          include: [
+            { model: SeqDataModels.SessionConfig }
+          ]
+        }
+      );
+      res.status(201).json(createdSession);
+    } else if (gameType === "sentenceConstructor") {
+      // await SeqDataModels.SentenceConstructorSessionConfig.upsert({
+      //   ...
+      //   sessionId: startData.sessionId,
+      //   gameType,
+      // });
+
+      // Fetch what was created
+      // const createdSession = await SeqDataModels.Session.findOne(
+      //   {
+      //     where: { sessionId: startData.sessionId },
+
+      //     include: [
+      //       { model: SeqDataModels.SentenceConstructorSessionConfig }
+      //     ]
+      //   }
+      // );
+      // res.status(201).json(createdSession);
+
+      res.status(501);
+    } else {
+      res.status(422).send("gameType should be 'asteroid' or 'serviceConstructor'. Received: " + gameType);
+    }
   } catch (error) {
     console.error(error);
     res.status(400).send("Error while trying to create/update a session in database");
@@ -59,11 +92,12 @@ router.post("/register/end", async (req, res) => {
   }
 });
 
+// FIXME: assume multiple clickData tables
 router.post("/register/buttonClick", async (req, res) => {
-  const clickData: IClickDataModel = req.body;
+  const asteroidClickData: IAsteroidClickDataModel = req.body;
 
   try {
-    await SeqDataModels.ClickData.create(clickData);
+    await SeqDataModels.AsteroidClickData.create(asteroidClickData);
     res.status(201).send();
   } catch (error) {
     console.error(error)

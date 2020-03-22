@@ -1,6 +1,6 @@
 import { ISeqModel } from "../sequelize.d"
 
-export interface IClickDataModel extends ISeqModel {
+export interface IAsteroidClickDataModel extends ISeqModel {
   sessionId: string,
   reactionTime: number,
   correct: boolean,
@@ -8,7 +8,7 @@ export interface IClickDataModel extends ISeqModel {
 }
 
 export default (sequelize, type) => {
-  return sequelize.define("clickData", {
+  return sequelize.define("asteroidClickData", {
     id: {
       type: type.INTEGER,
       primaryKey: true,

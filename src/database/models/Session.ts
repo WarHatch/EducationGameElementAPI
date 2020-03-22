@@ -1,11 +1,11 @@
 import { ISeqModel } from "../sequelize.d"
-import { IClickDataModel } from "./ClickData";
+import { IAsteroidClickDataModel } from "./AsteroidClickData";
 import { ISessionConfig } from "./SessionConfig";
 
 export interface ISession extends ISeqModel {
   sessionId: string,
   finishedAt: string | null,
-  clickData?: IClickDataModel[],
+  asteroidClickData?: IAsteroidClickDataModel[],
   sessionConfigs?: ISessionConfig[],
   lessonId: string,
   playerName: string,
@@ -33,7 +33,7 @@ const Session = (sequelize, type) => {
 
 export default (sequelize, type, hasMany: { [key: string]: any }) => {
   const SessionModel = Session(sequelize, type);
-  SessionModel.hasMany(hasMany.ClickData, { foreignKey: "sessionId", allowNull: false })
+  SessionModel.hasMany(hasMany.AsteroidClickData, { foreignKey: "sessionId", allowNull: false })
   SessionModel.hasMany(hasMany.SessionConfig, { foreignKey: "sessionId", allowNull: false })
 
   return SessionModel

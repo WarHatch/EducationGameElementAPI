@@ -1,9 +1,9 @@
 
 
 // Types
-import { IClickDataModel } from "../database/models/ClickData";
+import { IAsteroidClickDataModel } from "../database/models/AsteroidClickData";
 
-export const countPercentCorrect = (sessionData: IClickDataModel[]) => {
+export const countPercentCorrect = (sessionData: IAsteroidClickDataModel[]) => {
   const dataEntryCount = sessionData.length;
 
   let correctCount = 0;
@@ -21,7 +21,7 @@ export const countPercentCorrect = (sessionData: IClickDataModel[]) => {
   }
 }
 
-export const countAverageReactionTime = (sessionData: IClickDataModel[]) => {
+export const countAverageReactionTime = (sessionData: IAsteroidClickDataModel[]) => {
   const dataEntryCount = sessionData.length;
 
   let reactionTime = 0;

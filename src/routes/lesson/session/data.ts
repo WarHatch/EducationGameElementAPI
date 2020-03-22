@@ -22,14 +22,14 @@ router.post("/data", async (req, res) => {
       },
 
       include: [
-        { model: SeqDataModels.ClickData }
+        { model: SeqDataModels.AsteroidClickData }
       ]
     });
-    const { clickData }: ISession = dbData;
-    if (clickData === undefined) throw new Error("dbData.clickData is undefined");
-    const { correctPercentage, incorrectPercentage } = countPercentCorrect(clickData);
+    const { asteroidClickData }: ISession = dbData;
+    if (asteroidClickData === undefined) throw new Error("dbData.asteroidClickData is undefined");
+    const { correctPercentage, incorrectPercentage } = countPercentCorrect(asteroidClickData);
     const responseBody = {
-      averageReactionTime: countAverageReactionTime(clickData),
+      averageReactionTime: countAverageReactionTime(asteroidClickData),
       correctPercentage,
       fullData: dbData,
       incorrectPercentage,

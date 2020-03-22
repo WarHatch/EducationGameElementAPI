@@ -5,6 +5,7 @@ import "./gameElementsStylesheet.css"
 
 // ------------ Game types
 import EduAsteroidsStart from "./EduAsteroids";
+import EduSentenceConstructorStart from "./EduSentenceConstructor";
 
 // ------------ Interfaces
 import { ISession } from "../../database/models/Session";
@@ -42,4 +43,17 @@ let initialSessionConfig: ISessionConfig = sessionConfigs[0];
 
 // ------------ Game launch
 window.gameEnded = false;
-EduAsteroidsStart(session, initialSessionConfig, htmlCanvas)
+
+const { gameType } = initialSessionConfig;
+switch (gameType) {
+  case "asteroid":
+    EduAsteroidsStart(session, initialSessionConfig, htmlCanvas)
+    break;
+
+    case "sentenceConstructor":
+    EduSentenceConstructorStart(session, initialSessionConfig, htmlCanvas)
+    break;
+
+  default:
+    throw new Error("gameType has incorrect value: " + gameType);
+}

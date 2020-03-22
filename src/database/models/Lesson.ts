@@ -3,7 +3,7 @@ import { ISeqModel } from "../sequelize.d"
 export interface ILesson extends ISeqModel {
   teacherId: string,
   contentSlug: string,
-  gameTypeJSON: string,
+  gameType: string,
 }
 
 const Lesson = (sequelize, type) => {

@@ -1,5 +1,5 @@
 import Sequelize from "sequelize";
-import clickDataModel from "./models/ClickData";
+import asteroidClickDataModel from "./models/AsteroidClickData";
 import sessionModel from "./models/Session";
 import sessionConfigModel from "./models/SessionConfig";
 import lessonModel from "./models/Lesson";
@@ -27,11 +27,11 @@ if (process.env.NODE_ENV === "production" && process.env.DATABASE_URL) {
   )
 }
 
-const ClickData = clickDataModel(sequelize, Sequelize)
+const AsteroidClickData = asteroidClickDataModel(sequelize, Sequelize)
 const SessionConfig = sessionConfigModel(sequelize, Sequelize)
 const Session = sessionModel(sequelize, Sequelize,
   {
-    ClickData,
+    AsteroidClickData,
     SessionConfig,
   }
 )
@@ -47,7 +47,7 @@ sequelize.sync({ force: true })
   })
 
 export default {
-  ClickData,
+  AsteroidClickData,
   SessionConfig,
   Session,
   Lesson,

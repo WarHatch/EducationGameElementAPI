@@ -4,6 +4,7 @@ export interface ISessionConfig extends ISeqModel {
   sessionId: string,
   asteroidSpawnPerMinute: number,
   asteroidSecondsToCrash: number,
+  gameType: string,
 }
 
 export default (sequelize, type) => {
@@ -20,6 +21,10 @@ export default (sequelize, type) => {
     },
     asteroidSecondsToCrash: {
       type: type.INTEGER,
+      allowNull: false,
+    },
+    gameType: {
+      type: type.STRING,
       allowNull: false,
     }
     // remove updatedAt
