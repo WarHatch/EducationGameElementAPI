@@ -20,7 +20,7 @@ const Lesson = (sequelize, type) => {
       type: type.STRING,
       allowNull: false,
     },
-    gameTypeJSON: {
+    gameType: {
       type: type.STRING,
       allowNull: false,
     }

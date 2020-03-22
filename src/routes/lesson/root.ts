@@ -10,37 +10,22 @@ interface ILessonCreate {
 }
 
 interface ILessonCreateReqPayload extends ILessonCreate {
-  gameType: {
-    // TODO: rely on types on EduGameManager/.../datahandler/data.d.ts
-    type: "asteroid" | "assembly",
-  },
-}
-
-interface ILessonCreateData extends ILessonCreate {
-  gameTypeJSON: string
+  // TODO: rely on types on EduGameManager/.../datahandler/data.d.ts
+  gameType: "asteroid" | "sentenceConstructor",
 }
 
 const router = Router();
 
 router.post("/new", async (req, res) => {
-  const { body }: { body: ILessonCreateReqPayload} = req;
-  const { id, teacherId, gameType, contentSlug } = body;
+  const { body: lessonCreateData }: { body: ILessonCreateReqPayload} = req;
 
-  const lessonCreateData: ILessonCreateData = {
-    id,
-    teacherId,
-    contentSlug,
-
-    gameTypeJSON: JSON.stringify(gameType)
-  }
   try {
     const lesson: ILesson = await SeqDataModels.Lesson.create(lessonCreateData);
-
     res.status(200).json(lesson);
   } catch (error) {
     console.error(error);
     const duplicateLesson = await SeqDataModels.Lesson.findOne({
-      where: { id }
+      where: { id: lessonCreateData.id }
     });
     if (duplicateLesson) {
       res.status(409).send("Lesson with that id already exists");
