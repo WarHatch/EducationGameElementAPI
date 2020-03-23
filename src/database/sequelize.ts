@@ -1,7 +1,7 @@
 import Sequelize from "sequelize";
 import asteroidClickDataModel from "./models/AsteroidClickData";
 import sessionModel from "./models/Session";
-import sessionConfigModel from "./models/SessionConfig";
+import asteroidSessionConfigModel from "./models/AsteroidSessionConfig";
 import lessonModel from "./models/Lesson";
 import config from "../config"
 
@@ -28,11 +28,11 @@ if (process.env.NODE_ENV === "production" && process.env.DATABASE_URL) {
 }
 
 const AsteroidClickData = asteroidClickDataModel(sequelize, Sequelize)
-const SessionConfig = sessionConfigModel(sequelize, Sequelize)
+const AsteroidSessionConfig = asteroidSessionConfigModel(sequelize, Sequelize)
 const Session = sessionModel(sequelize, Sequelize,
   {
     AsteroidClickData,
-    SessionConfig,
+    AsteroidSessionConfig,
   }
 )
 const Lesson = lessonModel(sequelize, Sequelize,
@@ -48,7 +48,7 @@ sequelize.sync({ force: true })
 
 export default {
   AsteroidClickData,
-  SessionConfig,
+  AsteroidSessionConfig,
   Session,
   Lesson,
 }

@@ -1,6 +1,6 @@
 import Axios from "axios";
 import config from "../config";
-import { ISessionConfig } from "../database/models/SessionConfig";
+import { IAsteroidSessionConfig } from "../database/models/AsteroidSessionConfig";
 import { ILesson } from "../database/models/Lesson";
 
 export interface IAnswer {
@@ -25,7 +25,7 @@ export const getCMSData = async () => {
 }
 
 export const getSessionConfig = async (lessonId: string, payload: {sessionId: string}) => {
-  const { data } = await Axios.post<ISessionConfig>(`${config.host}/lesson/${lessonId}/session/config`, payload);
+  const { data } = await Axios.post<IAsteroidSessionConfig>(`${config.host}/lesson/${lessonId}/session/config`, payload);
   return data;
 }
 

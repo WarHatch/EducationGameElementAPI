@@ -1,14 +1,12 @@
-import { ISeqModel } from "../sequelize.d"
+import { ISessionGameTypeConfigBase } from "../sequelize.d"
 
-export interface ISessionConfig extends ISeqModel {
-  sessionId: string,
+export interface IAsteroidSessionConfig extends ISessionGameTypeConfigBase {
   asteroidSpawnPerMinute: number,
   asteroidSecondsToCrash: number,
-  gameType: string,
 }
 
 export default (sequelize, type) => {
-  return sequelize.define("sessionConfig", {
+  return sequelize.define("asteroidSessionConfig", {
     id: {
       type: type.INTEGER,
 

@@ -25,7 +25,7 @@ router.post("/register", async (req, res) => {
 
     // by gameType determine which sessionConfig should be used
     if (gameType === "asteroid") {
-      await SeqDataModels.SessionConfig.upsert({
+      await SeqDataModels.AsteroidSessionConfig.upsert({
         asteroidSecondsToCrash: asteroidConfig.defaultSessionConfig.asteroidSecondsToCrash,
         asteroidSpawnPerMinute: asteroidConfig.defaultSessionConfig.asteroidSpawnPerMinute,
         sessionId: startData.sessionId,
@@ -37,7 +37,7 @@ router.post("/register", async (req, res) => {
           where: { sessionId: startData.sessionId },
 
           include: [
-            { model: SeqDataModels.SessionConfig }
+            { model: SeqDataModels.AsteroidSessionConfig }
           ]
         }
       );
@@ -92,7 +92,7 @@ router.post("/register/end", async (req, res) => {
   }
 });
 
-// FIXME: assume multiple clickData tables
+// TODO: rename endpoint to asteroidButtonClick
 router.post("/register/buttonClick", async (req, res) => {
   const asteroidClickData: IAsteroidClickDataModel = req.body;
 

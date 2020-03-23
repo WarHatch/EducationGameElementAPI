@@ -9,7 +9,6 @@ import EduSentenceConstructorStart from "./EduSentenceConstructor";
 
 // ------------ Interfaces
 import { ISession } from "../../database/models/Session";
-import { ISessionConfig } from "../../database/models/SessionConfig";
 
 declare global {
   interface IHTMLCanvas {
@@ -35,25 +34,15 @@ if (window.htmlCanvas === undefined) {
 }
 const { session, htmlCanvas } = window;
 console.log(session);
-const { sessionConfigs } = session;
-if (sessionConfigs === undefined || sessionConfigs[0] === undefined) {
-  throw new Error("sessionConfigs is undefined");
-}
-let initialSessionConfig: ISessionConfig = sessionConfigs[0];
 
 // ------------ Game launch
 window.gameEnded = false;
-
-const { gameType } = initialSessionConfig;
-switch (gameType) {
-  case "asteroid":
-    EduAsteroidsStart(session, initialSessionConfig, htmlCanvas)
-    break;
-
-    case "sentenceConstructor":
-    EduSentenceConstructorStart(session, initialSessionConfig, htmlCanvas)
-    break;
-
-  default:
-    throw new Error("gameType has incorrect value: " + gameType);
+// Game mode determined by initial session config
+const { asteroidSessionConfigs, sentenceConstructorConfigs } = session;
+if (asteroidSessionConfigs !== undefined && asteroidSessionConfigs[0] !== undefined) {
+  EduAsteroidsStart(session, asteroidSessionConfigs[0], htmlCanvas)
+} else if (sentenceConstructorConfigs !== undefined && sentenceConstructorConfigs[0] !== undefined) {
+  EduSentenceConstructorStart(session, sentenceConstructorConfigs[0], htmlCanvas)
+} else {
+  throw new Error("no (initial) session configuration received - cannot determine game type");
 }

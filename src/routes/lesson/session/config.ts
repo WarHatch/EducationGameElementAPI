@@ -5,13 +5,14 @@ import SeqDataModels from "../../../database/sequelize";
 
 // Types  
 import { ISession } from "../../../database/models/Session";
-import { ISessionConfig } from "../../../database/models/SessionConfig";
+import { IAsteroidSessionConfig } from "../../../database/models/AsteroidSessionConfig";
+import { ISessionGameTypeConfigBase } from "../../../database/sequelize.d";
 
 export type ISessionDataRequestModel = {
   sessionId: string,
 }
 
-const { Session, SessionConfig } = SeqDataModels;
+const { Session, AsteroidSessionConfig } = SeqDataModels;
 
 const router = Router();
 
@@ -25,16 +26,16 @@ router.post("/config", async (req, res) => {
         sessionId
       },
       include: [
-        { model: SessionConfig }
+        { model: AsteroidSessionConfig }
       ],
       order: [
-        [SessionConfig, "createdAt", "DESC"],
+        [AsteroidSessionConfig, "createdAt", "DESC"],
       ]
     });
-    const { sessionConfigs }: ISession = dbData;
-    if (sessionConfigs === undefined) throw new Error("dbData.sessionConfigs is undefined");
+    const { asteroidSessionConfigs } = dbData;
+    if (asteroidSessionConfigs === undefined) throw new Error("dbData.sessionConfigs is undefined");
 
-    res.status(200).json(sessionConfigs[0]);
+    res.status(200).json(asteroidSessionConfigs[0]);
   } catch (error) {
     console.error(error);
     res.status(400).send("Error while trying to fetch config");
@@ -46,7 +47,7 @@ router.post("/config/new", async (req, res) => {
   const { body } = req;
 
   try {
-    const dbResponse: Promise<ISessionConfig> = await SessionConfig.create(body);
+    const dbResponse: Promise<IAsteroidSessionConfig> = await AsteroidSessionConfig.create(body);
 
     res.status(201).json(dbResponse);
   } catch (error) {

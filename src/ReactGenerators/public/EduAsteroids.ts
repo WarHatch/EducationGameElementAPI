@@ -16,7 +16,7 @@ import { mountClick } from "../functionMounters/endSessionFunctions";
 import { getSessionConfig } from "../dataHandler";
 import { questionWidth } from "../configs/commonElementConfigs";
 import { ISession } from "../../database/models/Session";
-import { ISessionConfig } from "../../database/models/SessionConfig";
+import { IAsteroidSessionConfig } from "../../database/models/AsteroidSessionConfig";
 
 
 interface IAsteroidElements {
@@ -25,7 +25,7 @@ interface IAsteroidElements {
 }
 
 const applyAsteroidConfig = (
-  config: ISessionConfig,
+  config: IAsteroidSessionConfig,
   asteroidButtons: IAsteroidElements,
 ) => {
   const { asteroidSpawnPerMinute } = config;
@@ -38,8 +38,8 @@ const applyAsteroidConfig = (
   return intervalSpawn;
 }
 
-export default (sessionData: ISession, sessionConfig: ISessionConfig, htmlCanvas: IHTMLCanvas) => {
-  const { sessionId, lessonId, sessionConfigs } = sessionData;
+export default (sessionData: ISession, sessionConfig: IAsteroidSessionConfig, htmlCanvas: IHTMLCanvas) => {
+  const { sessionId, lessonId } = sessionData;
   const { canvasWidth, canvasHeight } = htmlCanvas;
 
   // FIXME: Dirty fix for phaser.GameScene loading async after this script is mounted

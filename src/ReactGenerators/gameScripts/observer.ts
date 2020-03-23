@@ -2,9 +2,10 @@ import * as buttonFuncMount from "../functionMounters/buttonFunctions";
 import * as endFuncMount from "../functionMounters/endSessionFunctions";
 import timeTracker from "./timeTracker";
 
-import { ISessionConfig } from "../../database/models/SessionConfig";
+import { IAsteroidSessionConfig } from "../../database/models/AsteroidSessionConfig";
 import { ISession } from "../../database/models/Session";
 import { endButtonClassName } from "../elements/endSessionButton";
+import { ISessionGameTypeConfigBase } from "../../database/sequelize.d";
 
 const observerOptions = {
   attributes: false,
@@ -12,7 +13,7 @@ const observerOptions = {
   subtree: true,
 };
 
-export default (session: ISession, gameConfig: ISessionConfig, canvasConfig: { canvasHeight: number; }) => {
+export default (session: ISession, gameConfig: IAsteroidSessionConfig, canvasConfig: { canvasHeight: number; }) => {
   const { sessionId, lessonId } = session;
   const { canvasHeight } = canvasConfig;
 

@@ -9,10 +9,10 @@ import { appendToGame, getHTMLCanvasElement } from "../gameScripts/HTMLCanvasMan
 import { mountClick } from "../functionMounters/endSessionFunctions";
 import { getSessionConfig } from "../dataHandler";
 import { ISession } from "../../database/models/Session";
-import { ISessionConfig } from "../../database/models/SessionConfig";
+import { IAsteroidSessionConfig } from "../../database/models/AsteroidSessionConfig";
 
-export default (sessionData: ISession, sessionConfig: ISessionConfig, htmlCanvas: IHTMLCanvas) => {
-  const { sessionId, lessonId, sessionConfigs } = sessionData;
+export default (sessionData: ISession, sentenceConstructorSessionConfig, htmlCanvas: IHTMLCanvas) => {
+  const { sessionId, lessonId } = sessionData;
   const { canvasWidth, canvasHeight } = htmlCanvas;
 
   console.log("EduSentenceConstructor script finished mounting");

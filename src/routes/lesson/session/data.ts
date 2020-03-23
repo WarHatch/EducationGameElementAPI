@@ -4,6 +4,7 @@ import { countAverageReactionTime, countPercentCorrect } from "../../../routeDat
 
 // Types
 import { ISession } from "../../../database/models/Session";
+import { IAsteroidSessionConfig } from "../../../database/models/AsteroidSessionConfig";
 
 export type ISessionDataRequestModel = {
   sessionId: string,
