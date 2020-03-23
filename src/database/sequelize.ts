@@ -1,7 +1,9 @@
 import Sequelize from "sequelize";
 import asteroidClickDataModel from "./models/AsteroidClickData";
+import sentenceConstructorClickDataModel from "./models/SentenceConstructorClickData";
 import sessionModel from "./models/Session";
 import asteroidSessionConfigModel from "./models/AsteroidSessionConfig";
+import sentenceConstructorConfigModel from "./models/SentenceConstructorConfig";
 import lessonModel from "./models/Lesson";
 import config from "../config"
 
@@ -29,10 +31,14 @@ if (process.env.NODE_ENV === "production" && process.env.DATABASE_URL) {
 
 const AsteroidClickData = asteroidClickDataModel(sequelize, Sequelize)
 const AsteroidSessionConfig = asteroidSessionConfigModel(sequelize, Sequelize)
+const SentenceConstructorClickData = sentenceConstructorClickDataModel(sequelize, Sequelize)
+const SentenceConstructorConfig = sentenceConstructorConfigModel(sequelize, Sequelize)
 const Session = sessionModel(sequelize, Sequelize,
   {
     AsteroidClickData,
     AsteroidSessionConfig,
+    SentenceConstructorClickData,
+    SentenceConstructorConfig
   }
 )
 const Lesson = lessonModel(sequelize, Sequelize,
@@ -49,6 +55,8 @@ sequelize.sync({ force: true })
 export default {
   AsteroidClickData,
   AsteroidSessionConfig,
+  SentenceConstructorClickData,
+  SentenceConstructorConfig,
   Session,
   Lesson,
 }

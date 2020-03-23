@@ -27,12 +27,12 @@ const Lesson = (sequelize, type) => {
   })
 }
 
-export default (sequelize, type, hasMany: { [key: string]: any }) => {
+export default (sequelize, type, hasManyTables: { [key: string]: any }) => {
   const LessonModel = Lesson(sequelize, type);
-  for (const modelKey in hasMany) {
-    if (hasMany.hasOwnProperty(modelKey)) {
-      const model = hasMany[modelKey];
-      LessonModel.hasMany(model, {foreignKey: "lessonId"})
+  for (const tableKey in hasManyTables) {
+    if (hasManyTables.hasOwnProperty(tableKey)) {
+      const table = hasManyTables[tableKey];
+      LessonModel.hasMany(table, {foreignKey: "lessonId"})
     }
   }
 
