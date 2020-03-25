@@ -43,25 +43,22 @@ router.post("/register", async (req, res) => {
       );
       res.status(201).json(createdSession);
     } else if (gameType === "sentenceConstructor") {
-      // await SeqDataModels.SentenceConstructorSessionConfig.upsert({
-      //   ...
-      //   sessionId: startData.sessionId,
-      //   gameType,
-      // });
+      await SeqDataModels.SentenceConstructorConfig.upsert({
+        // hintMessage and contentSlug are optional
+        gameType,
+      });
 
       // Fetch what was created
-      // const createdSession = await SeqDataModels.Session.findOne(
-      //   {
-      //     where: { sessionId: startData.sessionId },
+      const createdSession = await SeqDataModels.Session.findOne(
+        {
+          where: { sessionId: startData.sessionId },
 
-      //     include: [
-      //       { model: SeqDataModels.SentenceConstructorSessionConfig }
-      //     ]
-      //   }
-      // );
-      // res.status(201).json(createdSession);
-
-      res.status(501);
+          include: [
+            { model: SeqDataModels.SentenceConstructorConfig }
+          ]
+        }
+      );
+      res.status(201).json(createdSession);
     } else {
       res.status(422).send("gameType should be 'asteroid' or 'serviceConstructor'. Received: " + gameType);
     }

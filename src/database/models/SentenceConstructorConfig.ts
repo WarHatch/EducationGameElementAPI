@@ -15,11 +15,11 @@ export default (sequelize, type) => {
     },
     hintMessage: {
       type: type.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     nextContentSlug: {
       type: type.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     gameType: {
       type: type.STRING,

@@ -9,7 +9,12 @@ import EduSentenceConstructorStart from "./EduSentenceConstructor";
 
 // ------------ Interfaces
 import { ISession } from "../../database/models/Session";
+import { IAsteroidSessionConfig } from "../../database/models/AsteroidSessionConfig";
 
+// ------------ libs
+import { getLesson } from "../dataHandler";
+
+// ------------ Global params validation
 declare global {
   interface IHTMLCanvas {
     canvasWidth: number
@@ -17,15 +22,12 @@ declare global {
   }
 
   interface Window {
-    // Set by client
     session?: ISession | null;
     htmlCanvas?: IHTMLCanvas
-    // Initial set by server
     gameEnded: boolean;
   }
 }
 
-// ------------ Global params validation
 if (window.session === undefined || window.session === null) {
   throw new Error("window.session is falsy");
 }
@@ -39,10 +41,16 @@ console.log(session);
 window.gameEnded = false;
 // Game mode determined by initial session config
 const { asteroidSessionConfigs, sentenceConstructorConfigs } = session;
-if (asteroidSessionConfigs !== undefined && asteroidSessionConfigs[0] !== undefined) {
-  EduAsteroidsStart(session, asteroidSessionConfigs[0], htmlCanvas)
-} else if (sentenceConstructorConfigs !== undefined && sentenceConstructorConfigs[0] !== undefined) {
-  EduSentenceConstructorStart(session, sentenceConstructorConfigs[0], htmlCanvas)
-} else {
-  throw new Error("no (initial) session configuration received - cannot determine game type");
-}
+// Content info retrieved
+getLesson({id: session.lessonId}).then(({ contentSlug, gameType }) => {
+  console.log("contentSlug: " + contentSlug);
+
+  if (gameType === "asteroid") {
+    const sessionConfigs = asteroidSessionConfigs as IAsteroidSessionConfig[];
+    EduAsteroidsStart(session, sessionConfigs[0], htmlCanvas)
+  } else if (gameType === "sentenceConstructor") {
+    EduSentenceConstructorStart(session, contentSlug, htmlCanvas)
+  } else {
+    throw new Error("unknown gameType received: " + gameType);
+  }
+})

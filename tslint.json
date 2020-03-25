@@ -7,8 +7,7 @@
         "no-require-imports": true,
         "quotemark": [
             true,
-            "double",
-            "avoid-template"
+            "double"
         ],
         "ban-ts-ignore": "warning"
     },

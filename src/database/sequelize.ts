@@ -47,7 +47,7 @@ const Lesson = lessonModel(sequelize, Sequelize,
   }
 )
 
-sequelize.sync({ force: true })
+sequelize.sync({ force: false })
   .then(() => {
     console.log("Database & tables created!")
   })

@@ -77,7 +77,8 @@ export default (sessionData: ISession, sessionConfig: IAsteroidSessionConfig, ht
             const receivedConfig = await getSessionConfig(lessonId, { sessionId });
             // if received different config than the current
             if (JSON.stringify(sessionConfig) !== JSON.stringify(receivedConfig)) {
-              sessionConfig = receivedConfig;
+              // TODO: add validation for receivedConfig
+              sessionConfig = receivedConfig as IAsteroidSessionConfig;
               // remove old intervals
               clearInterval(currentSpawnInterval);
               // apply new intervals

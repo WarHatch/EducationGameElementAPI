@@ -10,4 +10,13 @@ router.get("/cms", async (req, res) => {
   res.json(data);
 });
 
+
+router.get("/cms/sentenceConstructor/:contentSlug", async (req, res) => {
+  const { contentSlug } = req.params;
+
+  const data = await CMSController.fetchCMSDataByContentSlug(contentSlug);
+
+  res.json(data);
+});
+
 export default router;
