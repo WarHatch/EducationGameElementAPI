@@ -2,6 +2,7 @@
 // ...
 
 import contentOptionButton from "../elements/contentOptionButton";
+import storyTextWithSlots from "../elements/storyTextWithSlots";
 
 import observeSSRElements from "../gameScripts/observer";
 import htmlToElement from "../gameScripts/htmlToElement";
@@ -47,8 +48,9 @@ export default async (
     if (sentenceConstructorContentSet.quizTitle === undefined)
       throw new Error("EduSentenceConstructor script received no content");
     // --- Single spawn elements
-    const { answers, badAnswers } = sentenceConstructorContentSet;
+    const { answers, badAnswers, storyChunks } = sentenceConstructorContentSet;
     spawnOptionButtons(canvasWidth, answers, badAnswers);
+    appendToGame(htmlToElement(storyTextWithSlots({ selectedAnswers: [], textSnippets: storyChunks })))
 
     // --- TODO: observe for config changes
     /*
