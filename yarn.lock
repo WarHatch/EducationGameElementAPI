@@ -44,6 +44,11 @@
   resolved "https://registry.yarnpkg.com/@sanity/generate-help-url/-/generate-help-url-0.146.0.tgz#72791e39e6dfd50a73236cd13e6870645d822795"
   integrity sha512-2a/1D8Uz4oIoe7d2LvwSUu8Wk1CWwve8NhDUnpl6DKWKOpMQaaRnGtPAikkWiblYrHY4R3Vq78BIjcmWS7mJSg==
 
+"@sanity/image-url@^0.140.17":
+  version "0.140.17"
+  resolved "https://registry.yarnpkg.com/@sanity/image-url/-/image-url-0.140.17.tgz#fa4feecab1441fde6e95766b4bf721ca1a842872"
+  integrity sha512-RWyrTXmdDwujYZ2Rpd7eqKTfbr+rAcZ6zWlCqEtGG0mQwV/O22AoiL++lKq6YHsOn/etl6CsqrQAsEQNMF4r1A==
+
 "@sanity/observable@0.146.0":
   version "0.146.0"
   resolved "https://registry.yarnpkg.com/@sanity/observable/-/observable-0.146.0.tgz#292cb0864692f8878136fb8bb5e8598f6ef970b5"

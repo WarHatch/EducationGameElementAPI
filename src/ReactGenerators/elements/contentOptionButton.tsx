@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOMServer from "react-dom/server";
 import config from "../../config";
+import { urlFor } from "../../cmsDataHandler/sanityImageHandler";
 
 // word: string,
 // picture: {
@@ -10,8 +11,7 @@ import config from "../../config";
 //   }
 // }
 type Props = {
-  imageURL: string,
-  imageWidth: number,
+  imageRef: string,
   correctPlacement: number | null,
   ariaLabel?: string,
 }
@@ -19,7 +19,7 @@ type Props = {
 export const contentOptionContainerClassname = "SSR-SConstructorContainer";
 
 const Button = (props: Props) => {
-  const { ariaLabel, imageURL, imageWidth, correctPlacement } = props;
+  const { ariaLabel, imageRef, correctPlacement } = props;
 
   const containerStyle = {
 
@@ -27,21 +27,17 @@ const Button = (props: Props) => {
   const imageStyle = {
 
   };
+  const imageURL = urlFor(imageRef).width(100).height(100).url();
+  if (imageURL === null) throw new Error("Unable to get url of image. Passed imageRef = " + imageRef);
 
   return (
-    <div role="img" aria-label={ariaLabel}
-      className={`SSRElement ${contentOptionContainerClassname}`} style={containerStyle}
+    <button aria-label={ariaLabel}
+      className={`SSRClickable ${contentOptionContainerClassname}`}
+      style={containerStyle}
+      data-correctplacement={correctPlacement}
     >
       <img className="SSR-ImageButton" style={imageStyle} src={imageURL} />
-      <button
-        // data-type={answerData._type}
-        data-correctplacement={correctPlacement}
-        className={`SSRClickable`}
-        //onClick mounted after ReactDOMServer render
-      >
-        {}
-      </button>
-    </div>
+    </button>
   )
 }
 

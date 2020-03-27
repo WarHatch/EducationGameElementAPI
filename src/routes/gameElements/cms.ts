@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import CMSController from "../../cmsDataHandler/gameElementController";
+import * as CMSController from "../../cmsDataHandler/gameElementController";
 
 const router = Router();
 

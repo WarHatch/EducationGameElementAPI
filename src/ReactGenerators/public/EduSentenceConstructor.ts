@@ -7,9 +7,30 @@ import observeSSRElements from "../gameScripts/observer";
 import htmlToElement from "../gameScripts/htmlToElement";
 import { appendToGame, getHTMLCanvasElement } from "../gameScripts/HTMLCanvasManager";
 import { mountClick } from "../functionMounters/endSessionFunctions";
-import { getSessionConfig, ISentenceConstructorDataSet, getCMSDataSentenceConstructor } from "../dataHandler";
+import { getSessionConfig, ISentenceConstructorDataSet, getCMSDataSentenceConstructor, IContentAnswer } from "../dataHandler";
 import { ISession } from "../../database/models/Session";
 import { ISentenceConstructorConfig } from "../../database/models/SentenceConstructorConfig";
+import _ from "lodash";
+
+// TODO: Deteremine button size by canvasWidth and spread buttons around
+const spawnOptionButtons = (canvasWidth: number, answers: IContentAnswer[], badAnswers: IContentAnswer[]) => {
+  const horizontalContainerPad = 50;
+  // const betweenButtonsPad = 35;
+
+  let buttonHTMLSet = [
+    ...answers.map((ans, index) => {
+      return contentOptionButton({ correctPlacement: index, imageRef: ans.picture.asset._ref, ariaLabel: ans.word })
+    }),
+    ...badAnswers.map((ans) => {
+      return contentOptionButton({ correctPlacement: null, imageRef: ans.picture.asset._ref, ariaLabel: ans.word })
+    })
+  ]
+  buttonHTMLSet = _.shuffle(buttonHTMLSet);
+  buttonHTMLSet.forEach(buttonHtml => {
+    // TODO: append to the gameContainer
+    appendToGame(htmlToElement(buttonHtml));
+  });
+}
 
 export default async (
   sessionData: ISession,
@@ -27,20 +48,7 @@ export default async (
       throw new Error("EduSentenceConstructor script received no content");
     // --- Single spawn elements
     const { answers, badAnswers } = sentenceConstructorContentSet;
-    const optionWidth = 100;
-    const buttonHTMLSet = [
-      ...answers.map((ans, index) => {
-        return contentOptionButton({ correctPlacement: index, imageURL: ans.picture.asset._ref, imageWidth: optionWidth, ariaLabel: ans.word })
-      }),
-      ...badAnswers.map((ans) => {
-        return contentOptionButton({ correctPlacement: null, imageURL: ans.picture.asset._ref, imageWidth: optionWidth, ariaLabel: ans.word })
-      })
-    ]
-    buttonHTMLSet.forEach(buttonHtml => {
-      // TODO: append to the gameContainer
-      appendToGame(htmlToElement(buttonHtml));
-    });
-    
+    spawnOptionButtons(canvasWidth, answers, badAnswers);
 
     // --- TODO: observe for config changes
     /*
