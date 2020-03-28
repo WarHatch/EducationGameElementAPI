@@ -12,7 +12,7 @@ const textElementStyle: CSSProperties = {
   display: "inline",
 }
 
-const answerInput = (ariaLabel: string) => {
+const answerInput = (ariaLabel: string, answerIndex: number) => {
   // const imageURL = urlFor(imageRef).width(100).height(100).url();
   // if (imageURL === null) throw new Error("Unable to get url of image. Passed imageRef = " + imageRef);
 
@@ -20,6 +20,7 @@ const answerInput = (ariaLabel: string) => {
     <button aria-label={ariaLabel}
       className={`SSRClickable`}
       style={textElementStyle}
+      data-slotindex={answerIndex}
       // TODO: mount onClick
     >
       {/* <img className="SSR-AnswerImage" style={imageStyle} src={} /> */}
@@ -51,7 +52,7 @@ const StoryTextWithSlots = (props: Props) => {
             </p>
             { // logic for empty or selected answer
               true ?
-                answerInput("") :
+                answerInput("", index) :
                 null
             }
           </span>

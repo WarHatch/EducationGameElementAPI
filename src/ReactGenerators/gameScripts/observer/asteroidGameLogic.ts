@@ -15,9 +15,9 @@ export default (session: ISession, ssrElement: HTMLElement, gameConfig: IAsteroi
     const timeTrackId = timeTracker.startTimer();
 
     if (insideButton.getAttribute("data-correct") === "true") {
-      buttonFuncMount.mountClick(insideButton, sessionId, timeTrackId, true, lessonId);
+      buttonFuncMount.mountAsteroidClick(insideButton, sessionId, timeTrackId, true, lessonId);
     } else {
-      buttonFuncMount.mountClick(insideButton, sessionId, timeTrackId, false, lessonId);
+      buttonFuncMount.mountAsteroidClick(insideButton, sessionId, timeTrackId, false, lessonId);
     }
   }
 }

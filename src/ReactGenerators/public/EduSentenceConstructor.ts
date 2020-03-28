@@ -52,7 +52,7 @@ export default async (
     spawnOptionButtons(canvasWidth, answers, badAnswers);
     appendToGame(htmlToElement(storyTextWithSlots({ selectedAnswers: [], textSnippets: storyChunks })))
 
-    // --- TODO: observe for config changes
+    // TODO: observe for config changes
     /*
         // --- Periodically check for config changes and update spawners
         const configRefreshInterval = setInterval(async () => {

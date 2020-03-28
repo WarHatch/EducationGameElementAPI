@@ -2,7 +2,7 @@ import { ISeqModel } from "../sequelize.d"
 
 export interface IAsteroidClickDataModel extends ISeqModel {
   sessionId: string,
-  reactionTime: number,
+  spawnToClickTime: number,
   correct: boolean,
   question: string,
 }
@@ -14,7 +14,7 @@ export default (sequelize, type) => {
       primaryKey: true,
       autoIncrement: true
     },
-    reactionTime: {
+    spawnToClickTime: {
       type: type.INTEGER,
       allowNull: false,
     },

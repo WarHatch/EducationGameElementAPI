@@ -4,8 +4,23 @@ import timeTracker from "../timeTracker";
 import { ISession } from "../../../database/models/Session";
 import { ISentenceConstructorConfig } from "../../../database/models/SentenceConstructorConfig";
 
+export interface ISCGlobal {
+  attemptedAnswer: {
+    selected: string | null;
+    correctPlacement: number | null;
+  }
+}
+
 export default (session: ISession, ssrElement: HTMLElement, gameConfig: ISentenceConstructorConfig) => {
   const { sessionId, lessonId } = session;
+
+  // Init additional global state
+  window.sentenceConstructorParams = {
+    attemptedAnswer: {
+      selected: null,
+      correctPlacement: null,
+    }
+  }
 
   // const insideButton = ssrElement.getElementsByTagName("button")[0];
   // if (insideButton.getAttribute("data-type") === "button") {

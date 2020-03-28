@@ -2,10 +2,10 @@ import { ISeqModel } from "../sequelize.d"
 
 export interface ISentenceConstructorClickDataModel extends ISeqModel {
   sessionId: string
-  correct: boolean
-  startToClickTime: number
+  correct: boolean | null
+  spawnToClickTime: number
   attemptedAnswer: string
-  attemptedSlotNumber: string
+  attemptedSlotNumber: number | null
 }
 
 export default (sequelize, type) => {
@@ -15,13 +15,13 @@ export default (sequelize, type) => {
       primaryKey: true,
       autoIncrement: true
     },
-    startToClickTime: {
+    spawnToClickTime: {
       type: type.INTEGER,
       allowNull: false,
     },
     correct: {
       type: type.BOOLEAN,
-      allowNull: false,
+      allowNull: true,
     },
     attemptedAnswer: {
       type: type.STRING,
@@ -29,7 +29,7 @@ export default (sequelize, type) => {
     },
     attemptedSlotNumber: {
       type: type.INTEGER,
-      allowNull: false,
+      allowNull: true,
     }
   })
 }

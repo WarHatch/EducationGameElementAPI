@@ -10,6 +10,7 @@ import EduSentenceConstructorStart from "./EduSentenceConstructor";
 // ------------ Interfaces
 import { ISession } from "../../database/models/Session";
 import { IAsteroidSessionConfig } from "../../database/models/AsteroidSessionConfig";
+import { ISCGlobal } from "../gameScripts/observer/sentenceConstructorLogic";
 
 // ------------ libs
 import { getLesson } from "../dataHandler";
@@ -25,6 +26,8 @@ declare global {
     session?: ISession | null;
     htmlCanvas?: IHTMLCanvas
     gameEnded: boolean;
+
+    sentenceConstructorParams?: ISCGlobal 
   }
 }
 

@@ -26,7 +26,7 @@ export const countAverageReactionTime = (sessionData: IAsteroidClickDataModel[])
 
   let reactionTime = 0;
   sessionData.forEach(entry => {
-    reactionTime += entry.reactionTime;
+    reactionTime += entry.spawnToClickTime;
   });
 
   return reactionTime / dataEntryCount;
