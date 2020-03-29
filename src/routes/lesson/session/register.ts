@@ -5,6 +5,7 @@ import { asteroid as asteroidConfig } from "../../../ReactGenerators/configs/gam
 // Types
 import { IAsteroidClickDataModel } from "../../../database/models/AsteroidClickData";
 import { ISession } from "../../../database/models/Session";
+import { sentenceConstructorGameTypeName } from "../../../ReactGenerators/public/EduSentenceConstructor";
 
 const router = Router();
 
@@ -42,9 +43,10 @@ router.post("/register", async (req, res) => {
         }
       );
       res.status(201).json(createdSession);
-    } else if (gameType === "sentenceConstructor") {
+    } else if (gameType === sentenceConstructorGameTypeName) {
       await SeqDataModels.SentenceConstructorConfig.upsert({
         // hintMessage and contentSlug are optional
+        sessionId: startData.sessionId,
         gameType,
       });
 

@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import SeqDataModels from "../../database/sequelize";
 import { ILesson } from "../../database/models/Lesson";
+import { sentenceConstructorGameTypeName } from "../../ReactGenerators/public/EduSentenceConstructor";
 
 interface ILessonCreate {
   id: string,
@@ -10,8 +11,7 @@ interface ILessonCreate {
 }
 
 interface ILessonCreateReqPayload extends ILessonCreate {
-  // TODO: rely on types on EduGameManager/.../datahandler/data.d.ts
-  gameType: "asteroid" | "sentenceConstructor",
+  gameType: "asteroid" | typeof sentenceConstructorGameTypeName,
 }
 
 const router = Router();

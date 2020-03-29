@@ -5,12 +5,12 @@ import "./gameElementsStylesheet.css"
 
 // ------------ Game types
 import EduAsteroidsStart from "./EduAsteroids";
-import EduSentenceConstructorStart from "./EduSentenceConstructor";
+import EduSentenceConstructorStart, { sentenceConstructorGameTypeName } from "./EduSentenceConstructor";
 
 // ------------ Interfaces
 import { ISession } from "../../database/models/Session";
 import { IAsteroidSessionConfig } from "../../database/models/AsteroidSessionConfig";
-import { ISCGlobal } from "../gameScripts/observer/sentenceConstructorLogic";
+import { ISCGlobal } from "./EduSentenceConstructor";
 
 // ------------ libs
 import { getLesson } from "../dataHandler";
@@ -51,7 +51,7 @@ getLesson({id: session.lessonId}).then(({ contentSlug, gameType }) => {
   if (gameType === "asteroid") {
     const sessionConfigs = asteroidSessionConfigs as IAsteroidSessionConfig[];
     EduAsteroidsStart(session, sessionConfigs[0], htmlCanvas)
-  } else if (gameType === "sentenceConstructor") {
+  } else if (gameType === sentenceConstructorGameTypeName) {
     EduSentenceConstructorStart(session, contentSlug, htmlCanvas)
   } else {
     throw new Error("unknown gameType received: " + gameType);
