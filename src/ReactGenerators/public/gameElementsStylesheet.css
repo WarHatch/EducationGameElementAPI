@@ -1,5 +1,6 @@
-/* TODO: Rename to SSRAbsolute */
-.SSRElement {
+/* SSRElement */
+
+.SSRAbsolute {
   /* To allow free placement/movement */
   position: absolute;
 }

@@ -6,7 +6,7 @@ export interface Props {
 
 const GamePopupReactElement = (props: Props) => {
   return (
-    <div className={"SSRElement SSR-splash"}>
+    <div className={"SSRElement SSRAbsolute SSR-splash"}>
       <div className="card">
         <div className="card-body">
           <h5 className="card-title">Game ended</h5>
