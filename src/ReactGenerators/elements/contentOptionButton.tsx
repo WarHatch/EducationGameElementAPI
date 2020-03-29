@@ -32,6 +32,7 @@ const Button = (props: Props) => {
 
   return (
     <button aria-label={ariaLabel}
+      role="contentOptionButton"
       className={`SSRClickable ${contentOptionContainerClassname}`}
       style={containerStyle}
       data-correctplacement={correctPlacement}

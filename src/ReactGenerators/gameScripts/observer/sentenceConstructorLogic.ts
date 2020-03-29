@@ -8,13 +8,11 @@ import { ISentenceConstructorConfig } from "../../../database/models/SentenceCon
 export default (session: ISession, ssrElement: HTMLElement, gameConfig: ISentenceConstructorConfig) => {
   const { sessionId, lessonId } = session;
 
-  const insideButton = ssrElement.getElementsByTagName("button")[0];
+  const timeTrackId = timeTracker.startTimer(); // TODO: might wanna start this when the game has loaded and pass it as a param
 
-  if (insideButton.getAttribute("data-type") === "button") {
-    const timeTrackId = timeTracker.startTimer(); // TODO: might wanna start this when the game has loaded and pass it as a param
-
-    // if (insideButton.getAttribute("data-correct") === "true") {
-    //   buttonFuncMount.mountClick(insideButton, sessionId, timeTrackId, true, lessonId);
-    // }
+  if (ssrElement.getAttribute("role") === "contentOptionButton") {
+    selectedButtonFuncMount.mountPhraseClick(ssrElement, sessionId, timeTrackId, lessonId)
+  } else if (ssrElement.getAttribute("data-slotindex") !== null) {
+    selectedSlotFuncMount.mountPhraseClick(ssrElement, sessionId, timeTrackId, lessonId)
   }
 }

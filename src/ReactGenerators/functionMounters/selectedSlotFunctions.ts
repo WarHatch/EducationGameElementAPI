@@ -18,4 +18,6 @@ export const mountPhraseClick = (
     attemptedSlotNumber: slotIndex,
     correct: correctPlacement ? correctPlacement === slotIndex : false,
   });
+
+  // TODO: add effect when answer is placed into a slot
 }

@@ -24,4 +24,6 @@ export const mountPhraseClick = (
     attemptedSlotNumber: null,
     correct: null,
   });
+
+  // TODO: add highlight to selected answer button
 }
