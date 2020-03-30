@@ -1,5 +1,6 @@
 // Assets need to be imported to be bundled
-// ...
+// import "./assets/question_button.png"
+// TODO: temp fix in ./index.ts. Crashes on load: `SyntaxError: Invalid or unexpected token`
 
 import contentOptionButton from "../elements/contentOptionButton";
 import storyTextWithSlots from "../elements/storyTextWithSlots";
@@ -54,7 +55,7 @@ export default async (
     // --- Single spawn elements
     const { answers, badAnswers, storyChunks } = sentenceConstructorContentSet;
     spawnOptionButtons(canvasWidth, answers, badAnswers);
-    appendToGame(htmlToElement(storyTextWithSlots({ selectedAnswers: [], textSnippets: storyChunks })))
+    appendToGame(htmlToElement(storyTextWithSlots({ textSnippets: storyChunks })))
 
     let currentObserver = observeSSRElements(sessionData, sessionConfig, htmlCanvas)
     // --- Observe for config changes

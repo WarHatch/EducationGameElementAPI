@@ -1,4 +1,6 @@
 console.log("EduGames server script received");
+// FIXME: temp fix for loading assets
+import "./assets/question_button.png"
 
 // ------------ Assets need to be imported to be bundled
 import "./gameElementsStylesheet.css"

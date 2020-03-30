@@ -5,7 +5,6 @@ import { urlFor } from "../../cmsDataHandler/sanityImageHandler";
 
 type Props = {
   textSnippets: string[],
-  selectedAnswers: any[], //FIXME: figure out types
 }
 
 const textElementStyle: CSSProperties = {
@@ -13,18 +12,24 @@ const textElementStyle: CSSProperties = {
 }
 
 const answerInput = (ariaLabel: string, answerIndex: number) => {
-  // const imageURL = urlFor(imageRef).width(100).height(100).url();
-  // if (imageURL === null) throw new Error("Unable to get url of image. Passed imageRef = " + imageRef);
-
   return (
     <button aria-label={ariaLabel}
       className={`SSRClickable`}
       style={textElementStyle}
       data-slotindex={answerIndex}
-      // TODO: mount onClick
+    // onClick mounted through observer
     >
-      {/* <img className="SSR-AnswerImage" style={imageStyle} src={} /> */}
-      Missing phrase/word
+      {/* ❔ */}
+      <img
+        className="SSR-AnswerImage"
+        src={config.host + "/question_button.png"}
+        style={({
+          width: 90,
+        })}
+      // TODO: image src will change when a new answer is assigned
+      // const imageURL = urlFor(imageRef).width(100).height(100).url();
+      // if (imageURL === null) throw new Error("Unable to get url of image. Passed imageRef = " + imageRef);
+      />
     </button>
   )
 }
@@ -32,7 +37,7 @@ const answerInput = (ariaLabel: string, answerIndex: number) => {
 export const storyTextContainerClassname = "SSR-StoryTextContainer";
 
 const StoryTextWithSlots = (props: Props) => {
-  const { textSnippets, selectedAnswers } = props;
+  const { textSnippets } = props;
 
   const containerStyle: CSSProperties = {
     margin: 10,
