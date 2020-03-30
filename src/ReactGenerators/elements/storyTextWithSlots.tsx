@@ -23,12 +23,10 @@ const answerInput = (ariaLabel: string, answerIndex: number) => {
       <img
         className="SSR-AnswerImage"
         src={config.host + "/question_button.png"}
+        // TODO: mounted: image src will change when a new answer is assigned
         style={({
           width: 90,
         })}
-      // TODO: image src will change when a new answer is assigned
-      // const imageURL = urlFor(imageRef).width(100).height(100).url();
-      // if (imageURL === null) throw new Error("Unable to get url of image. Passed imageRef = " + imageRef);
       />
     </button>
   )
@@ -55,8 +53,8 @@ const StoryTextWithSlots = (props: Props) => {
             >
               {text}
             </p>
-            { // logic for empty or selected answer
-              true ?
+            {
+              index < textSnippets.length - 1 ?
                 answerInput("", index) :
                 null
             }

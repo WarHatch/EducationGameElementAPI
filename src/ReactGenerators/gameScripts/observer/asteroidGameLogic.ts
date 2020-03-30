@@ -1,4 +1,4 @@
-import * as buttonFuncMount from "../../functionMounters/buttonFunctions";
+import * as buttonFuncMount from "../../functionMounters/asteroidButtonFunctions";
 import timeTracker from "../timeTracker";
 
 import { ISession } from "../../../database/models/Session";
