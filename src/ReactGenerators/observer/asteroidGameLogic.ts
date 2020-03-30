@@ -1,8 +1,8 @@
-import * as buttonFuncMount from "../../functionMounters/asteroidButtonFunctions";
-import timeTracker from "../timeTracker";
+import * as buttonFuncMount from "../functionMounters/asteroidButtonFunctions";
+import timeTracker from "../gameScripts/timeTracker";
 
-import { ISession } from "../../../database/models/Session";
-import { IAsteroidSessionConfig } from "../../../database/models/AsteroidSessionConfig";
+import { ISession } from "../../database/models/Session";
+import { IAsteroidSessionConfig } from "../../database/models/AsteroidSessionConfig";
 
 export default (session: ISession, ssrElement: HTMLElement, gameConfig: IAsteroidSessionConfig, canvasHeight: number) => {
   const { sessionId, lessonId } = session;

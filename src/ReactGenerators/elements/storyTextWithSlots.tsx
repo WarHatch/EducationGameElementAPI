@@ -1,7 +1,10 @@
 import React, { CSSProperties } from "react";
 import ReactDOMServer from "react-dom/server";
+
+// Classnames
+import { SCContainerClassname } from "../observer/sentenceConstructorLogic";
+
 import config from "../../config";
-import { urlFor } from "../../cmsDataHandler/sanityImageHandler";
 
 type Props = {
   textSnippets: string[],
@@ -17,13 +20,13 @@ const answerInput = (ariaLabel: string, answerIndex: number) => {
       className={`SSRClickable`}
       style={textElementStyle}
       data-slotindex={answerIndex}
-    // onClick mounted through observer
+      // onClick mounted through observer
     >
       {/* ❔ */}
       <img
         className="SSR-AnswerImage"
         src={config.host + "/question_button.png"}
-        // TODO: mounted: image src will change when a new answer is assigned
+        // mounted: image src will change when a new answer is assigned
         style={({
           width: 90,
         })}
@@ -44,7 +47,7 @@ const StoryTextWithSlots = (props: Props) => {
   };
 
   return (
-    <div className={storyTextContainerClassname} style={containerStyle} >
+    <div className={storyTextContainerClassname + " " + SCContainerClassname} style={containerStyle} >
       {
         textSnippets.map((text, index) =>
           <span style={({ marginRight: 3 })}>

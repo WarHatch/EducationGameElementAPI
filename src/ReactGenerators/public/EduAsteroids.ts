@@ -7,7 +7,7 @@ import shieldImage from "../elements/shieldImage";
 import question from "../elements/question";
 import { endButtonClassName } from "../elements/endSessionButton";
 
-import observeSSRElements from "../gameScripts/observer";
+import observeSSRElements from "../observer";
 import htmlToElement from "../gameScripts/htmlToElement";
 import { appendToGame, getHTMLCanvasElement } from "../gameScripts/HTMLCanvasManager";
 import spawnAsteroid from "../gameScripts/asteroidGame/spawnAsteroid";

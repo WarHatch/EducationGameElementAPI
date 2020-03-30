@@ -1,5 +1,9 @@
 import React from "react";
 import ReactDOMServer from "react-dom/server";
+
+// Classnames
+import { SCContainerClassname } from "../observer/sentenceConstructorLogic";
+
 import config from "../../config";
 import { urlFor } from "../../cmsDataHandler/sanityImageHandler";
 
@@ -16,8 +20,6 @@ type Props = {
   ariaLabel?: string,
 }
 
-export const contentOptionContainerClassname = "SSR-SConstructorContainer";
-
 const Button = (props: Props) => {
   const { ariaLabel, imageRef, correctPlacement } = props;
 
@@ -33,7 +35,7 @@ const Button = (props: Props) => {
   return (
     <button aria-label={ariaLabel}
       role="contentOptionButton"
-      className={`SSRClickable ${contentOptionContainerClassname}`}
+      className={`SSRClickable ${SCContainerClassname}`}
       style={containerStyle}
       data-correctplacement={correctPlacement}
     >

@@ -1,23 +1,41 @@
-import { mountRegisterClick } from "./_baseButtonFunctions";
+import { registerSCClick } from "../dataHandler";
+import { ISentenceConstructorClickDataModel } from "../../database/models/SentenceConstructorClickData";
+import timeTracker from "../gameScripts/timeTracker";
 
 export const mountPhraseClick = (
-  buttonElement: HTMLElement, // atributes: ???
+  buttonElement: HTMLElement, // aria-label, className, data-slotindex
   sessionId: string,
   timeTrackId: number,
   lessonId: string,
 ) => {
-  const slotIndex = Number(buttonElement.getAttribute("data-slotindex"));
-  if (slotIndex === null) throw new Error("attribute 'data-slotindex' is not defined on button element");
+  buttonElement.addEventListener("click", () => {
+    const spawnToClickTime = timeTracker.checkTimer(timeTrackId)
 
-  // @ts-ignore assume `attemptedAnswer` was initialized
-  const { selected, correctPlacement } = window.sentenceConstructorParams.attemptedAnswer;
+    const slotIndex = Number(buttonElement.getAttribute("data-slotindex"));
+    const attemptedAnswer = window.sentenceConstructorParams?.attemptedAnswer;
+    
+    if (slotIndex === null) throw new Error("attribute 'data-slotindex' is not defined on button element");
+    if (attemptedAnswer !== null && attemptedAnswer !== undefined) {
+      const { selected, correctPlacement, src } = attemptedAnswer;
 
-  mountRegisterClick(buttonElement, lessonId, timeTrackId, {
-    sessionId,
-    attemptedAnswer: selected,
-    attemptedSlotNumber: slotIndex,
-    correct: correctPlacement ? correctPlacement === slotIndex : false,
+      // TODO: registerClick whether attemptedAnswer is null or not
+      const payload: ISentenceConstructorClickDataModel = {
+        sessionId,
+        attemptedAnswer: selected,
+        attemptedSlotNumber: slotIndex,
+        correct: correctPlacement ? correctPlacement === slotIndex : false,
+        spawnToClickTime
+      };
+      registerSCClick(payload, lessonId);
+
+      // add effect when answer is placed into a slot
+      // TODO: assumes image will be first
+      const imgElement = buttonElement.firstElementChild;
+      if (imgElement === null)
+        throw new Error("Unable to get firstElementChild of button");
+      imgElement.setAttribute("src", src)
+    } else {
+      console.warn("attemptedAnswer was not yet defined");
+    }
   });
-
-  // TODO: add effect when answer is placed into a slot
 }

@@ -1,4 +1,6 @@
-import { mountRegisterClick } from "./_baseButtonFunctions";
+import { registerSCClick } from "../dataHandler";
+import timeTracker from "../gameScripts/timeTracker";
+import { ISentenceConstructorClickDataModel } from "../../database/models/SentenceConstructorClickData";
 
 export const mountPhraseClick = (
   buttonElement: HTMLElement, // atributes: data-correctplacement
@@ -6,24 +8,34 @@ export const mountPhraseClick = (
   timeTrackId: number,
   lessonId: string,
 ) => {
-  const correctPlacement = buttonElement.getAttribute("data-correctplacement");
-  const attemptedAnswer = buttonElement.getAttribute("ariaLabel");
-  if (attemptedAnswer === null) throw new Error("attribute 'ariaLabel' is not defined on button element");
+  buttonElement.addEventListener("click", () => {
+    const spawnToClickTime = timeTracker.checkTimer(timeTrackId)
 
-  window.sentenceConstructorParams = {
-    ...window.sentenceConstructorParams,
-    attemptedAnswer: {
-      selected: attemptedAnswer,
-      correctPlacement: correctPlacement ? Number(correctPlacement) : null,
+    const correctPlacement = buttonElement.getAttribute("data-correctplacement");
+    const attemptedAnswerLabel = buttonElement.getAttribute("aria-label");
+    const attemptedAnswerImgSrc = buttonElement.firstElementChild?.getAttribute("src");
+
+    if (attemptedAnswerLabel === null) throw new Error("attribute 'aria-label' is not defined on button element");
+    if (attemptedAnswerImgSrc === null || attemptedAnswerImgSrc === undefined)
+      throw new Error("attribute 'src' is not defined on button's firstElementChild");
+
+    window.sentenceConstructorParams = {
+      ...window.sentenceConstructorParams,
+      attemptedAnswer: {
+        selected: attemptedAnswerLabel,
+        correctPlacement: correctPlacement ? Number(correctPlacement) : null,
+        src: attemptedAnswerImgSrc,
+      }
     }
-  }
 
-  mountRegisterClick(buttonElement, lessonId, timeTrackId, {
-    sessionId,
-    attemptedAnswer,
-    attemptedSlotNumber: null,
-    correct: null,
+    const payload: ISentenceConstructorClickDataModel = {
+      sessionId,
+      attemptedAnswer: attemptedAnswerLabel,
+      attemptedSlotNumber: null,
+      correct: null,
+      spawnToClickTime
+    };
+
+    registerSCClick(payload, lessonId);
   });
-
-  // TODO: add highlight to selected answer button
 }

@@ -1,8 +1,9 @@
 import Axios from "axios";
 import config from "../config";
-import { IAsteroidSessionConfig } from "../database/models/AsteroidSessionConfig";
 import { ILesson } from "../database/models/Lesson";
 import { ISessionGameTypeConfigBase } from "../database/sequelize.d";
+import { IAsteroidClickDataModel } from "../database/models/AsteroidClickData";
+import { ISentenceConstructorClickDataModel } from "../database/models/SentenceConstructorClickData";
 
 export interface IAnswer {
   _key: string,
@@ -61,4 +62,14 @@ export const getSessionConfig = async (lessonId: string, payload: { sessionId: s
 export const getLesson = async (payload: { [key: string]: any }) => {
   const { data } = await Axios.post<ILesson>(`${config.host}/lesson/`, payload);
   return data;
+}
+
+export const registerAsteroidClick = async (data: IAsteroidClickDataModel | ISentenceConstructorClickDataModel, lessonId: string): Promise<void> => {
+  const res = await Axios.post(`${config.host}/lesson/${lessonId}/session/register/asteroidButtonClick`, data);
+  console.log({ sent: data, received: res });
+}
+
+export const registerSCClick = async (data: IAsteroidClickDataModel | ISentenceConstructorClickDataModel, lessonId: string): Promise<void> => {
+  const res = await Axios.post(`${config.host}/lesson/${lessonId}/session/register/SCButtonClick`, data);
+  console.log({ sent: data, received: res });
 }

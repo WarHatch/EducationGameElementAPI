@@ -1,8 +1,9 @@
 // Types
 import { asteroid } from "../configs/gameConfigs";
 
-import config from "../../config";
-import { mountRegisterClick } from "./_baseButtonFunctions";
+import { registerAsteroidClick } from "../dataHandler";
+import timeTracker from "../gameScripts/timeTracker";
+import { IAsteroidClickDataModel } from "../../database/models/AsteroidClickData";
 
 export const mountAsteroidClick = (
   buttonElement: HTMLElement,
@@ -11,10 +12,22 @@ export const mountAsteroidClick = (
   correct: boolean,
   lessonId: string,
 ) => {
-  const question = buttonElement.getAttribute("data-question");
-  if (question === null) throw new Error("buttonElement.getAttribute('data-question') is not defined");
+  // TODO: 
+  buttonElement.addEventListener("click", () => {
+    const spawnToClickTime = timeTracker.checkTimer(timeTrackId)
 
-  mountRegisterClick(buttonElement, lessonId, timeTrackId, { sessionId, question, correct });
+    const question = buttonElement.getAttribute("data-question");
+    if (question === null) throw new Error("buttonElement.getAttribute('data-question') is not defined");
+
+    const payload: IAsteroidClickDataModel = {
+      sessionId, question, correct,
+      spawnToClickTime
+    };
+    registerAsteroidClick(payload, lessonId);
+
+    const buttonContainer = buttonElement.parentNode;
+    buttonContainer?.parentNode?.removeChild(buttonContainer);
+  });
 }
 
 const moveDown = (buttonElement: HTMLElement, moveDownPX: number) => {

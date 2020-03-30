@@ -6,6 +6,7 @@ import { asteroid as asteroidConfig } from "../../../ReactGenerators/configs/gam
 import { IAsteroidClickDataModel } from "../../../database/models/AsteroidClickData";
 import { ISession } from "../../../database/models/Session";
 import { sentenceConstructorGameTypeName } from "../../../ReactGenerators/public/EduSentenceConstructor";
+import { ISentenceConstructorClickDataModel } from "../../../database/models/SentenceConstructorClickData";
 
 const router = Router();
 
@@ -91,12 +92,24 @@ router.post("/register/end", async (req, res) => {
   }
 });
 
-// TODO: rename endpoint to asteroidButtonClick
-router.post("/register/buttonClick", async (req, res) => {
+// {host}/lesson/{lessonId}/session/register/asteroidButtonClick
+router.post("/register/asteroidButtonClick", async (req, res) => {
   const asteroidClickData: IAsteroidClickDataModel = req.body;
 
   try {
     await SeqDataModels.AsteroidClickData.create(asteroidClickData);
+    res.status(201).send();
+  } catch (error) {
+    console.error(error)
+    res.status(400).send("Error while trying to create an entry in database");
+  }
+});
+
+router.post("/register/SCButtonClick", async (req, res) => {
+  const scClickData: ISentenceConstructorClickDataModel = req.body;
+
+  try {
+    await SeqDataModels.SentenceConstructorClickData.create(scClickData);
     res.status(201).send();
   } catch (error) {
     console.error(error)
