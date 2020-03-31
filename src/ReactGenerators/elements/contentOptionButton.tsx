@@ -4,7 +4,6 @@ import ReactDOMServer from "react-dom/server";
 // Classnames
 import { SCContainerClassname } from "../observer/sentenceConstructorLogic";
 
-import config from "../../config";
 import { urlFor } from "../../cmsDataHandler/sanityImageHandler";
 
 // word: string,

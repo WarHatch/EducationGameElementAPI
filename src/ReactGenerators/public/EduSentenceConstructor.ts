@@ -4,6 +4,7 @@
 
 import contentOptionButton from "../elements/contentOptionButton";
 import storyTextWithSlots from "../elements/storyTextWithSlots";
+import hintButton from "../elements/hintButton";
 
 import observeSSRElements from "../observer";
 import htmlToElement from "../gameScripts/htmlToElement";
@@ -50,6 +51,7 @@ export default async (
   // --- Single spawn elements
   const { answers, badAnswers, storyChunks } = sentenceConstructorContentSet;
   spawnOptionButtons(canvasWidth, answers, badAnswers);
+  appendToGame(htmlToElement(hintButton({hintMessageCount: 0})))
   appendToGame(htmlToElement(storyTextWithSlots({ textSnippets: storyChunks })))
 
   // --- Observe for config changes
