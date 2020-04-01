@@ -1,5 +1,5 @@
 console.log("EduGames server script received");
-// FIXME: temp fix for loading assets
+// TODO: temp fix for loading assets of EduSentenceConstrcutor
 import "./assets/question_button.png"
 
 // ------------ Assets need to be imported to be bundled

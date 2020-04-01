@@ -8,30 +8,36 @@ import { ISentenceConstructorConfig } from "../../database/models/SentenceConstr
 import { storyTextContainerClassname } from "../elements/storyTextWithSlots";
 import { popupCardClassname, cardCloseButtonClassname } from "../elements/popupCardElement";
 import { hintButtonClassname } from "../elements/hintButton";
+import { completedButtonClassname, mountCompleteClick } from "../elements/scCompletedButton";
 
 export const SCContainerClassname = "SSR-SConstructorContainer";
 
-export default (session: ISession, ssrElement: Element, gameConfig: ISentenceConstructorConfig, gameStartTimerId: number) => {
+export default (session: ISession, scContainerElement: Element, gameConfig: ISentenceConstructorConfig, gameStartTimerId: number) => {
   const { sessionId, lessonId } = session;
 
   // if contentOption button
-  if (ssrElement.getAttribute("role") === "contentOptionButton") {
-    selectedButtonFuncMount.mountPhraseClick(ssrElement as HTMLElement, sessionId, gameStartTimerId, lessonId)
+  if (scContainerElement.getAttribute("role") === "contentOptionButton") {
+    selectedButtonFuncMount.mountPhraseClick(scContainerElement as HTMLElement, sessionId, gameStartTimerId, lessonId)
   }
   // if storyText container
-  else if (ssrElement.getAttribute("class")?.includes(storyTextContainerClassname)) {
-    const slotButtons = ssrElement.getElementsByTagName("button");
+  else if (scContainerElement.getAttribute("class")?.includes(storyTextContainerClassname)) {
+    const slotButtons = scContainerElement.getElementsByTagName("button");
     for (let i = 0; i < slotButtons.length; i++) {
       const slotButton = slotButtons[i];
       selectedSlotFuncMount.mountPhraseClick(slotButton, sessionId, gameStartTimerId, lessonId)
     }
   }
   // If hint button appeared
-  else if (ssrElement.getAttribute("class")?.includes(hintButtonClassname)) {
-    hintButtonFunctions.mountClick(ssrElement, sessionId, lessonId);
+  else if (scContainerElement.getAttribute("class")?.includes(hintButtonClassname)) {
+    hintButtonFunctions.mountClick(scContainerElement, sessionId, lessonId);
+  }
+  // If complete button appeared
+  else if (scContainerElement.getAttribute("class")?.includes(completedButtonClassname)) {
+    const { nextContentSlug } = gameConfig;
+    mountCompleteClick(scContainerElement, sessionId, lessonId, nextContentSlug)
   }
   else {
     console.warn("unhandled observed mutation");
-    console.warn(ssrElement);
+    console.warn(scContainerElement);
   }
 }

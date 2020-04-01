@@ -26,7 +26,7 @@ const hintButton = (props: Props) => {
       className={`SSRClickable` + " " + SCContainerClassname + " " + hintButtonClassname}
       style={containerStyle}
       // data-slotindex={answerIndex}
-      // TODO: onClick mounted through observer
+      // onClick mounted through observer
     >
       Užuominos iš mokytojo: 
       <span className={hintCounterClassname}>{props.hintMessageCount}</span>

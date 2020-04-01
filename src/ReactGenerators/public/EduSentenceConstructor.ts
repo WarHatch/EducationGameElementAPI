@@ -5,6 +5,7 @@
 import contentOptionButton from "../elements/contentOptionButton";
 import storyTextWithSlots from "../elements/storyTextWithSlots";
 import hintButton from "../elements/hintButton";
+import scCompletedButton from "../elements/scCompletedButton";
 
 import observeSSRElements from "../observer";
 import htmlToElement from "../gameScripts/htmlToElement";
@@ -62,12 +63,13 @@ export default async (
   spawnOptionButtons(canvasWidth, answers, badAnswers);
   appendToGame(htmlToElement(hintButton({hintMessageCount: 0})))
   appendToGame(htmlToElement(storyTextWithSlots({ textSnippets: storyChunks })))
+  appendToGame(htmlToElement(scCompletedButton({})));
 
   // --- Monitor for config changes
   const configRefreshInterval = setInterval(async () => {
     if (window.gameEnded) {
       // end process
-      console.log("Ending sentenceConstructor game");
+      console.log("Ending sentenceConstructor game...");
       // clearInterval(currentSpawnInterval);
       cleanup(getHTMLCanvasElement());
       clearInterval(configRefreshInterval) // break loop
