@@ -17,6 +17,7 @@ import { getSessionConfig } from "../dataHandler";
 import { questionWidth } from "../configs/commonElementConfigs";
 import { ISession } from "../../database/models/Session";
 import { IAsteroidSessionConfig } from "../../database/models/AsteroidSessionConfig";
+import timeTracker from "../gameScripts/timeTracker";
 
 
 interface IAsteroidElements {
@@ -45,7 +46,7 @@ export default (sessionData: ISession, sessionConfig: IAsteroidSessionConfig, ht
   // FIXME: Dirty fix for phaser.GameScene loading async after this script is mounted
   setTimeout(() => {
     const endButtonCollection = document.body.getElementsByClassName(endButtonClassName);
-    if (endButtonCollection.length === 0) throw new Error("EduAsteroids script ran before endButton element was spawned");
+    if (endButtonCollection.length === 0) console.error("EduAsteroids script ran before endButton element was spawned");
     for (let i = 0; i < endButtonCollection.length; i++) {
       mountClick(endButtonCollection[i], sessionId, lessonId);
     }
@@ -61,8 +62,9 @@ export default (sessionData: ISession, sessionConfig: IAsteroidSessionConfig, ht
       questionWidth,
     })
       .then((asteroidElements) => {
+        const startGameTimerId = timeTracker.startTimer();
         let currentSpawnInterval = applyAsteroidConfig(sessionConfig, asteroidElements)
-        let currentObserver = observeSSRElements(sessionData, sessionConfig, htmlCanvas)
+        let currentObserver = observeSSRElements(sessionData, sessionConfig, htmlCanvas, startGameTimerId)
 
         // --- Periodically check for config changes and update spawners
         const configRefreshInterval = setInterval(async () => {
@@ -87,7 +89,7 @@ export default (sessionData: ISession, sessionConfig: IAsteroidSessionConfig, ht
               // Disconnect old observer
               currentObserver.disconnect();
               // Setup SSR element observer with new config
-              currentObserver = observeSSRElements(sessionData, sessionConfig, htmlCanvas)
+              currentObserver = observeSSRElements(sessionData, sessionConfig, htmlCanvas, startGameTimerId)
             }
           }
         }, 1000) // repeat after a second

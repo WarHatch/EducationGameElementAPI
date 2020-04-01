@@ -11,21 +11,19 @@ import { hintButtonClassname } from "../elements/hintButton";
 
 export const SCContainerClassname = "SSR-SConstructorContainer";
 
-export default (session: ISession, ssrElement: Element, gameConfig: ISentenceConstructorConfig) => {
+export default (session: ISession, ssrElement: Element, gameConfig: ISentenceConstructorConfig, gameStartTimerId: number) => {
   const { sessionId, lessonId } = session;
-
-  const timeTrackId = timeTracker.startTimer(); // TODO: wanna start this when the game has loaded and pass it as a param
 
   // if contentOption button
   if (ssrElement.getAttribute("role") === "contentOptionButton") {
-    selectedButtonFuncMount.mountPhraseClick(ssrElement as HTMLElement, sessionId, timeTrackId, lessonId)
+    selectedButtonFuncMount.mountPhraseClick(ssrElement as HTMLElement, sessionId, gameStartTimerId, lessonId)
   }
   // if storyText container
   else if (ssrElement.getAttribute("class")?.includes(storyTextContainerClassname)) {
     const slotButtons = ssrElement.getElementsByTagName("button");
     for (let i = 0; i < slotButtons.length; i++) {
       const slotButton = slotButtons[i];
-      selectedSlotFuncMount.mountPhraseClick(slotButton, sessionId, timeTrackId, lessonId)
+      selectedSlotFuncMount.mountPhraseClick(slotButton, sessionId, gameStartTimerId, lessonId)
     }
   }
   // If hint button appeared

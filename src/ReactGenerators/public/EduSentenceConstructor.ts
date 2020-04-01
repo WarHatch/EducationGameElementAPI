@@ -14,6 +14,7 @@ import { ISession } from "../../database/models/Session";
 import cleanup from "../gameScripts/sentenceConstructorGame/cleanup";
 import _ from "lodash";
 import updateHintCounter from "../gameScripts/sentenceConstructorGame/updateHintCounter";
+import timeTracker from "../gameScripts/timeTracker";
 
 export interface ISCGlobal {
   attemptedAnswer: {
@@ -53,16 +54,16 @@ export default async (
     throw new Error("session.sentenceConstructorConfigs array does not have an object");
   }
   let sessionConfig = sentenceConstructorConfigs[0];
+  const startGameTimerId = timeTracker.startTimer();
 
-  let currentObserver = observeSSRElements(sessionData, sessionConfig, htmlCanvas)
+  let currentObserver = observeSSRElements(sessionData, sessionConfig, htmlCanvas, startGameTimerId);
   // --- Single spawn elements
   const { answers, badAnswers, storyChunks } = sentenceConstructorContentSet;
   spawnOptionButtons(canvasWidth, answers, badAnswers);
   appendToGame(htmlToElement(hintButton({hintMessageCount: 0})))
   appendToGame(htmlToElement(storyTextWithSlots({ textSnippets: storyChunks })))
 
-  // --- Observe for config changes
-  // --- Periodically check for config changes and update spawners
+  // --- Monitor for config changes
   const configRefreshInterval = setInterval(async () => {
     if (window.gameEnded) {
       // end process
@@ -91,7 +92,7 @@ export default async (
         // Disconnect old observer
         currentObserver.disconnect();
         // Connect new observer with new config
-        currentObserver = observeSSRElements(sessionData, sessionConfig, htmlCanvas)
+        currentObserver = observeSSRElements(sessionData, sessionConfig, htmlCanvas, startGameTimerId)
       }
     }
   }, 1000) // repeat after a second
