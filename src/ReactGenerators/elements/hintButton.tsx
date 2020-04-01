@@ -10,7 +10,8 @@ type Props = {
   hintMessageCount: number
 }
 
-export const hintButtonContainerClassname = "SSR-StoryTextContainer";
+export const hintButtonClassname = "SSR-HintButton";
+export const hintCounterClassname = "SSRHintCounter";
 
 const hintButton = (props: Props) => {
   const { } = props;
@@ -22,13 +23,13 @@ const hintButton = (props: Props) => {
 
   return (
     <button aria-label={"hint"}
-      className={`SSRClickable` + " " + SCContainerClassname + " " + hintButtonContainerClassname}
+      className={`SSRClickable` + " " + SCContainerClassname + " " + hintButtonClassname}
       style={containerStyle}
       // data-slotindex={answerIndex}
       // TODO: onClick mounted through observer
     >
       Užuominos iš mokytojo: 
-      <span className={`SSRHintCounter`}>{props.hintMessageCount}</span>
+      <span className={hintCounterClassname}>{props.hintMessageCount}</span>
     </button>
   )
 }

@@ -64,6 +64,16 @@ export const getLesson = async (payload: { [key: string]: any }) => {
   return data;
 }
 
+type IEndSessionData = {
+  sessionId: string,
+  finishedAt: Date,
+}
+
+export const registerEndSession = async (lessonId: string, data: IEndSessionData): Promise<void> => {
+  const res = await Axios.post(`${config.host}/lesson/${lessonId}/session/register/end`, data);
+  console.log({ sent: data, received: res });
+}
+
 export const registerAsteroidClick = async (data: IAsteroidClickDataModel | ISentenceConstructorClickDataModel, lessonId: string): Promise<void> => {
   const res = await Axios.post(`${config.host}/lesson/${lessonId}/session/register/asteroidButtonClick`, data);
   console.log({ sent: data, received: res });

@@ -48,8 +48,6 @@ window.gameEnded = false;
 const { asteroidSessionConfigs, sentenceConstructorConfigs } = session;
 // Content info retrieved
 getLesson({id: session.lessonId}).then(({ contentSlug, gameType }) => {
-  console.log("contentSlug: " + contentSlug);
-
   if (gameType === "asteroid") {
     const sessionConfigs = asteroidSessionConfigs as IAsteroidSessionConfig[];
     EduAsteroidsStart(session, sessionConfigs[0], htmlCanvas)

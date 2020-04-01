@@ -13,6 +13,7 @@ import { getSessionConfig, ISentenceConstructorDataSet, getCMSDataSentenceConstr
 import { ISession } from "../../database/models/Session";
 import cleanup from "../gameScripts/sentenceConstructorGame/cleanup";
 import _ from "lodash";
+import updateHintCounter from "../gameScripts/sentenceConstructorGame/updateHintCounter";
 
 export interface ISCGlobal {
   attemptedAnswer: {
@@ -20,6 +21,9 @@ export interface ISCGlobal {
     correctPlacement: number | null;
     src: string
   } | null
+  hintCollector: {
+    unreadMessageStack: string[],
+  }
 }
 
 export const sentenceConstructorGameTypeName = "sentenceConstructor";
@@ -34,9 +38,12 @@ export default async (
 
   const sentenceConstructorContentSet: ISentenceConstructorDataSet = await getCMSDataSentenceConstructor(contentSlug);
 
-  // Init additional global state
+  // Init addon global state
   window.sentenceConstructorParams = {
-    attemptedAnswer: null
+    attemptedAnswer: null,
+    hintCollector: {
+      unreadMessageStack: [],
+    }
   }
 
   if (sentenceConstructorContentSet.quizTitle === undefined)
@@ -70,6 +77,13 @@ export default async (
       // if received different config than the current
       if (JSON.stringify(sessionConfig) !== JSON.stringify(receivedConfig)) {
         sessionConfig = receivedConfig;
+
+        // extract hint payload from new config
+        if (typeof sessionConfig.hintMessage === "string") {
+          window.sentenceConstructorParams?.hintCollector.unreadMessageStack.push(sessionConfig.hintMessage)
+          updateHintCounter(window.sentenceConstructorParams?.hintCollector.unreadMessageStack.length as number)
+        }
+
         // remove old intervals
 
         // apply new intervals

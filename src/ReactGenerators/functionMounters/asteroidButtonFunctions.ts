@@ -12,7 +12,6 @@ export const mountAsteroidClick = (
   correct: boolean,
   lessonId: string,
 ) => {
-  // TODO: 
   buttonElement.addEventListener("click", () => {
     const spawnToClickTime = timeTracker.checkTimer(timeTrackId)
 

@@ -19,13 +19,12 @@ export const mountPhraseClick = (
     if (attemptedAnswerImgSrc === null || attemptedAnswerImgSrc === undefined)
       throw new Error("attribute 'src' is not defined on button's firstElementChild");
 
-    window.sentenceConstructorParams = {
-      ...window.sentenceConstructorParams,
-      attemptedAnswer: {
-        selected: attemptedAnswerLabel,
-        correctPlacement: correctPlacement ? Number(correctPlacement) : null,
-        src: attemptedAnswerImgSrc,
-      }
+    // @ts-ignore safe to assume sentenceConstructorParams is defined
+    window.sentenceConstructorParams
+      .attemptedAnswer = {
+      selected: attemptedAnswerLabel,
+      correctPlacement: correctPlacement ? Number(correctPlacement) : null,
+      src: attemptedAnswerImgSrc,
     }
 
     const payload: ISentenceConstructorClickDataModel = {

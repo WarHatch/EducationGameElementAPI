@@ -2,7 +2,10 @@
 
 import asteroidGameLogic from "./asteroidGameLogic";
 import sentenceConstructorLogic from "./sentenceConstructorLogic";
+
 import * as endFuncMount from "../functionMounters/endSessionFunctions";
+import * as popupCardFunctions from "../functionMounters/popupCardFunctions";
+
 import { endButtonClassName } from "../elements/endSessionButton";
 
 import { ISession } from "../../database/models/Session";
@@ -12,6 +15,7 @@ import { ISentenceConstructorConfig } from "../../database/models/SentenceConstr
 
 // Classnames
 import { SCContainerClassname } from "./sentenceConstructorLogic";
+import { popupCardClassname, cardCloseButtonClassname } from "../elements/popupCardElement";
 
 const observerOptions = {
   attributes: false,
@@ -25,10 +29,15 @@ export default (session: ISession, gameConfig: ISessionGameTypeConfigBase, canva
   const observer = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
       // Overwriting mutations Node type
-      mutation.addedNodes.forEach((newNode: HTMLElement) => {
-        // TODO: remove this if if possible
-        if (newNode.classList.contains("SSRElement")) {
-          const ssrElement: HTMLElement = newNode;
+      mutation.addedNodes.forEach((newNode) => {
+        // console.log(newNode);
+        // @ts-ignore non-HTML element handling
+        if (newNode.classList === undefined)
+          return;
+        const newElement = newNode as HTMLElement;
+
+        if (newElement.classList.contains("SSRElement")) {
+          const ssrElement: HTMLElement = newElement;
 
           if (ssrElement.classList.contains("SSR-MeteorContainer")) {
             // Asteroid game logic
@@ -38,10 +47,14 @@ export default (session: ISession, gameConfig: ISessionGameTypeConfigBase, canva
           else if (ssrElement.classList.contains(endButtonClassName)) {
             endFuncMount.mountClick(ssrElement, sessionId, lessonId);
           }
+          else if (ssrElement.getAttribute("class")?.includes(popupCardClassname)) {
+            const closeButton = ssrElement.getElementsByClassName(cardCloseButtonClassname)[0]
+            popupCardFunctions.mountCloseClick(closeButton, ssrElement);
+          }
         }
-        if (newNode.classList.contains(SCContainerClassname)) {
+        if (newElement.classList.contains(SCContainerClassname)) {
           // Asteroid game logic
-          sentenceConstructorLogic(session, newNode, gameConfig as ISentenceConstructorConfig);
+          sentenceConstructorLogic(session, newElement, gameConfig as ISentenceConstructorConfig);
         }
       });
     }
