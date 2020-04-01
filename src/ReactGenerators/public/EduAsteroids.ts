@@ -39,7 +39,7 @@ const applyAsteroidConfig = (
   return intervalSpawn;
 }
 
-export default (sessionData: ISession, sessionConfig: IAsteroidSessionConfig, htmlCanvas: IHTMLCanvas) => {
+export default (sessionData: ISession, sessionConfig: IAsteroidSessionConfig, htmlCanvas: IHTMLCanvasConfig) => {
   const { sessionId, lessonId } = sessionData;
   const { canvasWidth, canvasHeight } = htmlCanvas;
 

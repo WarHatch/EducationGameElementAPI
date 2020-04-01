@@ -33,10 +33,10 @@ export const sentenceConstructorGameTypeName = "sentenceConstructor";
 export default async (
   sessionData: ISession,
   contentSlug: string,
-  htmlCanvas: IHTMLCanvas
+  htmlCanvasConfig: IHTMLCanvasConfig
 ) => {
   const { sessionId, lessonId, sentenceConstructorConfigs } = sessionData;
-  const { canvasWidth, canvasHeight } = htmlCanvas;
+  const { canvasWidth, canvasHeight } = htmlCanvasConfig;
 
   const sentenceConstructorContentSet: ISentenceConstructorDataSet = await getCMSDataSentenceConstructor(contentSlug);
 
@@ -57,7 +57,7 @@ export default async (
   let sessionConfig = sentenceConstructorConfigs[0];
   const startGameTimerId = timeTracker.startTimer();
 
-  let currentObserver = observeSSRElements(sessionData, sessionConfig, htmlCanvas, startGameTimerId);
+  let currentObserver = observeSSRElements(sessionData, sessionConfig, htmlCanvasConfig, startGameTimerId);
   // --- Single spawn elements
   const { answers, badAnswers, storyChunks } = sentenceConstructorContentSet;
   spawnOptionButtons(canvasWidth, answers, badAnswers);
@@ -94,7 +94,7 @@ export default async (
         // Disconnect old observer
         currentObserver.disconnect();
         // Connect new observer with new config
-        currentObserver = observeSSRElements(sessionData, sessionConfig, htmlCanvas, startGameTimerId)
+        currentObserver = observeSSRElements(sessionData, sessionConfig, htmlCanvasConfig, startGameTimerId)
       }
     }
   }, 1000) // repeat after a second

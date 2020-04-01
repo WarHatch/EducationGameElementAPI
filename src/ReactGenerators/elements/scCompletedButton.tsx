@@ -1,15 +1,18 @@
 import React, { CSSProperties } from "react";
 import ReactDOMServer from "react-dom/server";
 
-import { registerEndSession } from "../dataHandler";
-import endSessionSplash from "../elements/popupCardElement";
-import htmlToElement from "../gameScripts/htmlToElement";
-import { appendToGame } from "../gameScripts/HTMLCanvasManager";
 
 // Classnames
 import { SCContainerClassname } from "../observer/sentenceConstructorLogic";
 
+import { registerEndSession } from "../dataHandler";
+import endSessionSplash from "../elements/popupCardElement";
+import htmlToElement from "../gameScripts/htmlToElement";
+import { appendToGame, getHTMLCanvasElement } from "../gameScripts/HTMLCanvasManager";
 import config from "../../config";
+import cleanup from "../gameScripts/sentenceConstructorGame/cleanup";
+import EduSentenceConstructor from "../public/EduSentenceConstructor";
+import { ISession } from "../../database/models/Session";
 
 type Props = {
 }
@@ -36,7 +39,13 @@ const scCompleteButton = (props: Props) => {
   )
 }
 
-export const mountCompleteClick = (buttonElement: Element, sessionId: string, lessonId: string, nextContentSlug) => {
+export const mountCompleteClick = (
+  buttonElement: Element,
+  sessionId: string,
+  lessonId: string,
+  nextContentSlug: string | undefined,
+  htmlCanvasConfig: IHTMLCanvasConfig
+  ) => {
   buttonElement.addEventListener("click", () => {
     if (window.gameEnded === true) return;
 
@@ -49,8 +58,11 @@ export const mountCompleteClick = (buttonElement: Element, sessionId: string, le
       },
     )
 
+    // Remove elements spawned so far...
+    cleanup(getHTMLCanvasElement());
     if (nextContentSlug) {
-      console.warn(nextContentSlug + " --- loading not yet implemented");
+      // TODO: specify why reusing the old session for a different content game
+      EduSentenceConstructor(window.session as ISession, nextContentSlug, htmlCanvasConfig)
     } else {
       window.gameEnded = true;
       appendToGame(htmlToElement(endSessionSplash({

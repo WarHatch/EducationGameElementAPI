@@ -19,14 +19,14 @@ import { getLesson } from "../dataHandler";
 
 // ------------ Global params validation
 declare global {
-  interface IHTMLCanvas {
+  interface IHTMLCanvasConfig {
     canvasWidth: number
     canvasHeight: number
   }
 
   interface Window {
     session?: ISession | null;
-    htmlCanvas?: IHTMLCanvas
+    htmlCanvas?: IHTMLCanvasConfig
     gameEnded: boolean;
 
     sentenceConstructorParams?: ISCGlobal 
