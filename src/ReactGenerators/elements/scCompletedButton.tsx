@@ -5,7 +5,7 @@ import ReactDOMServer from "react-dom/server";
 // Classnames
 import { SCContainerClassname } from "../observer/sentenceConstructorLogic";
 
-import { registerEndSession } from "../dataHandler";
+import { registerEndSession, registerSCCompletedClick } from "../dataHandler";
 import endSessionSplash from "../elements/popupCardElement";
 import htmlToElement from "../gameScripts/htmlToElement";
 import { appendToGame, getHTMLCanvasElement } from "../gameScripts/HTMLCanvasManager";
@@ -13,6 +13,9 @@ import config from "../../config";
 import cleanup from "../gameScripts/sentenceConstructorGame/cleanup";
 import EduSentenceConstructor from "../public/EduSentenceConstructor";
 import { ISession } from "../../database/models/Session";
+import attemptedAnswerIndexString from "../gameScripts/sentenceConstructorGame/attemptedAnswerIndexString";
+import correctAnswerPercentage from "../gameScripts/sentenceConstructorGame/correctAnswerPercentage";
+import timeTracker from "../gameScripts/timeTracker";
 
 type Props = {
 }
@@ -43,6 +46,7 @@ export const mountCompleteClick = (
   buttonElement: Element,
   sessionId: string,
   lessonId: string,
+  timeTrackerId: number,
   nextContentSlug: string | undefined,
   htmlCanvasConfig: IHTMLCanvasConfig
   ) => {
@@ -58,10 +62,22 @@ export const mountCompleteClick = (
       },
     )
 
+    // gather data
+    const attemptedAnswerString = attemptedAnswerIndexString();
+    const correctPercentage = correctAnswerPercentage(attemptedAnswerString)
+    
+    registerSCCompletedClick({
+      attemptedAnswerString,
+      correctPercentage,
+      sessionId,
+      spawnToClickTime: timeTracker.checkTimer(timeTrackerId)
+    }, lessonId)
+    
     // Remove elements spawned so far...
     cleanup(getHTMLCanvasElement());
+    // Load next content if possible
     if (nextContentSlug) {
-      // TODO: specify why reusing the old session for a different content game
+      // [?] reusing the old session for a different content game
       EduSentenceConstructor(window.session as ISession, nextContentSlug, htmlCanvasConfig)
     } else {
       window.gameEnded = true;
@@ -72,6 +88,5 @@ export const mountCompleteClick = (
     }
   })
 }
-
 
 export default (props: Props) => ReactDOMServer.renderToString(scCompleteButton(props));

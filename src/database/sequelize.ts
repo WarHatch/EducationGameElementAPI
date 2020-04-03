@@ -4,6 +4,7 @@ import sentenceConstructorClickDataModel from "./models/SentenceConstructorClick
 import sessionModel from "./models/Session";
 import asteroidSessionConfigModel from "./models/AsteroidSessionConfig";
 import sentenceConstructorConfigModel from "./models/SentenceConstructorConfig";
+import sentenceConstructorCompletedData from "./models/SentenceConstructorCompletedData";
 import lessonModel from "./models/Lesson";
 import config from "../config"
 
@@ -29,16 +30,19 @@ if (process.env.NODE_ENV === "production" && process.env.DATABASE_URL) {
   )
 }
 
+// Bottom - up db building
 const AsteroidClickData = asteroidClickDataModel(sequelize, Sequelize)
 const AsteroidSessionConfig = asteroidSessionConfigModel(sequelize, Sequelize)
 const SentenceConstructorClickData = sentenceConstructorClickDataModel(sequelize, Sequelize)
+const SentenceConstructorCompletedData = sentenceConstructorCompletedData(sequelize, Sequelize)
 const SentenceConstructorConfig = sentenceConstructorConfigModel(sequelize, Sequelize)
 const Session = sessionModel(sequelize, Sequelize,
   {
     AsteroidClickData,
     AsteroidSessionConfig,
     SentenceConstructorClickData,
-    SentenceConstructorConfig
+    SentenceConstructorConfig,
+    SentenceConstructorCompletedData
   }
 )
 const Lesson = lessonModel(sequelize, Sequelize,
@@ -56,6 +60,7 @@ export default {
   AsteroidClickData,
   AsteroidSessionConfig,
   SentenceConstructorClickData,
+  SentenceConstructorCompletedData,
   SentenceConstructorConfig,
   Session,
   Lesson,

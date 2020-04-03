@@ -4,6 +4,7 @@ import { ILesson } from "../database/models/Lesson";
 import { ISessionGameTypeConfigBase } from "../database/sequelize.d";
 import { IAsteroidClickDataModel } from "../database/models/AsteroidClickData";
 import { ISentenceConstructorClickDataModel } from "../database/models/SentenceConstructorClickData";
+import { ISentenceConstructorCompletedDataModel } from "../database/models/SentenceConstructorCompletedData";
 
 export interface IAnswer {
   _key: string,
@@ -81,5 +82,10 @@ export const registerAsteroidClick = async (data: IAsteroidClickDataModel | ISen
 
 export const registerSCClick = async (data: IAsteroidClickDataModel | ISentenceConstructorClickDataModel, lessonId: string): Promise<void> => {
   const res = await Axios.post(`${config.host}/lesson/${lessonId}/session/register/SCButtonClick`, data);
+  console.log({ sent: data, received: res });
+}
+
+export const registerSCCompletedClick = async (data: ISentenceConstructorCompletedDataModel, lessonId: string): Promise<void> => {
+  const res = await Axios.post(`${config.host}/lesson/${lessonId}/session/register/SCCompletedClick`, data);
   console.log({ sent: data, received: res });
 }

@@ -34,6 +34,7 @@ export const mountPhraseClick = (
       if (imgElement === null)
         throw new Error("Unable to get firstElementChild of button");
       imgElement.setAttribute("src", src)
+      imgElement.setAttribute("data-attemptedanswer", String(correctPlacement !== null ? correctPlacement : "-1"))
     } else {
       console.warn("attemptedAnswer was not yet defined");
     }

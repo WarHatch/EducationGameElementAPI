@@ -7,6 +7,7 @@ import { IAsteroidClickDataModel } from "../../../database/models/AsteroidClickD
 import { ISession } from "../../../database/models/Session";
 import { sentenceConstructorGameTypeName } from "../../../ReactGenerators/public/EduSentenceConstructor";
 import { ISentenceConstructorClickDataModel } from "../../../database/models/SentenceConstructorClickData";
+import { ISentenceConstructorCompletedDataModel } from "../../../database/models/SentenceConstructorCompletedData";
 
 const router = Router();
 
@@ -110,6 +111,18 @@ router.post("/register/SCButtonClick", async (req, res) => {
 
   try {
     await SeqDataModels.SentenceConstructorClickData.create(scClickData);
+    res.status(201).send();
+  } catch (error) {
+    console.error(error)
+    res.status(400).send("Error while trying to create an entry in database");
+  }
+});
+
+router.post("/register/SCCompletedClick", async (req, res) => {
+  const scCompletedData: ISentenceConstructorCompletedDataModel = req.body;
+
+  try {
+    await SeqDataModels.SentenceConstructorCompletedData.create(scCompletedData);
     res.status(201).send();
   } catch (error) {
     console.error(error)

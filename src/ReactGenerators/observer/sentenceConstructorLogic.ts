@@ -34,7 +34,8 @@ export default (session: ISession, scContainerElement: Element, gameConfig: ISen
   // If complete button appeared
   else if (scContainerElement.getAttribute("class")?.includes(completedButtonClassname)) {
     const { nextContentSlug } = gameConfig;
-    mountCompleteClick(scContainerElement, sessionId, lessonId, nextContentSlug, window.htmlCanvas as IHTMLCanvasConfig)
+    mountCompleteClick(scContainerElement, sessionId, lessonId, gameStartTimerId, nextContentSlug,
+      window.htmlCanvas as IHTMLCanvasConfig)
   }
   else {
     console.warn("unhandled observed mutation");
