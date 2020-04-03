@@ -43,7 +43,8 @@ const StoryTextWithSlots = (props: Props) => {
   const containerStyle: CSSProperties = {
     margin: 10,
     padding: 8,
-    backgroundColor: "white"
+    backgroundColor: "white",
+    overflow: "auto"
   };
 
   return (
