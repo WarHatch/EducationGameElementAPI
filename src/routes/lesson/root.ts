@@ -45,7 +45,12 @@ router.post("/", async (req, res) => {
     const lesson: ILesson = await SeqDataModels.Lesson.findOne({
       where: lessonQuery,
       include: [
-        { model: SeqDataModels.Session }
+        { model: SeqDataModels.Session,
+          include: [
+            SeqDataModels.AsteroidClickData, SeqDataModels.AsteroidSessionConfig,
+            SeqDataModels.SentenceConstructorClickData, SeqDataModels.SentenceConstructorCompletedData,
+            SeqDataModels.SentenceConstructorConfig
+          ] }
       ],
       order: [
         [SeqDataModels.Session, "createdAt", "DESC"],
