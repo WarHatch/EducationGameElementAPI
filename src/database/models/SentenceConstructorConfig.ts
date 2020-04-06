@@ -21,10 +21,6 @@ export default (sequelize, type) => {
       type: type.STRING,
       allowNull: true,
     },
-    gameType: {
-      type: type.STRING,
-      allowNull: false,
-    }
     // remove updatedAt
   })
 }
