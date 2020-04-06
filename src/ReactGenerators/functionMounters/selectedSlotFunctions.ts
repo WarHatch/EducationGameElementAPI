@@ -23,7 +23,7 @@ export const mountPhraseClick = (
         sessionId,
         attemptedAnswer: selected,
         attemptedSlotNumber: slotIndex,
-        correct: correctPlacement ? correctPlacement === slotIndex : false,
+        correct: correctPlacement !== null ? correctPlacement === slotIndex : false,
         spawnToClickTime
       };
       registerSCClick(payload, lessonId);
