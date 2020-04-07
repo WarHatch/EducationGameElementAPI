@@ -33,7 +33,7 @@ export default (session: ISession, scContainerElement: Element, gameConfig: ISen
   }
   // If complete button appeared
   else if (scContainerElement.getAttribute("class")?.includes(completedButtonClassname)) {
-    const { nextContentSlug } = gameConfig;
+    const { nextContentSlug } = gameConfig; // DEPRECATED
     mountCompleteClick(scContainerElement as HTMLElement, sessionId, lessonId, gameStartTimerId, nextContentSlug,
       window.htmlCanvas as IHTMLCanvasConfig)
   }

@@ -81,6 +81,12 @@ export default async (
       if (JSON.stringify(sessionConfig) !== JSON.stringify(receivedConfig)) {
         sessionConfig = receivedConfig;
 
+        // DEPRECATED: remount nextContentSlug for completedButtons
+        // const completedButtons = getHTMLCanvasElement().getElementsByClassName(completedButtonClassname);
+        // for (let i = 0; i < completedButtons.length; i++) {
+        //   mountCompleteClick(completedButtons[i] as HTMLElement, sessionId, lessonId, startGameTimerId, sessionConfig.nextContentSlug, window.htmlCanvas as IHTMLCanvasConfig)
+        // }
+
         // extract hint payload from new config
         if (typeof sessionConfig.hintMessage === "string") {
           window.sentenceConstructorParams?.hintCollector.unreadMessageStack.push(sessionConfig.hintMessage)

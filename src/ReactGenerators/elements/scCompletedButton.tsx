@@ -76,9 +76,9 @@ export const mountCompleteClick = (
 
     // Remove elements spawned so far...
     cleanup(getHTMLCanvasElement());
-    // Load next content if possible
+    // DEPRECATED: Load next content if possible
     if (nextContentSlug) {
-      // [?] reusing the old session for a different content game
+      // ⚠ reusing the old session for a different content game
       EduSentenceConstructor(window.session as ISession, nextContentSlug, htmlCanvasConfig)
     } else {
       window.gameEnded = true;
