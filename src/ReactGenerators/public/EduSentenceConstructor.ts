@@ -5,7 +5,7 @@
 import contentOptionButton from "../elements/contentOptionButton";
 import storyTextWithSlots from "../elements/storyTextWithSlots";
 import hintButton from "../elements/hintButton";
-import scCompletedButton from "../elements/scCompletedButton";
+import scCompletedButton, { mountCompleteClick, completedButtonClassname } from "../elements/scCompletedButton";
 
 import observeSSRElements from "../observer";
 import htmlToElement from "../gameScripts/htmlToElement";
@@ -38,8 +38,6 @@ export default async (
   const { sessionId, lessonId, sentenceConstructorConfigs } = sessionData;
   const { canvasWidth, canvasHeight } = htmlCanvasConfig;
 
-  const sentenceConstructorContentSet: ISentenceConstructorDataSet = await getCMSDataSentenceConstructor(contentSlug);
-
   // Init addon global state
   window.sentenceConstructorParams = {
     attemptedAnswer: null,
@@ -48,8 +46,10 @@ export default async (
     }
   }
 
+  const sentenceConstructorContentSet: ISentenceConstructorDataSet = await getCMSDataSentenceConstructor(contentSlug);
   if (sentenceConstructorContentSet.quizTitle === undefined)
     throw new Error("EduSentenceConstructor script did not receive content");
+  // handle config
   if (sentenceConstructorConfigs === undefined || !Boolean(sentenceConstructorConfigs[0])) {
     console.error(sentenceConstructorConfigs);
     throw new Error("session.sentenceConstructorConfigs array does not have an object");
@@ -61,7 +61,7 @@ export default async (
   // --- Single spawn elements
   const { answers, badAnswers, storyChunks } = sentenceConstructorContentSet;
   spawnOptionButtons(canvasWidth, answers, badAnswers);
-  appendToGame(htmlToElement(hintButton({hintMessageCount: 0})))
+  appendToGame(htmlToElement(hintButton({ hintMessageCount: 0 })))
   appendToGame(htmlToElement(storyTextWithSlots({ textSnippets: storyChunks })))
   appendToGame(htmlToElement(scCompletedButton({})));
 
@@ -101,8 +101,9 @@ export default async (
   console.log("EduSentenceConstructor script finished mounting");
 }
 
-// TODO: Deteremine button size by canvasWidth and spread buttons around
 const spawnOptionButtons = (canvasWidth: number, answers: IContentAnswer[], badAnswers: IContentAnswer[]) => {
+  // button size can be determinded by canvasWidth
+
   const horizontalContainerPad = 50;
   // const betweenButtonsPad = 35;
 

@@ -35,7 +35,7 @@ const scCompleteButton = (props: Props) => {
       className={`SSRClickable ${SCContainerClassname} ${completedButtonClassname}`}
       style={containerStyle}
     // data-slotindex={}
-    // TODO: onClick mounted through observer
+    // onClick mounted through observer
     >
       Pabaigiau!
     </button>
@@ -43,14 +43,15 @@ const scCompleteButton = (props: Props) => {
 }
 
 export const mountCompleteClick = (
-  buttonElement: Element,
+  buttonElement: HTMLElement,
   sessionId: string,
   lessonId: string,
   timeTrackerId: number,
   nextContentSlug: string | undefined,
   htmlCanvasConfig: IHTMLCanvasConfig
-  ) => {
-  buttonElement.addEventListener("click", () => {
+) => {
+  // Fully overwriting click handler to ensure old ones are destroyed
+  buttonElement.onclick = () => {
     if (window.gameEnded === true) return;
 
     const now = new Date();
@@ -65,14 +66,14 @@ export const mountCompleteClick = (
     // gather data
     const attemptedAnswerString = attemptedAnswerIndexString();
     const correctPercentage = correctAnswerPercentage(attemptedAnswerString)
-    
+
     registerSCCompletedClick({
       attemptedAnswerString,
       correctPercentage,
       sessionId,
       spawnToClickTime: timeTracker.checkTimer(timeTrackerId)
     }, lessonId)
-    
+
     // Remove elements spawned so far...
     cleanup(getHTMLCanvasElement());
     // Load next content if possible
@@ -86,7 +87,7 @@ export const mountCompleteClick = (
         cardText: "Dėkojame, kad žaidėte"
       })));
     }
-  })
+  }
 }
 
 export default (props: Props) => ReactDOMServer.renderToString(scCompleteButton(props));

@@ -5,6 +5,7 @@ import { ISessionGameTypeConfigBase } from "../database/sequelize.d";
 import { IAsteroidClickDataModel } from "../database/models/AsteroidClickData";
 import { ISentenceConstructorClickDataModel } from "../database/models/SentenceConstructorClickData";
 import { ISentenceConstructorCompletedDataModel } from "../database/models/SentenceConstructorCompletedData";
+import { ISentenceConstructorConfig } from "../database/models/SentenceConstructorConfig";
 
 export interface IAnswer {
   _key: string,
@@ -88,4 +89,14 @@ export const registerSCClick = async (data: IAsteroidClickDataModel | ISentenceC
 export const registerSCCompletedClick = async (data: ISentenceConstructorCompletedDataModel, lessonId: string): Promise<void> => {
   const res = await Axios.post(`${config.host}/lesson/${lessonId}/session/register/SCCompletedClick`, data);
   console.log({ sent: data, received: res });
+}
+
+export const sendSCConfigWithNulledContentSlug = async (lessonId: string, payload: ISentenceConstructorConfig) => {
+  payload.id = undefined; // ensures that it's a new instance
+  payload.nextContentSlug = undefined; // undefined works as null
+  const { data } = await Axios.post<ISentenceConstructorConfig>(
+    `${config.host}/lesson/${lessonId}/session/config/new/sentenceConstructor`,
+    payload
+  );
+  return data;
 }
