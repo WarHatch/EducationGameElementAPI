@@ -21,7 +21,6 @@ router.post("/data", async (req, res) => {
   //     where: {
   //       sessionId
   //     },
-
   //     include: [
   //       { model: SeqDataModels.AsteroidClickData }
   //     ]
