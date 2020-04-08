@@ -18,7 +18,7 @@ export const mountPhraseClick = (
     if (attemptedAnswer !== null && attemptedAnswer !== undefined) {
       const { selected, correctPlacement, src } = attemptedAnswer;
 
-      // TODO: registerClick whether attemptedAnswer is null or not
+      // registerClick whether attemptedAnswer is null or not
       const payload: ISentenceConstructorClickDataModel = {
         sessionId,
         attemptedAnswer: selected,
@@ -28,9 +28,8 @@ export const mountPhraseClick = (
       };
       registerSCClick(payload, lessonId);
 
-      // add effect when answer is placed into a slot
-      // TODO: assumes image will be first
-      const imgElement = buttonElement.firstElementChild;
+      // add image when answer is placed into a slot
+      const imgElement = buttonElement.firstElementChild; // assumes image will be first
       if (imgElement === null)
         throw new Error("Unable to get firstElementChild of button");
       imgElement.setAttribute("src", src)

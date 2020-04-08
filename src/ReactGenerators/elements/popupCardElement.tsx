@@ -22,7 +22,6 @@ const PopupCardElement = (props: Props) => {
       <div className="card">
         <div className="card-body">
           {cardTitle && <h5 className="card-title">{cardTitle}</h5>}
-          {/* FIXME: add exit onClick function */}
           {exitable && <button type="button" className={cardCloseButtonClassname} aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>}
