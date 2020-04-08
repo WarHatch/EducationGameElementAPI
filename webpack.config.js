@@ -8,7 +8,7 @@ if (process !== undefined && process.env.NODE_ENV === "production")
  outputPath = path.resolve(__dirname, 'dist/ReactGenerators/dist')
 
 module.exports = {
-  entry: './src/ReactGenerators/public/SSRScript.ts',
+  entry: './src/ReactGenerators/public/index.ts',
   module: {
     rules: [
       {

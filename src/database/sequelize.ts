@@ -1,7 +1,10 @@
 import Sequelize from "sequelize";
-import clickDataModel from "./models/ClickData";
+import asteroidClickDataModel from "./models/AsteroidClickData";
+import sentenceConstructorClickDataModel from "./models/SentenceConstructorClickData";
 import sessionModel from "./models/Session";
-import sessionConfigModel from "./models/SessionConfig";
+import asteroidSessionConfigModel from "./models/AsteroidSessionConfig";
+import sentenceConstructorConfigModel from "./models/SentenceConstructorConfig";
+import sentenceConstructorCompletedData from "./models/SentenceConstructorCompletedData";
 import lessonModel from "./models/Lesson";
 import config from "../config"
 
@@ -19,21 +22,28 @@ if (process.env.NODE_ENV === "production" && process.env.DATABASE_URL) {
 } else {
   // @ts-ignore
   sequelize = new Sequelize.Sequelize(databaseName, username, password,
-    // @ts-ignore no way to enfore correct env input
     {
       dialect,
       host,
       pool,
+      logging: true
     }
   )
 }
 
-const ClickData = clickDataModel(sequelize, Sequelize)
-const SessionConfig = sessionConfigModel(sequelize, Sequelize)
+// Bottom - up db building
+const AsteroidClickData = asteroidClickDataModel(sequelize, Sequelize)
+const AsteroidSessionConfig = asteroidSessionConfigModel(sequelize, Sequelize)
+const SentenceConstructorClickData = sentenceConstructorClickDataModel(sequelize, Sequelize)
+const SentenceConstructorCompletedData = sentenceConstructorCompletedData(sequelize, Sequelize)
+const SentenceConstructorConfig = sentenceConstructorConfigModel(sequelize, Sequelize)
 const Session = sessionModel(sequelize, Sequelize,
   {
-    ClickData,
-    SessionConfig,
+    AsteroidClickData,
+    AsteroidSessionConfig,
+    SentenceConstructorClickData,
+    SentenceConstructorConfig,
+    SentenceConstructorCompletedData
   }
 )
 const Lesson = lessonModel(sequelize, Sequelize,
@@ -42,14 +52,17 @@ const Lesson = lessonModel(sequelize, Sequelize,
   }
 )
 
-sequelize.sync({ force: false })
+sequelize.sync({ force: true })
   .then(() => {
     console.log("Database & tables created!")
   })
 
 export default {
-  ClickData,
-  SessionConfig,
+  AsteroidClickData,
+  AsteroidSessionConfig,
+  SentenceConstructorClickData,
+  SentenceConstructorCompletedData,
+  SentenceConstructorConfig,
   Session,
   Lesson,
 }

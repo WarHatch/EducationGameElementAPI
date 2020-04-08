@@ -4,7 +4,7 @@ import ReactDOMServer from "react-dom/server";
 type Props = {
 }
 
-export const endButtonClassName = "SSRElement SSRClickable SSR-EndSessionButton"
+export const endButtonClassName = "SSRElement SSRAbsolute SSRClickable SSR-EndSessionButton"
 const EndButton = (props: Props) => {
   const { } = props;
   return (

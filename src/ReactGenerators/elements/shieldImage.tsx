@@ -17,7 +17,7 @@ const ShieldImage = (props: Props) => {
   }
 
   return (
-    <img className="SSRElement SSR-Shield" src={config.host + "/shield_line.png"} style={style} />
+    <img className="SSRElement SSRAbsolute SSR-Shield" src={config.host + "/shield_line.png"} style={style} />
   )
 }
 

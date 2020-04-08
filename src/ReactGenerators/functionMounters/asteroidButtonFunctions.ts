@@ -1,40 +1,32 @@
-import axios from "axios";
-import config from "../../config";
-import timeTracker from "../gameScripts/timeTracker";
-
 // Types
-import { IClickDataModel } from "../../database/models/ClickData";
 import { asteroid } from "../configs/gameConfigs";
 
-const registerClick = async (data: IClickDataModel, lessonId: string): Promise<void> => {
-  const res = await axios.post(`${config.host}/lesson/${lessonId}/session/register/buttonClick`, data);
-  console.log({ sent: data, received: res });
-}
+import { registerAsteroidClick } from "../dataHandler";
+import timeTracker from "../gameScripts/timeTracker";
+import { IAsteroidClickDataModel } from "../../database/models/AsteroidClickData";
 
-export const mountClick = (
+export const mountAsteroidClick = (
   buttonElement: HTMLElement,
   sessionId: string,
   timeTrackId: number,
   correct: boolean,
   lessonId: string,
 ) => {
-  const question = buttonElement.getAttribute("data-question");
-  if (question === null) throw new Error("buttonElement.getAttribute('data-question') is not defined");
-
   buttonElement.addEventListener("click", () => {
-    const reactionTime = timeTracker.checkTimer(timeTrackId)
-    registerClick(
-      {
-        correct,
-        question,
-        reactionTime,
-        sessionId,
-      },
-      lessonId
-    );
+    const spawnToClickTime = timeTracker.checkTimer(timeTrackId)
+
+    const question = buttonElement.getAttribute("data-question");
+    if (question === null) throw new Error("buttonElement.getAttribute('data-question') is not defined");
+
+    const payload: IAsteroidClickDataModel = {
+      sessionId, question, correct,
+      spawnToClickTime
+    };
+    registerAsteroidClick(payload, lessonId);
+
     const buttonContainer = buttonElement.parentNode;
     buttonContainer?.parentNode?.removeChild(buttonContainer);
-  })
+  });
 }
 
 const moveDown = (buttonElement: HTMLElement, moveDownPX: number) => {

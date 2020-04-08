@@ -3,3 +3,8 @@ export interface ISeqModel {
   createdAt?: string,
   updatedAt?: string,
 }
+
+export interface ISessionGameTypeConfigBase extends ISeqModel {
+  sessionId: string,
+  gameType: string,
+}

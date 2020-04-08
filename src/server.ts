@@ -19,10 +19,11 @@ app.use(cors());
 // });
 
 // Quick body logger
-app.use((req, res, next) => {
-  console.log(req.body);
-  next();
-});
+// TODO: turn on if needed
+// app.use((req, res, next) => {
+//   console.log(req.body);
+//   next();
+// });
 
 // Serve static files
 // TODO: solve hardcoded production path
