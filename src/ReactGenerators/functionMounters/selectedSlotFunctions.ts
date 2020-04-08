@@ -12,9 +12,10 @@ export const mountPhraseClick = (
     const spawnToClickTime = timeTracker.checkTimer(timeTrackId)
 
     const slotIndex = Number(buttonElement.getAttribute("data-slotindex"));
-    const attemptedAnswer = window.sentenceConstructorParams?.attemptedAnswer;
-    
+    // TODO: Condition 'slotIndex === null' is always false. The value of variable 'slotIndex' is originated from the return value of 'Number()' at line 14 . Consider using 'isNaN()' instead if invalid number checking was intended. 
     if (slotIndex === null) throw new Error("attribute 'data-slotindex' is not defined on button element");
+    
+    const attemptedAnswer = window.sentenceConstructorParams?.attemptedAnswer;
     if (attemptedAnswer !== null && attemptedAnswer !== undefined) {
       const { selected, correctPlacement, src } = attemptedAnswer;
 
