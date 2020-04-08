@@ -22,7 +22,7 @@ const Question = (props: Props) => {
   }
 
   return (
-    <div className={"SSRElement SSR-QuestionContainer"} style={containerStyle}>
+    <div className={"SSRElement SSRAbsolute SSR-QuestionContainer"} style={containerStyle}>
       <span data-type={"question-text"} className={"SSR-QuestionText"} style={textStyle}>
         <b>{props.quizTitle}</b>
       </span>

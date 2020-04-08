@@ -2,36 +2,30 @@ import { Router } from "express";
 
 import SeqDataModels from "../../database/sequelize";
 import { ILesson } from "../../database/models/Lesson";
+import { sentenceConstructorGameTypeName } from "../../ReactGenerators/public/EduSentenceConstructor";
 
-export interface ILessonCreateData {
-  lessonId: string,
+interface ILessonCreate {
+  id: string,
   teacherId: string,
-  gameType: {
-    type: "asteroid" | "assembly",
-    // TODO: rely on types on EduGameManager/.../datahandler/data.d.ts
-  },
+  contentSlug: string,
+}
+
+interface ILessonCreateReqPayload extends ILessonCreate {
+  gameType: "asteroid" | typeof sentenceConstructorGameTypeName,
 }
 
 const router = Router();
 
 router.post("/new", async (req, res) => {
-  const { body } = req;
-  const { id, teacherId, gameType } = body;
+  const { body: lessonCreateData }: { body: ILessonCreateReqPayload} = req;
 
-  const lessonCreateData = {
-    id,
-    teacherId,
-
-    gameTypeJSON: JSON.stringify(gameType)
-  }
   try {
     const lesson: ILesson = await SeqDataModels.Lesson.create(lessonCreateData);
-
     res.status(200).json(lesson);
   } catch (error) {
     console.error(error);
     const duplicateLesson = await SeqDataModels.Lesson.findOne({
-      where: { id }
+      where: { id: lessonCreateData.id }
     });
     if (duplicateLesson) {
       res.status(409).send("Lesson with that id already exists");
@@ -51,7 +45,12 @@ router.post("/", async (req, res) => {
     const lesson: ILesson = await SeqDataModels.Lesson.findOne({
       where: lessonQuery,
       include: [
-        { model: SeqDataModels.Session }
+        { model: SeqDataModels.Session,
+          include: [
+            SeqDataModels.AsteroidClickData, SeqDataModels.AsteroidSessionConfig,
+            SeqDataModels.SentenceConstructorClickData, SeqDataModels.SentenceConstructorCompletedData,
+            SeqDataModels.SentenceConstructorConfig
+          ] }
       ],
       order: [
         [SeqDataModels.Session, "createdAt", "DESC"],

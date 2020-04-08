@@ -19,7 +19,7 @@ const Button = (props: Props) => {
   };
 
   return (
-    <div className={`SSRElement ${meteorContainerClassname}`} style={meteorContainerStyle}>
+    <div className={`SSRElement SSRAbsolute ${meteorContainerClassname}`} style={meteorContainerStyle}>
       <img className="SSR-Meteor" src={config.host + "/meteor.png"} />
       <button
         data-type={answerData._type}

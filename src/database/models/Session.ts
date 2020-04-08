@@ -1,12 +1,16 @@
 import { ISeqModel } from "../sequelize.d"
-import { IClickDataModel } from "./ClickData";
-import { ISessionConfig } from "./SessionConfig";
+import { IAsteroidClickDataModel } from "./AsteroidClickData";
+import { ISentenceConstructorClickDataModel } from "./SentenceConstructorClickData";
+import { IAsteroidSessionConfig } from "./AsteroidSessionConfig";
+import { ISentenceConstructorConfig } from "./SentenceConstructorConfig";
 
 export interface ISession extends ISeqModel {
   sessionId: string,
   finishedAt: string | null,
-  clickData?: IClickDataModel[],
-  sessionConfigs?: ISessionConfig[],
+  asteroidSessionConfigs?: IAsteroidSessionConfig[],
+  sentenceConstructorConfigs?: ISentenceConstructorConfig[],
+  asteroidClickData?: IAsteroidClickDataModel[],
+  sentenceConstructorClickData?: ISentenceConstructorClickDataModel[],
   lessonId: string,
   playerName: string,
 }
@@ -31,10 +35,14 @@ const Session = (sequelize, type) => {
   })
 }
 
-export default (sequelize, type, hasMany: { [key: string]: any }) => {
+export default (sequelize, type, hasManyTables: { [key: string]: any }) => {
   const SessionModel = Session(sequelize, type);
-  SessionModel.hasMany(hasMany.ClickData, { foreignKey: "sessionId", allowNull: false })
-  SessionModel.hasMany(hasMany.SessionConfig, { foreignKey: "sessionId", allowNull: false })
+  for (const tableKey in hasManyTables) {
+    if (hasManyTables.hasOwnProperty(tableKey)) {
+      const table = hasManyTables[tableKey];
+      SessionModel.hasMany(table, {foreignKey: "sessionId", allowNull: false })
+    }
+  }
 
   return SessionModel
 }

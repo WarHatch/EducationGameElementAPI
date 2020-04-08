@@ -2,18 +2,15 @@ import { Router } from "express";
 
 import endSessionButton from "../../ReactGenerators/elements/endSessionButton";
 import questionElement from "../../ReactGenerators/elements/question";
-
-import getCanvasDimensions from "../../ReactGenerators/configs/canvasConfigs";
+import { questionWidth } from "../../ReactGenerators/configs/commonElementConfigs";
 
 const router = Router();
 
-router.get("/dataSet/:canvasWidth", async (req, res) => {
-  const { canvasWidth: canvasWidthParam } = req.params;
+router.get("/dataSet/:conteinerHeight", async (req, res) => {
+  const { conteinerHeight: conteinerHeightParam } = req.params;
+  const conteinerHeight = parseInt(conteinerHeightParam)
 
-  const { height, width, questionWidth } = getCanvasDimensions(parseInt(canvasWidthParam));
-  console.log({ height, width });
-
-  const questionHTMLPromise = questionElement({ conteinerHeight: height, width: questionWidth });
+  const questionHTMLPromise = questionElement({ conteinerHeight, width: questionWidth });
 
   const endSessionHTML = {
     html: endSessionButton({})

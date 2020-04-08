@@ -2,7 +2,8 @@ import { ISeqModel } from "../sequelize.d"
 
 export interface ILesson extends ISeqModel {
   teacherId: string,
-  gameTypeJSON: string,
+  contentSlug: string,
+  gameType: string,
 }
 
 const Lesson = (sequelize, type) => {
@@ -15,19 +16,23 @@ const Lesson = (sequelize, type) => {
       type: type.STRING,
       allowNull: false,
     },
-    gameTypeJSON: {
+    contentSlug: {
+      type: type.STRING,
+      allowNull: false,
+    },
+    gameType: {
       type: type.STRING,
       allowNull: false,
     }
   })
 }
 
-export default (sequelize, type, hasMany: { [key: string]: any }) => {
+export default (sequelize, type, hasManyTables: { [key: string]: any }) => {
   const LessonModel = Lesson(sequelize, type);
-  for (const modelKey in hasMany) {
-    if (hasMany.hasOwnProperty(modelKey)) {
-      const model = hasMany[modelKey];
-      LessonModel.hasMany(model, {foreignKey: "lessonId"})
+  for (const tableKey in hasManyTables) {
+    if (hasManyTables.hasOwnProperty(tableKey)) {
+      const table = hasManyTables[tableKey];
+      LessonModel.hasMany(table, {foreignKey: "lessonId"})
     }
   }
 

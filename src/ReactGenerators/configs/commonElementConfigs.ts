@@ -1,0 +1,1 @@
+export const questionWidth = 300;

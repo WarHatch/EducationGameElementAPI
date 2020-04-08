@@ -1,16 +1,9 @@
-import sanityClient from "@sanity/client";
+import sanityClient from "./sanityClient";
 
-const client = sanityClient({
-  projectId: "0byunyul",
-  dataset: "production",
-  // token: 'sanity-auth-token', // or leave blank to be anonymous user
-  useCdn: false // `false` if you want to ensure fresh data
-})
-
-const fetchALLCMSData = async() => {
-  return client.fetch("*[]");
+export const fetchALLCMSData = async() => {
+  return sanityClient.fetch("*[]");
 }
 
-export default {
-  fetchALLCMSData,
+export const fetchCMSDataByContentSlug = async(contentSlug: string) => {
+  return sanityClient.fetch(`*[contentSlug.current == "${contentSlug}"]`);
 }
