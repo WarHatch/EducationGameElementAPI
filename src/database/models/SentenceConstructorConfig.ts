@@ -14,7 +14,7 @@ export default (sequelize, type) => {
       autoIncrement: true
     },
     hintMessage: {
-      type: type.STRING,
+      type: type.STRING(510),
       allowNull: true,
     },
     nextContentSlug: {
