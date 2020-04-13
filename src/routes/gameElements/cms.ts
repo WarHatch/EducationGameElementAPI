@@ -2,7 +2,7 @@ import { Router } from "express";
 
 import * as CMSController from "../../cmsDataHandler/gameElementController";
 
-const router = Router();
+const router = Router({mergeParams: true});
 
 router.get("/cms", async (req, res) => {
   const data = await CMSController.fetchALLCMSData();
