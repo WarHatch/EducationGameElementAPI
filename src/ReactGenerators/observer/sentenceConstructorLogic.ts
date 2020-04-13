@@ -32,9 +32,9 @@ export default (session: ISession, scContainerElement: Element, gameConfig: ISen
     hintButtonFunctions.mountClick(scContainerElement, sessionId, lessonId);
   }
   // If complete button appeared
-  else if (scContainerElement.getAttribute("class")?.includes(completedButtonClassname)) {
+  else if (scContainerElement.firstElementChild?.getAttribute("class")?.includes(completedButtonClassname)) {
     const { nextContentSlug } = gameConfig; // DEPRECATED
-    mountCompleteClick(scContainerElement as HTMLElement, sessionId, lessonId, gameStartTimerId, nextContentSlug,
+    mountCompleteClick(scContainerElement.firstElementChild as HTMLElement, sessionId, lessonId, gameStartTimerId, nextContentSlug,
       window.htmlCanvas as IHTMLCanvasConfig)
   }
   else {

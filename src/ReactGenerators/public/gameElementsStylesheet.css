@@ -45,10 +45,6 @@
   animation-duration: 10s;
 }
 
-/* .SSR-MeteorContainer button:hover {
-  background-color: black;
-} */
-
 @keyframes spectrum {
   from {
     background-color: yellow;

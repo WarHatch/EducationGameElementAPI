@@ -9,7 +9,6 @@ import { registerEndSession, registerSCCompletedClick } from "../dataHandler";
 import endSessionSplash from "../elements/popupCardElement";
 import htmlToElement from "../gameScripts/htmlToElement";
 import { appendToGame, getHTMLCanvasElement } from "../gameScripts/HTMLCanvasManager";
-import config from "../../config";
 import cleanup from "../gameScripts/sentenceConstructorGame/cleanup";
 import EduSentenceConstructor from "../public/EduSentenceConstructor";
 import { ISession } from "../../database/models/Session";
@@ -31,14 +30,18 @@ const scCompleteButton = (props: Props) => {
   };
 
   return (
-    <button aria-label={"complete"}
-      className={`SSRClickable ${SCContainerClassname} ${completedButtonClassname}`}
-      style={containerStyle}
-    // data-slotindex={}
-    // onClick mounted through observer
-    >
-      Pabaigiau!
-    </button>
+    <div className={`${SCContainerClassname}`} style={({
+      marginBottom: 60,
+    })}>
+      <button aria-label={"complete"}
+        className={`SSRClickable ${completedButtonClassname}`}
+        style={containerStyle}
+      // data-slotindex={}
+      // onClick mounted through observer
+      >
+        Pabaigiau!
+      </button>
+    </div>
   )
 }
 

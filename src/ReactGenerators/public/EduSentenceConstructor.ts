@@ -5,7 +5,7 @@
 import contentOptionButton from "../elements/contentOptionButton";
 import storyTextWithSlots from "../elements/storyTextWithSlots";
 import hintButton from "../elements/hintButton";
-import scCompletedButton, { mountCompleteClick, completedButtonClassname } from "../elements/scCompletedButton";
+import scCompletedButton from "../elements/scCompletedButton";
 
 import observeSSRElements from "../observer";
 import htmlToElement from "../gameScripts/htmlToElement";
