@@ -17,7 +17,6 @@ const splashStyle: CSSProperties = {
   justifyContent: "center",
   alignContent: "center",
   width: "100%",
-  marginTop: "25%"
 }
 
 const PopupCardElement = (props: Props) => {
@@ -31,7 +30,8 @@ const PopupCardElement = (props: Props) => {
   return (
     // TODO: test if absolute positioning is needed
     <div
-      className={`SSRElement SSRAbsolute ${popupCardClassname} ${dissapearAfterFiveSeconds ?? dissapearAfterFiveSecondsClassname}`}
+      className={`SSRElement ${popupCardClassname} `
+      + `${dissapearAfterFiveSeconds === true ? dissapearAfterFiveSecondsClassname : ""}`}
       style={splashStyle}
     >
       <div className="card">

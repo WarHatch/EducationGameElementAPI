@@ -19,7 +19,8 @@ export const mountClick = (buttonElement: Element, sessionId: string, lessonId: 
 
       appendToGame(htmlToElement(popupCardElement({
         cardText: hintMessage,
-        exitable: true
+        exitable: true,
+        dissapearAfterFiveSeconds: false
       })));
     }
   })
