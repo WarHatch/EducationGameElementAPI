@@ -14,7 +14,7 @@ interface ILessonCreateReqPayload extends ILessonCreate {
   gameType: "asteroid" | typeof sentenceConstructorGameTypeName,
 }
 
-const router = Router();
+const router = Router({mergeParams: true});
 
 router.post("/new", async (req, res) => {
   const { body: lessonCreateData }: { body: ILessonCreateReqPayload} = req;

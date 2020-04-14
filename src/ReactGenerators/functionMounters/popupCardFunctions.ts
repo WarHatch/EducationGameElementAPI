@@ -19,3 +19,9 @@ export const mountCloseClick = (
     buttonContainer?.parentNode?.removeChild(buttonContainer);
   });
 }
+
+export const dissapearAfterFiveSeconds = (buttonElement: Element) => {
+  setTimeout(() => {
+    buttonElement.remove();
+  }, 5000)
+}

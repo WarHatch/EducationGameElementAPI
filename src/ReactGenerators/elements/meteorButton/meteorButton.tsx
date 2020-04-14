@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import ReactDOMServer from "react-dom/server";
 import config from "../../../config";
 import { IAnswer } from "../../dataHandler";
@@ -14,13 +14,20 @@ type Props = {
 const Button = (props: Props) => {
   const {answerData, quizTitle, correct, xPosition} = props;
 
+  const meteorImageStyle: CSSProperties = {
+    width: "100px",
+    height: "100px"
+  }
+
   const meteorContainerStyle = {
     left: xPosition,
   };
 
   return (
     <div className={`SSRElement SSRAbsolute ${meteorContainerClassname}`} style={meteorContainerStyle}>
-      <img className="SSR-Meteor" src={config.host + "/meteor.png"} />
+      <img className="SSR-Meteor" src={config.host + "/meteor.png"} 
+        style={meteorImageStyle}
+      />
       <button
         data-type={answerData._type}
         data-correct={correct}

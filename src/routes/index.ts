@@ -4,7 +4,7 @@ import rootRoutes from "./root"
 import gameElementsRoutes from "./gameElements"
 import lessonRoutes from "./lesson";
 
-const mainRouter = Router();
+const mainRouter = Router({mergeParams: true});
 
 mainRouter.use(rootRoutes);
 mainRouter.use("/gameElements", gameElementsRoutes);

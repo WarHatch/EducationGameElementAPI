@@ -13,7 +13,7 @@ import { ISentenceConstructorConfig } from "../../database/models/SentenceConstr
 
 // Classnames
 import { SCContainerClassname } from "./sentenceConstructorLogic";
-import { popupCardClassname, cardCloseButtonClassname } from "../elements/popupCardElement";
+import { popupCardClassname, cardCloseButtonClassname, dissapearAfterFiveSecondsClassname } from "../elements/popupCardElement";
 
 const observerOptions = {
   attributes: false,
@@ -51,7 +51,12 @@ export default (
         }
         else if (newElement.getAttribute("class")?.includes(popupCardClassname)) {
           const closeButton = newElement.getElementsByClassName(cardCloseButtonClassname)[0]
-          popupCardFunctions.mountCloseClick(closeButton, newElement);
+          if (closeButton) {
+            popupCardFunctions.mountCloseClick(closeButton, newElement);
+          }
+          if (newElement.classList.contains(dissapearAfterFiveSecondsClassname)) {
+            popupCardFunctions.dissapearAfterFiveSeconds(newElement);
+          }
         }
         else {
           console.warn("unhandled observed mutation");

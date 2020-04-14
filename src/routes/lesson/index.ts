@@ -4,7 +4,7 @@ import { Router } from "express";
 import sessionRouter from "./session";
 import rootRouter from "./root";
 
-const lessonRouter = Router();
+const lessonRouter = Router({mergeParams: true});
 
 lessonRouter.use(rootRouter);
 lessonRouter.use("/:lessonId/session", sessionRouter);
