@@ -28,7 +28,6 @@ const PopupCardElement = (props: Props) => {
   } = props;
 
   return (
-    // TODO: test if absolute positioning is needed
     <div
       className={`SSRElement ${popupCardClassname} `
       + `${dissapearAfterFiveSeconds === true ? dissapearAfterFiveSecondsClassname : ""}`}
