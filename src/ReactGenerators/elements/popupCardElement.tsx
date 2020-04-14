@@ -10,6 +10,13 @@ export interface Props {
 export const popupCardClassname = "SSR-splash"
 export const cardCloseButtonClassname = "close SSRClickable"
 
+const splashStyle: CSSProperties = {
+  display: "flex",
+  justifyContent: "center",
+  alignContent: "center",
+  width: "100%",
+}
+
 const PopupCardElement = (props: Props) => {
   const {
     cardText,
@@ -18,7 +25,11 @@ const PopupCardElement = (props: Props) => {
   } = props;
 
   return (
-    <div className={"SSRElement SSRAbsolute " + popupCardClassname}>
+    // TODO: test if absolute positioning is needed
+    <div
+      className={"SSRElement SSRAbsolute " + popupCardClassname}
+      style={splashStyle}
+    >
       <div className="card">
         <div className="card-body">
           {cardTitle && <h5 className="card-title">{cardTitle}</h5>}
