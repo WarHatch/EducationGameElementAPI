@@ -15,6 +15,7 @@ const splashStyle: CSSProperties = {
   justifyContent: "center",
   alignContent: "center",
   width: "100%",
+  marginTop: "25%"
 }
 
 const PopupCardElement = (props: Props) => {
