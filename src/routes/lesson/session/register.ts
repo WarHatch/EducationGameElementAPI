@@ -9,19 +9,19 @@ import { sentenceConstructorGameTypeName } from "../../../ReactGenerators/public
 import { ISentenceConstructorClickDataModel } from "../../../database/models/SentenceConstructorClickData";
 import { ISentenceConstructorCompletedDataModel } from "../../../database/models/SentenceConstructorCompletedData";
 
-const router = Router();
+const router = Router({mergeParams: true});
 
 router.post("/register", async (req, res) => {
   const startData: ISession = req.body;
+  const { lessonId } = req.params; // guaranteed to exist (unlike the req.body one)
 
   try {
     await SeqDataModels.Session.upsert(startData);
 
-
     // Find the lesson by id to extract gameType
     const parentLesson = await SeqDataModels.Lesson.findOne(
       {
-        where: { id: startData.lessonId },
+        where: { id: lessonId },
       }
     );
     const { gameType } = parentLesson;

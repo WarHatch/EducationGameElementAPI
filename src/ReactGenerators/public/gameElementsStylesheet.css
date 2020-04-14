@@ -19,13 +19,6 @@
   font-size: medium;
 }
 
-/* TODO: cut MeteorContainer and other gametype specific rules */
-
-.SSR-MeteorContainer .SSR-Meteor {
-  width: 100px;
-  height: 100px;
-}
-
 .SSR-MeteorContainer button {
   position: absolute;
   /* Center */
@@ -45,10 +38,6 @@
   animation-duration: 10s;
 }
 
-/* .SSR-MeteorContainer button:hover {
-  background-color: black;
-} */
-
 @keyframes spectrum {
   from {
     background-color: yellow;
@@ -65,12 +54,6 @@
   align-items: center;
   /* Size set via component style object */
   background-color: thistle;
-}
-
-.SSR-splash {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 .card-title {

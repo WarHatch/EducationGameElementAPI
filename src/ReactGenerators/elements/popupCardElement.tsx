@@ -5,20 +5,35 @@ export interface Props {
   cardText: string,
   cardTitle?: string,
   exitable?: boolean
+  dissapearAfterFiveSeconds?: boolean,
 }
 
 export const popupCardClassname = "SSR-splash"
 export const cardCloseButtonClassname = "close SSRClickable"
+export const dissapearAfterFiveSecondsClassname = "dissapearAfterFiveSeconds"
+
+const splashStyle: CSSProperties = {
+  display: "flex",
+  justifyContent: "center",
+  alignContent: "center",
+  width: "100%",
+  marginTop: "25%"
+}
 
 const PopupCardElement = (props: Props) => {
   const {
     cardText,
     cardTitle,
     exitable,
+    dissapearAfterFiveSeconds
   } = props;
 
   return (
-    <div className={"SSRElement SSRAbsolute " + popupCardClassname}>
+    // TODO: test if absolute positioning is needed
+    <div
+      className={`SSRElement SSRAbsolute ${popupCardClassname} ${dissapearAfterFiveSeconds ?? dissapearAfterFiveSecondsClassname}`}
+      style={splashStyle}
+    >
       <div className="card">
         <div className="card-body">
           {cardTitle && <h5 className="card-title">{cardTitle}</h5>}
@@ -32,7 +47,5 @@ const PopupCardElement = (props: Props) => {
     </div>
   )
 }
-
-
 
 export default (props: Props) => ReactDOMServer.renderToString(PopupCardElement(props));

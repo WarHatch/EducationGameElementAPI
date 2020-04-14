@@ -13,7 +13,7 @@ export type ISessionDataRequestModel = {
 
 const { Session, AsteroidSessionConfig, SentenceConstructorConfig } = SeqDataModels;
 
-const router = Router();
+const router = Router({mergeParams: true});
 
 // get the most recent config (of any type)
 router.post("/config", async (req, res) => {

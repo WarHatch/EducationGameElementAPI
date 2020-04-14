@@ -4,7 +4,7 @@ import endSessionButton from "../../ReactGenerators/elements/endSessionButton";
 import questionElement from "../../ReactGenerators/elements/question";
 import { questionWidth } from "../../ReactGenerators/configs/commonElementConfigs";
 
-const router = Router();
+const router = Router({mergeParams: true});
 
 router.get("/dataSet/:conteinerHeight", async (req, res) => {
   const { conteinerHeight: conteinerHeightParam } = req.params;

@@ -29,7 +29,7 @@ declare global {
     htmlCanvas?: IHTMLCanvasConfig
     gameEnded: boolean;
 
-    sentenceConstructorParams?: ISCGlobal 
+    sentenceConstructorParams?: ISCGlobal
   }
 }
 
@@ -41,19 +41,20 @@ if (window.htmlCanvas === undefined) {
 }
 const { session, htmlCanvas } = window;
 console.log(session);
-
-// ------------ Game launch
-window.gameEnded = false;
-// Game mode determined by initial session config
-const { asteroidSessionConfigs, sentenceConstructorConfigs } = session;
-// Content info retrieved
-getLesson({id: session.lessonId}).then(({ contentSlug, gameType }) => {
-  if (gameType === "asteroid") {
-    const sessionConfigs = asteroidSessionConfigs as IAsteroidSessionConfig[];
-    EduAsteroidsStart(session, sessionConfigs[0], htmlCanvas)
-  } else if (gameType === sentenceConstructorGameTypeName) {
-    EduSentenceConstructorStart(session, contentSlug, htmlCanvas)
-  } else {
-    throw new Error("unknown gameType received: " + gameType);
-  }
-})
+if (window.gameEnded !== false) {
+  // ------------ Game launch
+  window.gameEnded = false;
+  // Game mode determined by initial session config
+  const { asteroidSessionConfigs, sentenceConstructorConfigs } = session;
+  // Content info retrieved
+  getLesson({ id: session.lessonId }).then(({ contentSlug, gameType }) => {
+    if (gameType === "asteroid") {
+      const sessionConfigs = asteroidSessionConfigs as IAsteroidSessionConfig[];
+      EduAsteroidsStart(session, sessionConfigs[0], htmlCanvas)
+    } else if (gameType === sentenceConstructorGameTypeName) {
+      EduSentenceConstructorStart(session, contentSlug, htmlCanvas)
+    } else {
+      throw new Error("unknown gameType received: " + gameType);
+    }
+  })
+}
