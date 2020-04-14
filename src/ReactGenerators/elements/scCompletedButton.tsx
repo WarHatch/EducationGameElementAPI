@@ -87,7 +87,8 @@ export const mountCompleteClick = (
       window.gameEnded = true;
       appendToGame(htmlToElement(endSessionSplash({
         cardTitle: "Žaidimas baigėsi",
-        cardText: "Dėkojame, kad žaidėte"
+        cardText: "Dėkojame, kad žaidėte",
+        dissapearAfterFiveSeconds: true,
       })));
     }
   }
