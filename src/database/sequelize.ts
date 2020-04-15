@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === "production" && process.env.DATABASE_URL) {
       dialect,
       host,
       pool,
-      logging: true
+      logging: false
     }
   )
 }

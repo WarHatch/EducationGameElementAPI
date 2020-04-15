@@ -16,6 +16,8 @@ import cleanup from "../gameScripts/sentenceConstructorGame/cleanup";
 import _ from "lodash";
 import updateHintCounter from "../gameScripts/sentenceConstructorGame/updateHintCounter";
 import timeTracker from "../gameScripts/timeTracker";
+import completeSession from "../gameScripts/sentenceConstructorGame/completeSession";
+import countdownTimer from "../elements/countdownTimer";
 
 export interface ISCGlobal {
   attemptedAnswer: {
@@ -60,6 +62,7 @@ export default async (
   let currentObserver = observeSSRElements(sessionData, sessionConfig, htmlCanvasConfig, startGameTimerId);
   // --- Single spawn elements
   const { answers, badAnswers, storyChunks } = sentenceConstructorContentSet;
+  appendToGame(htmlToElement(countdownTimer()))
   spawnOptionButtons(canvasWidth, answers, badAnswers);
   appendToGame(htmlToElement(hintButton({ hintMessageCount: 0 })))
   appendToGame(htmlToElement(storyTextWithSlots({ textSnippets: storyChunks })))
@@ -81,12 +84,6 @@ export default async (
       if (JSON.stringify(sessionConfig) !== JSON.stringify(receivedConfig)) {
         sessionConfig = receivedConfig;
 
-        // DEPRECATED: remount nextContentSlug for completedButtons
-        // const completedButtons = getHTMLCanvasElement().getElementsByClassName(completedButtonClassname);
-        // for (let i = 0; i < completedButtons.length; i++) {
-        //   mountCompleteClick(completedButtons[i] as HTMLElement, sessionId, lessonId, startGameTimerId, sessionConfig.nextContentSlug, window.htmlCanvas as IHTMLCanvasConfig)
-        // }
-
         // extract hint payload from new config
         if (typeof sessionConfig.hintMessage === "string") {
           window.sentenceConstructorParams?.hintCollector.unreadMessageStack.push(sessionConfig.hintMessage)
@@ -104,15 +101,15 @@ export default async (
       }
     }
   }, 1000) // repeat after a second
+
+  setTimeout(() => completeSession(sessionId, lessonId, startGameTimerId, undefined, htmlCanvasConfig),
+    10 * 60 * 1000) // 10 minutes
+
   console.log("EduSentenceConstructor script finished mounting");
 }
 
 const spawnOptionButtons = (canvasWidth: number, answers: IContentAnswer[], badAnswers: IContentAnswer[]) => {
-  // button size can be determinded by canvasWidth
-
-  const horizontalContainerPad = 50;
-  // const betweenButtonsPad = 35;
-
+  // const betweenButtonsPad = 35; // button size can be determinded by canvasWidth
   let buttonHTMLSet = [
     ...answers.map((ans, index) => {
       return contentOptionButton({ correctPlacement: index, imageRef: ans.picture.asset._ref, ariaLabel: ans.word })
@@ -123,7 +120,6 @@ const spawnOptionButtons = (canvasWidth: number, answers: IContentAnswer[], badA
   ]
   buttonHTMLSet = _.shuffle(buttonHTMLSet);
   buttonHTMLSet.forEach(buttonHtml => {
-    // TODO: append to the gameContainer
     appendToGame(htmlToElement(buttonHtml));
   });
 }
