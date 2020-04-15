@@ -14,6 +14,7 @@ import { ISentenceConstructorConfig } from "../../database/models/SentenceConstr
 // Classnames
 import { SCContainerClassname } from "./sentenceConstructorLogic";
 import { popupCardClassname, cardCloseButtonClassname, dissapearAfterFiveSecondsClassname } from "../elements/popupCardElement";
+import { countdownContainerClassname, countdown, countdownTimeClassname } from "../elements/countdownTimer";
 
 const observerOptions = {
   attributes: false,
@@ -58,9 +59,13 @@ export default (
             popupCardFunctions.dissapearAfterFiveSeconds(newElement);
           }
         }
+        else if (newElement.classList.contains(countdownContainerClassname)) {
+          const timeSpanElement = newElement.getElementsByClassName(countdownTimeClassname)[0]
+          countdown(timeSpanElement);
+        }
         else {
           console.warn("unhandled observed mutation");
-          console.warn(newElement);
+          console.warn(newElement.className);
         }
       });
     }
