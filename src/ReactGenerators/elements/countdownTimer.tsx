@@ -23,7 +23,7 @@ const CountdownTimer = () => {
 }
 
 export const countdown = (countdownTimerElement: Element) => {
-  let secondsRemaining = 10 * 60 - 1; // 10 mins
+  let secondsRemaining = 10 * 60 - 2; // 10 mins
 
   let intervalTimer;
   intervalTimer = setInterval(() => {
