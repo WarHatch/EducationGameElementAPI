@@ -14,6 +14,9 @@ interface IFullConfig {
       idle: number;
     };
   };
+  cmsConfig: {
+    SANITY_TOKEN: string;
+  }
 }
 
 const devConfig = {
@@ -27,6 +30,9 @@ const devConfig = {
     host: "localhost",
     dialect: "mysql",
     pool: { max: 10, min: 0, acquire: 30000, idle: 10000 },
+  },
+  cmsConfig: {
+    SANITY_TOKEN: process.env.SANITY_TOKEN as string
   }
 }
 
@@ -37,12 +43,15 @@ const productionConfig = {
     databaseName: "game-data-registry",
     dialect: "postgres",
     pool: { max: 10, min: 0, acquire: 30000, idle: 10000 },
-  }
+  },
 }
 
 const configByEnv = (): IFullConfig => {
+  const { db_user, db_pass, DATABASE_URL, PORT, SANITY_TOKEN } = process.env
+  if (SANITY_TOKEN === undefined)
+    throw new Error("SANITY_TOKEN missing from env");
+
   if (process.env.NODE_ENV === "production") {
-    const { db_user, db_pass, DATABASE_URL, PORT } = process.env
     if (PORT === undefined)
       console.warn("[WARNING]: PORT is undefined. Falling back to port " + productionConfig.port)
     // if (db_user === undefined)
@@ -60,6 +69,9 @@ const configByEnv = (): IFullConfig => {
         // username: db_user,
         // password: db_pass,
         host: DATABASE_URL,
+      },
+      cmsConfig: {
+        SANITY_TOKEN
       }
     }
   }

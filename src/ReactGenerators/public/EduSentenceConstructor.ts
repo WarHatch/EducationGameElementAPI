@@ -102,8 +102,13 @@ export default async (
     }
   }, 1000) // repeat after a second
 
-  setTimeout(() => completeSession(sessionId, lessonId, startGameTimerId, undefined, htmlCanvasConfig),
-    10 * 60 * 1000) // 10 minutes
+  const currentSessionId = sessionId;
+  const getFreshSessionId = () => window.session?.id;
+  setTimeout(() => {
+    if (String(currentSessionId) === String(getFreshSessionId())) // TEMP quick patch
+      completeSession(currentSessionId, lessonId, startGameTimerId, undefined, htmlCanvasConfig)
+  },
+    10 * 60 * 1000, currentSessionId, getFreshSessionId) // 10 minutes
 
   console.log("EduSentenceConstructor script finished mounting");
 }
