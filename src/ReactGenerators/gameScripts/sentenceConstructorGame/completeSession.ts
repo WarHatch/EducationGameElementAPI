@@ -43,7 +43,7 @@ export default (
   // DEPRECATED: Load next content if possible
   if (nextContentSlug) {
     // ⚠ reusing the old session for a different content game
-    EduSentenceConstructor(window.session as ISession, nextContentSlug, htmlCanvasConfig)
+    EduSentenceConstructor(window.session as ISession,htmlCanvasConfig, nextContentSlug)
   } else {
     window.gameEnded = true;
     appendToGame(htmlToElement(endSessionSplash({
