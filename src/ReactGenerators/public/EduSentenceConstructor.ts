@@ -34,8 +34,9 @@ export const sentenceConstructorGameTypeName = "sentenceConstructor";
 
 export default async (
   sessionData: ISession,
-  contentSlug: string,
-  htmlCanvasConfig: IHTMLCanvasConfig
+  htmlCanvasConfig: IHTMLCanvasConfig,
+  contentSlug?: string,
+  gameContentJSON?: string,
 ) => {
   const { sessionId, lessonId, sentenceConstructorConfigs } = sessionData;
   const { canvasWidth, canvasHeight } = htmlCanvasConfig;
@@ -48,9 +49,19 @@ export default async (
     }
   }
 
-  const sentenceConstructorContentSet: ISentenceConstructorDataSet = await getCMSDataSentenceConstructor(contentSlug);
-  if (sentenceConstructorContentSet.quizTitle === undefined)
+  let sentenceConstructorContentSet: ISentenceConstructorDataSet | null = null;
+  // get game content
+  if (contentSlug)
+    sentenceConstructorContentSet = await getCMSDataSentenceConstructor(contentSlug) as ISentenceConstructorDataSet;
+  else if (gameContentJSON)
+    sentenceConstructorContentSet = JSON.parse(gameContentJSON) as ISentenceConstructorDataSet
+  else
+    throw new Error("contentSlug and gameContentJSON are missing - time to panic");
+
+  const { answers, badAnswers, storyChunks, quizTitle } = sentenceConstructorContentSet;
+  if (quizTitle === undefined)
     throw new Error("EduSentenceConstructor script did not receive content");
+    
   // handle config
   if (sentenceConstructorConfigs === undefined || !Boolean(sentenceConstructorConfigs[0])) {
     console.error(sentenceConstructorConfigs);
@@ -61,7 +72,6 @@ export default async (
 
   let currentObserver = observeSSRElements(sessionData, sessionConfig, htmlCanvasConfig, startGameTimerId);
   // --- Single spawn elements
-  const { answers, badAnswers, storyChunks } = sentenceConstructorContentSet;
   appendToGame(htmlToElement(countdownTimer()))
   spawnOptionButtons(canvasWidth, answers, badAnswers);
   appendToGame(htmlToElement(hintButton({ hintMessageCount: 0 })))
